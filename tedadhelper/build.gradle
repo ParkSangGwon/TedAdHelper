@@ -14,7 +14,7 @@ ext {
     siteUrl = 'https://github.com/ParkSangGwon/TedAdHelper'
     gitUrl = 'https://github.com/ParkSangGwon/TedAdHelper.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.0.2'
 
     developerId = 'gun0912'
     developerName = 'Ted Park'
@@ -31,7 +31,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 11
         targetSdkVersion 25
 
 
