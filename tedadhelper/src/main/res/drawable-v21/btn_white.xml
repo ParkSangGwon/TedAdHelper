@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--drawable-v21/btn_send_comment.xml-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+        android:color="@color/tedBtnHighlight">
+
+  <item>
+    <selector>
+      <item android:state_selected="true">
+        <color android:color="@color/tedBtnHighlight" />
+      </item>
+
+      <item android:state_activated="true">
+        <color android:color="@color/tedBtnHighlight" />
+      </item>
+
+      <item>
+        <color android:color="@color/white" />
+      </item>
+    </selector>
+  </item>
+
+</ripple>

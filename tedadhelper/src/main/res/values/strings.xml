@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TedAdHelper</string>
+
+
+    <string name="review_go">Go review</string>
+    <string name="review_cancel">Do not disturb</string>
+    <string name="finish">Finish</string>
+
+</resources>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+    <com.google.android.gms.ads.formats.NativeAppInstallAdView
+        android:id="@+id/admobAppInstallRootView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.google.android.gms.ads.formats.NativeContentAdView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/admobContentRootView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+
+            <!--
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="3dp"
+                -->
+
+
+            <RelativeLayout
+                android:id="@+id/view_root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:id="@+id/container_admob_express"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    />
+
+                <ProgressBar
+                    android:id="@+id/progressView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    />
+
+
+                <LinearLayout
+                    android:id="@+id/view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/list_item_container_padding"
+                        >
+
+                        <ImageView
+                            android:id="@+id/iv_logo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:adjustViewBounds="true"
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/list_item_container_padding"
+                            android:gravity="center_vertical"
+
+
+                            android:text=""
+                            android:textColor="@color/tedBtnPrimary"
+                            android:textStyle="bold"/>
+
+                        <!--
+
+                                        <TextView
+                                            android:id="@+id/tv_contents_time"
+                                            style="@style/CustomText_Caption"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+
+                                            android:gravity="right|center_vertical"
+                                            android:text="@string/now_ago"
+                                            />
+                        -->
+
+
+                    </LinearLayout>
+
+
+                    <com.facebook.ads.MediaView
+                        android:id="@+id/native_ad_media"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        />
+
+
+                    <ImageView
+                        android:id="@+id/iv_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_body"
+                        style="@style/CustomText_Body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_item_container_padding"
+                        android:layout_marginRight="@dimen/list_item_container_padding"
+                        android:layout_marginTop="@dimen/list_item_container_padding"
+
+
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/list_item_container_padding"
+                        >
+
+                        <TextView
+
+                            android:id="@+id/tv_call_to_action"
+                            style="@style/CustomText_Body"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/btn_square_stroke_primary"
+                            android:gravity="center"
+                            android:paddingBottom="6dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingTop="6dp"
+
+                            android:textColor="@color/tedBtnPrimary"
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_etc"
+                            style="@style/CustomText_Body"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/list_item_container_padding"
+                            android:layout_toLeftOf="@id/tv_call_to_action"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:lines="2"
+                            android:textColor="@android:color/black"
+                            />
+
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </com.google.android.gms.ads.formats.NativeContentAdView>
+    </com.google.android.gms.ads.formats.NativeAppInstallAdView>
+
+</RelativeLayout>

@@ -1,0 +1,37 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="default_padding">16dp</dimen>
+    <dimen name="default_padding_small">8dp</dimen>
+    <dimen name="default_padding_large">24dp</dimen>
+    <dimen name="default_padding_xlarge">40dp</dimen>
+
+    <dimen name="tool_bar_height">56dp</dimen>
+    <dimen name="default_elevation">8dp</dimen>
+    <dimen name="toolbar_elevation">0dp</dimen>
+    <dimen name="default_radius">3dp</dimen>
+
+    <dimen name="btn_padding_left_right">15dp</dimen>
+    <dimen name="btn_padding_top_bottom">10dp</dimen>
+
+
+
+
+
+
+    <dimen name="list_item_container_padding">16dp</dimen>
+    <dimen name="list_item_container_padding_small">8dp</dimen>
+
+    <dimen name="list_item_avatar_size_small">24dp</dimen>
+    <dimen name="list_item_avatar_size">40dp</dimen>
+    <dimen name="list_item_avatar_size_large">56dp</dimen>
+    <dimen name="list_item_avatar_size_xlarge">72dp</dimen>
+    <dimen name="list_item_text_margin">3dp</dimen>
+
+
+
+    <dimen name="recommend_icon_size">48dp</dimen>
+
+</resources>

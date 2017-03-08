@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="tedBtnPrimary">#3F51B5</color>
+    <color name="tedBtnHighlight">#1F3195</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black87">#de000000</color>
+    <color name="black54">#8a000000</color>
+    <color name="black20">#14000000</color>
+    <color name="black30">#1d000000</color>
+</resources>

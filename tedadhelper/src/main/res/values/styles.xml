@@ -1,0 +1,28 @@
+<resources>
+
+
+    <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+
+        <!-- app abar color in Activties Task manager -->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
+
+
+    <style name="PrimaryFlatButton" parent="Theme.AppCompat.Light">
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
+        <item name="colorControlHighlight">@color/tedBtnHighlight</item>
+        <item name="colorAccent">@color/tedBtnPrimary</item>
+    </style>
+
+    <style name="PrimaryButton" parent="Theme.AppCompat">
+        <item name="colorButtonNormal">@color/tedBtnPrimary</item>
+        <item name="colorControlHighlight">@color/tedBtnHighlight</item>
+    </style>
+
+</resources>
