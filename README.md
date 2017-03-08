@@ -27,7 +27,7 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 (다만 Native광고의 특성상 라이브러리에서 만든 광고의 레이아웃형태로 밖에 보여줄수 없습니다.<br/>
 본인이 원하는 레이아웃으로 보여주고 싶다면 직접 만드셔야 합니다.)<br/>
 
-또한, 앱을 종료할때 광고와 함꼐 종료팝업을 보여주고자 하는 경우가 있습니다.<br/>
+또한, 앱을 종료할때 광고와 함 종료팝업을 보여주고자 하는 경우가 있습니다.<br/>
 이러한 경우 팝업을 띄우고 몇개의 버튼과 함께 Native 광고를 보여주도록 하면되는데 TedAdHelper를 통해 미디에이션까지 포함하여 보여줄 수 있습니다.<br/>
 
 ###뒤로가기 팝업 Dialog(with 미디에이션)<br/>
@@ -43,7 +43,6 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 
 ###Gradle
 ```javascript
-
 dependencies {
     compile 'gun0912.ted:tedadhelper:1.0.1'
 }
