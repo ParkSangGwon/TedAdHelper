@@ -239,6 +239,18 @@ TedBackPressDialog.startDialog(Activity activity, String appName, String faceboo
 
 ```
 
+
+<br/><br/><br/><br/>
+##Customize
+###Color
+You can change button or divider color.
+Override variable in your `colors.xml`
+```javascript
+    <color name="tedBtnPrimary">...</color>
+    <color name="tedBtnHighlight">...</color>
+```
+
+
 <br/><br/><br/><br/>
 
 ##FAQ
