@@ -68,7 +68,7 @@ dependencies {
 <br/>
 2. Show banner using `TedAdBanner`<br/>
 ```javascript
-showBanner(ViewGroup bannerContainer, String facebookKey, String admobKey, int adPriority, OnBannerAdListener onBannerAdListener)
+TedAdBanner.showBanner(ViewGroup bannerContainer, String facebookKey, String admobKey, int adPriority, OnBannerAdListener onBannerAdListener)
 ```
 * **adPriority:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB<br/>
 
