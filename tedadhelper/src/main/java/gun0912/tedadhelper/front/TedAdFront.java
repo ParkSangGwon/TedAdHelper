@@ -62,7 +62,7 @@ public class TedAdFront {
 
     }
 
-    public static void showFacebookFrontAd(final boolean failToAdmob) {
+    private static void showFacebookFrontAd(final boolean failToAdmob) {
 
         final com.facebook.ads.InterstitialAd facebookFrontAD = new com.facebook.ads.InterstitialAd(context, facebookKey);
 
@@ -128,7 +128,7 @@ public class TedAdFront {
     }
 
 
-    public static void showAdmobFrontAd(final boolean failToFacebook) {
+    private static void showAdmobFrontAd(final boolean failToFacebook) {
 
         final com.google.android.gms.ads.InterstitialAd admobFrontAD = new com.google.android.gms.ads.InterstitialAd(context);
         admobFrontAD.setAdListener(new com.google.android.gms.ads.AdListener() {

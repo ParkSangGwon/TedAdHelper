@@ -170,19 +170,14 @@ public class TedBackPressDialog extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                finish();
-                overridePendingTransition(0, 0);
 
-                if (onBackPressListener != null) {
-                    onBackPressListener.onFinish();
-                }
-
+            onFinishClick();
             }
         });
 
     }
 
-    public void onReviewClick() {
+    private void onReviewClick() {
 
         AppUtil.openPlayStore(this, getPackageName());
         SharedPreferenceUtil.putSharedPreference(this, SharedPreferenceUtil.REVIEW, true);
@@ -193,8 +188,13 @@ public class TedBackPressDialog extends AppCompatActivity {
 
     }
 
-    public void onFinishClick() {
+    private void onFinishClick() {
+        finish();
+        overridePendingTransition(0, 0);
 
+        if (onBackPressListener != null) {
+            onBackPressListener.onFinish();
+        }
     }
 
     @Override
