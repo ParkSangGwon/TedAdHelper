@@ -80,7 +80,7 @@ public class TedAdBanner {
         facebookBanner.setAdListener(new AdListener() {
             @Override
             public void onError(Ad ad, AdError adError) {
-                Log.e(TedAdHelper.TAG,"[FACEBOOK BANNER]Error: "+adError.getErrorMessage());
+                Log.e(TedAdHelper.TAG, "[FACEBOOK BANNER]Error: " + adError.getErrorMessage());
                 if (failToAdmob) {
                     showAdmobBanner(false);
                 } else if (onBannerAdListener != null) {
@@ -92,8 +92,13 @@ public class TedAdBanner {
 
             @Override
             public void onAdLoaded(Ad ad) {
-                Log.d(TedAdHelper.TAG,"[FACEBOOK BANNER]Loaded");
+                Log.d(TedAdHelper.TAG, "[FACEBOOK BANNER]Loaded");
                 bannerContainer.removeAllViews();
+                ViewGroup parentView =  ((ViewGroup)facebookBanner.getParent());
+                if(parentView!=null){
+                    parentView.removeAllViews();
+                }
+
                 bannerContainer.addView(facebookBanner);
 
                 if (onBannerAdListener != null) {
@@ -105,7 +110,7 @@ public class TedAdBanner {
 
             @Override
             public void onAdClicked(Ad ad) {
-                Log.d(TedAdHelper.TAG,"[FACEBOOK BANNER]Clicked");
+                Log.d(TedAdHelper.TAG, "[FACEBOOK BANNER]Clicked");
                 if (onBannerAdListener != null) {
                     onBannerAdListener.onAdClicked(TedAdHelper.AD_FACEBOOK);
                 }
@@ -128,7 +133,7 @@ public class TedAdBanner {
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 String errorMessage = TedAdHelper.getMessageFromAdmobErrorCode(errorCode);
-                Log.e(TedAdHelper.TAG,"[ADMOB BANNER]Error: "+errorMessage);
+                Log.e(TedAdHelper.TAG, "[ADMOB BANNER]Error: " + errorMessage);
 
                 if (failToFacebook) {
                     showFacebookBanner(false);
@@ -141,8 +146,9 @@ public class TedAdBanner {
 
             @Override
             public void onAdLoaded() {
-                Log.d(TedAdHelper.TAG,"[ADMOB BANNER]Loaded");
+                Log.d(TedAdHelper.TAG, "[ADMOB BANNER]Loaded");
                 bannerContainer.removeAllViews();
+
                 bannerContainer.addView(admobBanner);
 
                 if (onBannerAdListener != null) {
@@ -152,9 +158,9 @@ public class TedAdBanner {
 
             @Override
             public void onAdLeftApplication() {
-                Log.d(TedAdHelper.TAG,"[ADMOB BANNER]Clicked");
+                Log.d(TedAdHelper.TAG, "[ADMOB BANNER]Clicked");
                 super.onAdLeftApplication();
-                if(onBannerAdListener!=null){
+                if (onBannerAdListener != null) {
                     onBannerAdListener.onAdClicked(TedAdHelper.AD_ADMOB);
                 }
             }
@@ -163,9 +169,6 @@ public class TedAdBanner {
         });
 
     }
-
-
-
 
 
 }
