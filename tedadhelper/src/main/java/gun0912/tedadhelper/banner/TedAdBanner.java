@@ -148,7 +148,10 @@ public class TedAdBanner {
             public void onAdLoaded() {
                 Log.d(TedAdHelper.TAG, "[ADMOB BANNER]Loaded");
                 bannerContainer.removeAllViews();
-
+                ViewGroup parentView =  ((ViewGroup)admobBanner.getParent());
+                if(parentView!=null){
+                    parentView.removeAllViews();
+                }
                 bannerContainer.addView(admobBanner);
 
                 if (onBannerAdListener != null) {
