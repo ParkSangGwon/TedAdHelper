@@ -14,4 +14,6 @@ public interface OnFrontAdListener {
     void onAdClicked(int adType);
 
     void onFacebookAdCreated(com.facebook.ads.InterstitialAd facebookFrontAD);
+
+    void onLoggingImpression(int adType);
 }
