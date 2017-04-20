@@ -12,4 +12,6 @@ public interface OnBannerAdListener {
     void onAdClicked(int adType);
 
     void onFacebookAdCreated(com.facebook.ads.AdView facebookBanner);
+
+    void onLoggingImpression(int adType);
 }

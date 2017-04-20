@@ -110,6 +110,13 @@ public class TedBackPressDialog extends AppCompatActivity {
                     onBackPressListener.onAdClicked(adType);
                 }
             }
+
+            @Override
+            public void onLoggingImpression(int adType) {
+                if(onBackPressListener!=null){
+                    onBackPressListener.onLoggingImpression(adType);
+                }
+            }
         });
 
 

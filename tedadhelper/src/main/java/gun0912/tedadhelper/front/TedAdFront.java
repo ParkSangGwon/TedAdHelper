@@ -119,6 +119,14 @@ public class TedAdFront {
                     onFrontAdListener.onAdClicked(TedAdHelper.AD_FACEBOOK);
                 }
             }
+
+            @Override
+            public void onLoggingImpression(Ad ad) {
+                Log.d(TedAdHelper.TAG,"[FACEBOOK FRONT AD]ImpressionLogged");
+                if(onFrontAdListener!=null){
+                    onFrontAdListener.onLoggingImpression(TedAdHelper.AD_FACEBOOK);
+                }
+            }
         });
 
         // Load the interstitial ad

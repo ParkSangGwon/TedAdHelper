@@ -341,6 +341,15 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
             }
 
+            @Override
+            public void onLoggingImpression(Ad ad) {
+                Log.d(TedAdHelper.TAG,"[FACEBOOK NATIVE AD]ImpressionLogged");
+                if(onNativeAdListener!=null){
+                    onNativeAdListener.onLoggingImpression(TedAdHelper.AD_FACEBOOK);
+                }
+
+            }
+
 
         });
         facebookAd.loadAd();

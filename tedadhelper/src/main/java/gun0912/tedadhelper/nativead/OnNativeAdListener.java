@@ -10,4 +10,6 @@ public interface OnNativeAdListener {
     void onLoaded(int adType);
 
     void onAdClicked(int adType);
+
+    void onLoggingImpression(int adType);
 }

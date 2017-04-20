@@ -116,6 +116,14 @@ public class TedAdBanner {
                 }
             }
 
+            @Override
+            public void onLoggingImpression(Ad ad) {
+                Log.d(TedAdHelper.TAG,"[FACEBOOK BANNER]ImpressionLogged");
+                if(onBannerAdListener!=null){
+                    onBannerAdListener.onLoggingImpression(TedAdHelper.AD_FACEBOOK);
+                }
+            }
+
         });
         facebookBanner.loadAd();
 
@@ -140,8 +148,6 @@ public class TedAdBanner {
                 } else if (onBannerAdListener != null) {
                     onBannerAdListener.onError(errorMessage);
                 }
-
-
             }
 
             @Override
@@ -158,7 +164,6 @@ public class TedAdBanner {
                     onBannerAdListener.onLoaded(TedAdHelper.AD_ADMOB);
                 }
             }
-
             @Override
             public void onAdLeftApplication() {
                 Log.d(TedAdHelper.TAG, "[ADMOB BANNER]Clicked");
@@ -167,11 +172,6 @@ public class TedAdBanner {
                     onBannerAdListener.onAdClicked(TedAdHelper.AD_ADMOB);
                 }
             }
-
-
         });
-
     }
-
-
 }
