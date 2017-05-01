@@ -1,6 +1,6 @@
-#What is TedAdHelper?<br/><br/>
+# What is TedAdHelper?<br/><br/>
 
-##English
+## English
 Do you have your application?<br/>
 Do you want make money using your application?<br/>
 Then, you can add advertise in your application (banner, front ad, native ad, etc..)<br/>
@@ -12,14 +12,14 @@ Also you can make advertise source code.(Banner/Front AD/Native AD/etc)<br/><br/
 
 And if you want use admob,facebook all, you need [mediation](https://www.facebook.com/help/audiencenetwork/1744424245771424?helpref=hc_fnav)<br/>
 [Admob](https://support.google.com/admob/answer/3124703) and [adlibr](http://adlibr.com) support mediation service.
-###But
+### But
 They support mediation for only banner,front ad(don't support native ad mediation)<br/>
 **TedAdHelper support not only banner,front ad but also native ad, back press popup dialog**<br/>
 If you want show back press popup with advertise, you can use back press popup dialog.<br/>
 ###Back Press Popup Dialog(with mediation)<br/>
 ![Screenshot](https://github.com/ParkSangGwon/TedAdHelper/blob/master/Screenshot_backpress_en_1.jpeg?raw=true) <br/><br/>
 
-##Korean
+## Korean
 TedAdHelper는 광고 퍼블리셔를 위한 라이브러리입니다.<br/>
 Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에이션](https://www.facebook.com/help/audiencenetwork/1744424245771424?helpref=hc_fnav)하고 싶었습니다.<br/>
 [adlibr](http://adlibr.com)이나 [Admob](https://support.google.com/admob/answer/3124703)을 통해 미디에이션 설정을 할수 있지만 **배너나 전면광고만 미디에이션이 가능하고 Native광고는 미디에이션 할 수 없습니다.**<br/>
@@ -30,7 +30,7 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 또한, 앱을 종료할때 광고와 함께 종료팝업을 보여주고자 하는 경우가 있습니다.<br/>
 이러한 경우 팝업을 띄우고 몇개의 버튼과 함께 Native 광고를 보여주도록 하면되는데 TedAdHelper를 통해 미디에이션까지 포함하여 보여줄 수 있습니다.<br/>
 
-###뒤로가기 팝업 Dialog(with 미디에이션)<br/>
+### 뒤로가기 팝업 Dialog(with 미디에이션)<br/>
 ![Screenshot](https://github.com/ParkSangGwon/TedAdHelper/blob/master/Screenshot_backpress_ko_1.jpeg?raw=true) 
 
 
@@ -38,10 +38,10 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 
 <br/><br/><br/><br/>
 
-##Setup
+## Setup
 
 
-###Gradle
+### Gradle
 ```javascript
 dependencies {
     compile 'gun0912.ted:tedadhelper:1.0.4'
@@ -52,9 +52,9 @@ dependencies {
 <br/><br/>
 
 
-##How to use
+## How to use
 
-###Banner
+### Banner
 1. Make banner container in xml
 ```javascript
  <FrameLayout
@@ -108,7 +108,7 @@ TedAdBanner.showBanner(ViewGroup bannerContainer, String facebookKey, String adm
 ```
 <br/><br/><br/><br/>
 
-###Front AD
+### Front AD
 ```javascript
 TedAdFront.showFrontAD(Context context, String facebookKey, final String admobKey, int adPriority, OnFrontAdListener onFrontAdListener)
 ```
@@ -151,7 +151,7 @@ TedAdFront.showFrontAD(Context context, String facebookKey, final String admobKe
 ```
 <br/><br/><br/><br/>
 
-###BackPress Poup Dialog
+### BackPress Poup Dialog
 ![Screenshot](https://github.com/ParkSangGwon/TedAdHelper/blob/master/Screenshot_backpress_en_1.jpeg?raw=true)
 ```javascript
 TedBackPressDialog.startDialog(Activity activity, String appName, String facebookKey, String admobKey, int adPriority, OnBackPressListener onBackPressListener)
@@ -191,7 +191,7 @@ TedBackPressDialog.startDialog(Activity activity, String appName, String faceboo
 ```
 
 <br/><br/><br/><br/>
-###Native AD
+### Native AD
 1. Make your Native ad container and include `adview_native_base.xml`
 
 ```javascript
@@ -240,8 +240,8 @@ TedBackPressDialog.startDialog(Activity activity, String appName, String faceboo
 
 
 <br/><br/><br/><br/>
-##Customize
-###Color
+## Customize
+### Color
 You can change button or divider color.
 Override variable in your `colors.xml`
 ```javascript
@@ -252,8 +252,8 @@ Override variable in your `colors.xml`
 
 <br/><br/><br/><br/>
 
-##FAQ
-###1. I got error message `leaked IntentReceiver com.facebook.ads.internal.DisplayAdController$c@cf9db8c that was originally registered here. Are you missing a call to unregisterReceiver()?`<br/>
+## FAQ
+### 1. I got error message `leaked IntentReceiver com.facebook.ads.internal.DisplayAdController$c@cf9db8c that was originally registered here. Are you missing a call to unregisterReceiver()?`<br/>
 If you use Facebook Audience Network, you have to destroy your banner or front ad  
 ```javascript
     @Override
@@ -285,7 +285,7 @@ You can get `facebookFrontAD`,`facebookBanner` instance from `onFacebookAdCreate
         });
 ```
 <br/><br/>
-###2. I want change native ad layout or backpress popup dialog layout
+### 2. I want change native ad layout or backpress popup dialog layout
 You can not change layout.<br/>
 If you want use your own layout, you have to make your layout with xml.<br/>
 (If I can, I will provide custom function)<br/>
@@ -293,7 +293,7 @@ If you want use your own layout, you have to make your layout with xml.<br/>
 <br/><br/>
 
 
-##License 
+## License 
  ```code
 Copyright 2017 Ted Park
 
