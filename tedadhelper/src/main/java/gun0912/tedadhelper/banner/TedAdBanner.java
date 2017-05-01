@@ -116,6 +116,11 @@ public class TedAdBanner {
                 }
             }
 
+            @Override
+            public void onLoggingImpression(Ad ad) {
+
+            }
+
         });
         facebookBanner.loadAd();
 

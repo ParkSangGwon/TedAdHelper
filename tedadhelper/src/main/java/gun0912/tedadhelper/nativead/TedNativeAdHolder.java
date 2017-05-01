@@ -341,6 +341,11 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
             }
 
+            @Override
+            public void onLoggingImpression(Ad ad) {
+
+            }
+
 
         });
         facebookAd.loadAd();
