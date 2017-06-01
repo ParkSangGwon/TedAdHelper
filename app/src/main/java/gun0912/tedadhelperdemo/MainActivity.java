@@ -20,17 +20,17 @@ import gun0912.tedadhelper.nativead.TedNativeAdHolder;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String FACEBOOK_KEY_BANNER = "619030564953912_619030908287211";
-    public static final String FACEBOOK_KEY_FRONT = "619030564953912_619030944953874";
-    public static final String FACEBOOK_KEY_BACKPRESS = "619030564953912_619030998287202";
-    public static final String FACEBOOK_KEY_NATIVE = "619030564953912_619047201618915";
+    public static final String FACEBOOK_KEY_BANNER = "xxxxxxxxxxx_xxxxxxxxxxxx";
+    public static final String FACEBOOK_KEY_FRONT = "xxxxxxxxxxx_xxxxxxxxxxxx";
+    public static final String FACEBOOK_KEY_BACKPRESS = "xxxxxxxxxxx_xxxxxxxxxxxx";
+    public static final String FACEBOOK_KEY_NATIVE = "xxxxxxxxxxx_xxxxxxxxxxxx";
 
 
-    public static final String ADMOB_KEY_BANNER = "ca-app-pub-8564644296252992/3677195269";
-    public static final String ADMOB_KEY_FRONT = "ca-app-pub-8564644296252992/6630661660";
+    public static final String ADMOB_KEY_BANNER = "ca-app-pub-xxxxx/xxxxxxxx";
+    public static final String ADMOB_KEY_FRONT = "ca-app-pub-xxxxx/xxxxxxxx";
 
-    public static final String ADMOB_KEY_BACKPRESS = "ca-app-pub-8564644296252992/8107394865";
-    public static final String ADMOB_KEY_NATIVE = "ca-app-pub-8564644296252992/6072258466";
+    public static final String ADMOB_KEY_BACKPRESS = "ca-app-pub-xxxxx/xxxxxxxx";
+    public static final String ADMOB_KEY_NATIVE = "ca-app-pub-xxxxx/xxxxxxxx";
 
     InterstitialAd facebookFrontAD;
     com.facebook.ads.AdView facebookBanner;
