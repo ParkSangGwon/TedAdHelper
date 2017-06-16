@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TedBackPressDialog.startFacebookDialog();
         //TedBackPressDialog.startAdmobDialog();
-        TedBackPressDialog.startDialog(this, getString(R.string.app_name), FACEBOOK_KEY_BACKPRESS, ADMOB_KEY_BACKPRESS, TedAdHelper.AD_FACEBOOK, new OnBackPressListener() {
+        TedBackPressDialog.startDialog(this, getString(R.string.app_name), FACEBOOK_KEY_BACKPRESS, ADMOB_KEY_BACKPRESS, TedAdHelper.AD_FACEBOOK, false,new OnBackPressListener() {
             @Override
             public void onReviewClick() {
             }

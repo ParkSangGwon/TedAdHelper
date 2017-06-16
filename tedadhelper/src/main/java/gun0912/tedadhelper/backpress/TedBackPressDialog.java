@@ -28,26 +28,36 @@ public class TedBackPressDialog extends AppCompatActivity {
     private static final String EXTRA_FACEBOOK_KEY = "facebook_key";
     private static final String EXTRA_ADMOB_KEY = "admob_key";
     private static final String EXTRA_AD_PRIORITY = "ad_priority";
+    private static final String EXTRA_SHOW_REVIEW_BUTTON = "show_review_button";
     private static OnBackPressListener onBackPressListener;
-    View adview_container;
+    View adviewContainer;
     TextView tvFinish;
     TextView tvReview;
+    View dividerBtn;
     String appName;
     String facebookKey;
     String admobKey;
     int adPriority;
+    boolean showReviewButton;
 
 
     public static void startFacebookDialog(Activity activity, String appName, String facebookKey, OnBackPressListener onBackPressListener) {
         startDialog(activity, appName, facebookKey, null, TedAdHelper.AD_FACEBOOK, onBackPressListener);
     }
 
+
+
     public static void startDialog(Activity activity, String appName, String facebookKey, String admobKey, int adPriority, OnBackPressListener onBackPressListener) {
+        startDialog(activity, appName, facebookKey, admobKey,adPriority,true, onBackPressListener);
+    }
+
+    public static void startDialog(Activity activity, String appName, String facebookKey, String admobKey, int adPriority,boolean showReviewButton, OnBackPressListener onBackPressListener) {
         Intent intent = new Intent(activity, TedBackPressDialog.class);
         intent.putExtra(EXTRA_APP_NAME, appName);
         intent.putExtra(EXTRA_FACEBOOK_KEY, facebookKey);
         intent.putExtra(EXTRA_ADMOB_KEY, admobKey);
         intent.putExtra(EXTRA_AD_PRIORITY, adPriority);
+        intent.putExtra(EXTRA_SHOW_REVIEW_BUTTON,showReviewButton);
 
 
         if (onBackPressListener == null) {
@@ -84,9 +94,10 @@ public class TedBackPressDialog extends AppCompatActivity {
         setFinishOnTouchOutside(false);
 
         initView();
+        showReviewButton();
 
         TedNativeAdHolder adViewNativeAdHolder
-                = new TedNativeAdHolder(adview_container, this, appName, facebookKey, admobKey);
+                = new TedNativeAdHolder(adviewContainer, this, appName, facebookKey, admobKey);
 
         adViewNativeAdHolder.loadAD(adPriority, new OnNativeAdListener() {
             @Override
@@ -115,6 +126,15 @@ public class TedBackPressDialog extends AppCompatActivity {
 
         checkReview();
 
+
+    }
+
+    private void showReviewButton() {
+
+    if(!showReviewButton){
+        dividerBtn.setVisibility(View.GONE);
+        tvReview.setVisibility(View.GONE);
+    }
 
     }
 
@@ -155,8 +175,8 @@ public class TedBackPressDialog extends AppCompatActivity {
 
     private void initView() {
 
-        adview_container = findViewById(R.id.adview_container);
-
+        adviewContainer = findViewById(R.id.adview_container);
+        dividerBtn = findViewById(R.id.divider_btn);
 
         tvReview = (TextView) findViewById(R.id.tv_review);
         tvReview.setOnClickListener(new View.OnClickListener() {
