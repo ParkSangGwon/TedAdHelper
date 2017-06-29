@@ -42,7 +42,7 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 
 
 ### Gradle
-```javascript
+```gradle
 dependencies {
     compile 'gun0912.ted:tedadhelper:1.0.6'
 }
@@ -56,7 +56,7 @@ dependencies {
 
 ### Banner
 1. Make banner container in xml
-```javascript
+```xml
  <FrameLayout
         android:id="@+id/bannerContainer"
         android:layout_width="match_parent"
@@ -66,175 +66,172 @@ dependencies {
 ```
 <br/>
 2. Show banner using `TedAdBanner`<br/>
-```javascript
+
+```java
 TedAdBanner.showBanner(ViewGroup bannerContainer, String facebookKey, String admobKey, int adPriority, OnBannerAdListener onBannerAdListener)
 ```
+
 * **adPriority:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB<br/>
 
 
-```javascript
+```java
+/**
+ * Banner
+ */
 
-        /**
-         * Banner
-         */
+FrameLayout bannerContainer = (FrameLayout) findViewById(R.id.bannerContainer);
 
-        FrameLayout bannerContainer = (FrameLayout) findViewById(R.id.bannerContainer);
+//TedAdBanner.showFacebookBanner();
+//TedAdBanner.showAdmobBanner();
 
-        //TedAdBanner.showFacebookBanner();
-        //TedAdBanner.showAdmobBanner();
+TedAdBanner.showBanner(bannerContainer, FACEBOOK_KEY_BANNER, ADMOB_KEY_BANNER, TedAdHelper.AD_FACEBOOK, new OnBannerAdListener() {
+    @Override
+    public void onError(String errorMessage) {
 
-        TedAdBanner.showBanner(bannerContainer, FACEBOOK_KEY_BANNER, ADMOB_KEY_BANNER, TedAdHelper.AD_FACEBOOK, new OnBannerAdListener() {
-            @Override
-            public void onError(String errorMessage) {
+    }
 
-            }
+    @Override
+    public void onLoaded(int adType) {
 
-            @Override
-            public void onLoaded(int adType) {
+    }
 
-            }
+    @Override
+    public void onAdClicked(int adType) {
 
-            @Override
-            public void onAdClicked(int adType) {
+    }
 
-            }
+    @Override
+    public void onFacebookAdCreated(com.facebook.ads.AdView facebookBanner) {
+    }
 
-            @Override
-            public void onFacebookAdCreated(com.facebook.ads.AdView facebookBanner) {
-            }
-
-        });
-
+});
 ```
 <br/><br/><br/><br/>
 
 ### Front AD
-```javascript
+```java
 TedAdFront.showFrontAD(Context context, String facebookKey, final String admobKey, int adPriority, OnFrontAdListener onFrontAdListener)
 ```
 * **adPriority:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB<br/>
 
-```javascript
+```java
+/**
+ * Front AD
+ */
 
-        /**
-         * Front AD
-         */
+//TedAdFront.showAdmobFrontAd();
+//TedAdFront.showFacebookFrontAd();
+TedAdFront.showFrontAD(this, FACEBOOK_KEY_FRONT, ADMOB_KEY_FRONT, TedAdHelper.AD_ADMOB, new OnFrontAdListener() {
+    @Override
+    public void onDismissed(int adType) {
 
-        //TedAdFront.showAdmobFrontAd();
-        //TedAdFront.showFacebookFrontAd();
-        TedAdFront.showFrontAD(this, FACEBOOK_KEY_FRONT, ADMOB_KEY_FRONT, TedAdHelper.AD_ADMOB, new OnFrontAdListener() {
-            @Override
-            public void onDismissed(int adType) {
+    }
 
-            }
+    @Override
+    public void onError(String errorMessage) {
 
-            @Override
-            public void onError(String errorMessage) {
+    }
 
-            }
+    @Override
+    public void onLoaded(int adType) {
 
-            @Override
-            public void onLoaded(int adType) {
+    }
 
-            }
+    @Override
+    public void onAdClicked(int adType) {
 
-            @Override
-            public void onAdClicked(int adType) {
+    }
 
-            }
-
-            @Override
-            public void onFacebookAdCreated(InterstitialAd facebookFrontAD) {
-            }
-        });
+    @Override
+    public void onFacebookAdCreated(InterstitialAd facebookFrontAD) {
+    }
+});
 
 ```
 <br/><br/><br/><br/>
 
 ### BackPress Poup Dialog
 ![Screenshot](https://github.com/ParkSangGwon/TedAdHelper/blob/master/Screenshot_backpress_en_1.jpeg?raw=true)
-```javascript
+```java
 TedBackPressDialog.startDialog(Activity activity, String appName, String facebookKey, String admobKey, int adPriority, OnBackPressListener onBackPressListener)
 ```
 * **adPriority:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB<br/>
-```javascript
+```java
+@Override
+public void onBackPressed() {
 
-    @Override
-    public void onBackPressed() {
+    //TedBackPressDialog.startFacebookDialog();
+    //TedBackPressDialog.startAdmobDialog();
+    TedBackPressDialog.startDialog(this, getString(R.string.app_name), FACEBOOK_KEY_BACKPRESS, ADMOB_KEY_BACKPRESS, TedAdHelper.AD_FACEBOOK, new OnBackPressListener() {
+        @Override
+        public void onReviewClick() {
+        }
 
-        //TedBackPressDialog.startFacebookDialog();
-        //TedBackPressDialog.startAdmobDialog();
-        TedBackPressDialog.startDialog(this, getString(R.string.app_name), FACEBOOK_KEY_BACKPRESS, ADMOB_KEY_BACKPRESS, TedAdHelper.AD_FACEBOOK, new OnBackPressListener() {
-            @Override
-            public void onReviewClick() {
-            }
+        @Override
+        public void onFinish() {
+            finish();
+        }
 
-            @Override
-            public void onFinish() {
-                finish();
-            }
+        @Override
+        public void onError(String errorMessage) {
+        }
 
-            @Override
-            public void onError(String errorMessage) {
-            }
+        @Override
+        public void onLoaded(int adType) {
+        }
 
-            @Override
-            public void onLoaded(int adType) {
-            }
-
-            @Override
-            public void onAdClicked(int adType) {
-            }
-        });
-    }
-
+        @Override
+        public void onAdClicked(int adType) {
+        }
+    });
+}
 ```
 
 <br/><br/><br/><br/>
 ### Native AD
 1. Make your Native ad container and include `adview_native_base.xml`
 
-```javascript
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/cardview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+```java
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
 
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true">
 
-        <include layout="@layout/adview_native_base"/>
+    <include layout="@layout/adview_native_base"/>
 
-    </android.support.v7.widget.CardView>
+</android.support.v7.widget.CardView>
 ```
 2. Make instance and Show Native ad using `TedNativeAdHolder`
 
-```javascript
-        View cardview = findViewById(R.id.cardview);
-        TedNativeAdHolder tedNativeAdHolder = new TedNativeAdHolder(cardview, this, getString(R.string.app_name), FACEBOOK_KEY_NATIVE, ADMOB_KEY_NATIVE);
+```java
+View cardview = findViewById(R.id.cardview);
+TedNativeAdHolder tedNativeAdHolder = new TedNativeAdHolder(cardview, this, getString(R.string.app_name), FACEBOOK_KEY_NATIVE, ADMOB_KEY_NATIVE);
 
-        tedNativeAdHolder.loadAD(TedAdHelper.AD_FACEBOOK, new OnNativeAdListener() {
-            @Override
-            public void onError(String errorMessage) {
+tedNativeAdHolder.loadAD(TedAdHelper.AD_FACEBOOK, new OnNativeAdListener() {
+    @Override
+    public void onError(String errorMessage) {
 
-            }
+    }
 
-            @Override
-            public void onLoaded(int adType) {
+    @Override
+    public void onLoaded(int adType) {
 
-            }
+    }
 
-            @Override
-            public void onAdClicked(int adType) {
+    @Override
+    public void onAdClicked(int adType) {
 
-            }
-        });
-        //tedNativeAdHolder.loadFacebookAD();
-        //tedNativeAdHolder.loadAdmobAD();
+    }
+});
+//tedNativeAdHolder.loadFacebookAD();
+//tedNativeAdHolder.loadAdmobAD();
 
 ```
 
@@ -244,9 +241,9 @@ TedBackPressDialog.startDialog(Activity activity, String appName, String faceboo
 ### Color
 You can change button or divider color.
 Override variable in your `colors.xml`
-```javascript
-    <color name="tedBtnPrimary">...</color>
-    <color name="tedBtnHighlight">...</color>
+```java
+<color name="tedBtnPrimary">...</color>
+<color name="tedBtnHighlight">...</color>
 ```
 
 
@@ -255,34 +252,33 @@ Override variable in your `colors.xml`
 ## FAQ
 ### 1. I got error message `leaked IntentReceiver com.facebook.ads.internal.DisplayAdController$c@cf9db8c that was originally registered here. Are you missing a call to unregisterReceiver()?`<br/>
 If you use Facebook Audience Network, you have to destroy your banner or front ad  
-```javascript
-    @Override
-    protected void onDestroy() {
+```java
+@Override
+protected void onDestroy() {
 
-        if (facebookFrontAD != null) {
-            facebookFrontAD.destroy();
-        }
-
-        if (facebookBanner != null) {
-            facebookBanner.destroy();
-        }
-
-        super.onDestroy();
+    if (facebookFrontAD != null) {
+        facebookFrontAD.destroy();
     }
 
+    if (facebookBanner != null) {
+        facebookBanner.destroy();
+    }
+
+    super.onDestroy();
+}
 ```
 
 You can get `facebookFrontAD`,`facebookBanner` instance from `onFacebookAdCreated(InterstitialAd facebookFrontAD)` method
-```javascript
-  TedAdFront.showFrontAD(this, FACEBOOK_KEY_FRONT, ADMOB_KEY_FRONT, TedAdHelper.AD_ADMOB, new OnFrontAdListener() {
-           
-           ...
+```java
+TedAdFront.showFrontAD(this, FACEBOOK_KEY_FRONT, ADMOB_KEY_FRONT, TedAdHelper.AD_ADMOB, new OnFrontAdListener() {
+       
+       ...
 
-            @Override
-            public void onFacebookAdCreated(InterstitialAd facebookFrontAD) {
-                MainActivity.this.facebookFrontAD = facebookFrontAD;
-            }
-        });
+        @Override
+        public void onFacebookAdCreated(InterstitialAd facebookFrontAD) {
+            MainActivity.this.facebookFrontAD = facebookFrontAD;
+        }
+    });
 ```
 <br/><br/>
 ### 2. I want change native ad layout or backpress popup dialog layout
