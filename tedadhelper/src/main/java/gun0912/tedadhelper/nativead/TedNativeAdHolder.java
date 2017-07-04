@@ -85,6 +85,16 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
 
     }
 
+    public void onDestroy(){
+        if(nativeAdMedia!=null){
+            nativeAdMedia.destroy();
+        }
+        if(facebookAd!=null){
+            facebookAd.destroy();
+        }
+
+    }
+
     private void initView() {
         view_root = itemView.findViewById(R.id.view_root);
         admobAppInstallRootView = (NativeAppInstallAdView) itemView.findViewById(R.id.admobAppInstallRootView);

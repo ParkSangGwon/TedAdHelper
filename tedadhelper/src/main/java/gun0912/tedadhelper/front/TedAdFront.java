@@ -103,7 +103,12 @@ public class TedAdFront {
             public void onAdLoaded(Ad ad) {
                 Log.d(TedAdHelper.TAG,"[FACEBOOK FRONT AD]Loaded");
                 // Show the ad when it's done loading.
-                facebookFrontAD.show();
+                if(facebookFrontAD!=null){
+                    facebookFrontAD.show();
+                }
+
+
+
 
                 if (onFrontAdListener != null) {
                     onFrontAdListener.onLoaded(TedAdHelper.AD_FACEBOOK);
