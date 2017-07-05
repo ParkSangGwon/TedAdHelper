@@ -379,6 +379,7 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
         if (facebookAd.getAdCoverImage() != null) {
             myNativeAd.setImageUrl(facebookAd.getAdCoverImage().getUrl());
+            nativeAdMedia.setVisibility(View.GONE);
         }
 
         myNativeAd.setBody(facebookAd.getAdBody());
@@ -388,6 +389,7 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         bindNativeAd(myNativeAd);
 
         nativeAdMedia.setNativeAd(facebookAd);
+
         facebookAd.unregisterView();
         facebookAd.registerViewForInteraction(view_root);
 

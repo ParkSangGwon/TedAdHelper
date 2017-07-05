@@ -106,6 +106,7 @@
                         android:id="@+id/native_ad_media"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxHeight="200dp"
                         />
 
 

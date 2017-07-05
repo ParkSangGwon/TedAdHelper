@@ -76,12 +76,12 @@ public class TedAdFront {
             @Override
             public void onInterstitialDisplayed(Ad ad) {
                 // Interstitial displayed callback
-                Log.d(TedAdHelper.TAG,"[FACEBOOK FRONT AD]Displayed");
+                Log.d(TedAdHelper.TAG, "[FACEBOOK FRONT AD]Displayed");
             }
 
             @Override
             public void onInterstitialDismissed(Ad ad) {
-                Log.d(TedAdHelper.TAG,"[FACEBOOK FRONT AD]Dismissed");
+                Log.d(TedAdHelper.TAG, "[FACEBOOK FRONT AD]Dismissed");
                 // Interstitial dismissed callback
                 if (onFrontAdListener != null) {
                     onFrontAdListener.onDismissed(TedAdHelper.AD_FACEBOOK);
@@ -90,7 +90,7 @@ public class TedAdFront {
 
             @Override
             public void onError(Ad ad, AdError adError) {
-                Log.e(TedAdHelper.TAG,"[FACEBOOK FRONT AD]Error: "+adError.getErrorMessage());
+                Log.e(TedAdHelper.TAG, "[FACEBOOK FRONT AD]Error: " + adError.getErrorMessage());
                 if (failToAdmob) {
                     showAdmobFrontAd(false);
                 } else if (onFrontAdListener != null) {
@@ -101,13 +101,20 @@ public class TedAdFront {
 
             @Override
             public void onAdLoaded(Ad ad) {
-                Log.d(TedAdHelper.TAG,"[FACEBOOK FRONT AD]Loaded");
+                Log.d(TedAdHelper.TAG, "[FACEBOOK FRONT AD]Loaded");
                 // Show the ad when it's done loading.
-                if(facebookFrontAD!=null){
-                    facebookFrontAD.show();
+                if (facebookFrontAD != null) {
+                    try {
+                        facebookFrontAD.show();
+                    } catch (Exception e) {
+                        if (failToAdmob) {
+                            showAdmobFrontAd(false);
+                        } else if (onFrontAdListener != null) {
+                            onFrontAdListener.onError("");
+                        }
+                    }
+
                 }
-
-
 
 
                 if (onFrontAdListener != null) {
@@ -118,7 +125,7 @@ public class TedAdFront {
 
             @Override
             public void onAdClicked(Ad ad) {
-                Log.d(TedAdHelper.TAG,"[FACEBOOK FRONT AD]Clicked");
+                Log.d(TedAdHelper.TAG, "[FACEBOOK FRONT AD]Clicked");
                 // Ad clicked callback
                 if (onFrontAdListener != null) {
                     onFrontAdListener.onAdClicked(TedAdHelper.AD_FACEBOOK);
@@ -144,7 +151,7 @@ public class TedAdFront {
         admobFrontAD.setAdListener(new com.google.android.gms.ads.AdListener() {
             @Override
             public void onAdClosed() {
-                Log.d(TedAdHelper.TAG,"[ADMOB FRONT AD]Dismissed");
+                Log.d(TedAdHelper.TAG, "[ADMOB FRONT AD]Dismissed");
                 if (onFrontAdListener != null) {
                     onFrontAdListener.onDismissed(TedAdHelper.AD_ADMOB);
                 }
@@ -154,7 +161,7 @@ public class TedAdFront {
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 String errorMessage = TedAdHelper.getMessageFromAdmobErrorCode(errorCode);
-                Log.e(TedAdHelper.TAG,"[ADMOB FRONT AD]Error: "+errorMessage);
+                Log.e(TedAdHelper.TAG, "[ADMOB FRONT AD]Error: " + errorMessage);
 
                 if (failToFacebook) {
                     showFacebookFrontAd(false);
@@ -165,7 +172,7 @@ public class TedAdFront {
 
             @Override
             public void onAdLoaded() {
-                Log.d(TedAdHelper.TAG,"[ADMOB FRONT AD]Loaded");
+                Log.d(TedAdHelper.TAG, "[ADMOB FRONT AD]Loaded");
                 admobFrontAD.show();
 
                 if (onFrontAdListener != null) {
@@ -174,12 +181,11 @@ public class TedAdFront {
             }
 
 
-
             @Override
             public void onAdLeftApplication() {
-                Log.d(TedAdHelper.TAG,"[ADMOB FRONT AD]Clicked");
+                Log.d(TedAdHelper.TAG, "[ADMOB FRONT AD]Clicked");
                 super.onAdLeftApplication();
-                if(onFrontAdListener!=null){
+                if (onFrontAdListener != null) {
                     onFrontAdListener.onAdClicked(TedAdHelper.AD_ADMOB);
                 }
             }
