@@ -44,7 +44,7 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 ### Gradle
 ```javascript
 dependencies {
-    compile 'gun0912.ted:tedadhelper:1.0.7'
+    compile 'gun0912.ted:tedadhelper:1.0.8'
 }
 
 ```
