@@ -44,7 +44,7 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 ### Gradle
 ```javascript
 dependencies {
-    compile 'gun0912.ted:tedadhelper:1.0.8'
+    compile 'gun0912.ted:tedadhelper:1.0.11'
 }
 
 ```
@@ -237,6 +237,21 @@ TedBackPressDialog.startDialog(Activity activity, String appName, String faceboo
         //tedNativeAdHolder.loadAdmobAD();
 
 ```
+
+3. If you want customize your native ad, you have to overwrite view id.<br/>
+Make your layout (not include `<include layout="@layout/adview_native_base"/>` code)<br/>
+You have to declare view id
+- `R.id.view_root (RelativeLayout)`: If Native ad load fail, this view will disappear
+- `R.id.container_admob_express (container_admob_express)`: For add admobExpress
+- `R.id.progressView (ProgressBar)`: When advertise loading, this view will appear
+- `R.id.view_container (LinearLayout)`: when advertise loaded, this view will appear
+- `R.id.iv_logo (ImageView)`
+- `R.id.tv_name (TextView)`
+- `R.id.native_ad_media (com.facebook.ads.MediaView)`
+- `R.id.iv_image (ImageView)`
+- `R.id.tv_body (TextView)`
+- `R.id.tv_call_to_action (TextView)`
+- `R.id.tv_etc (TextView)`
 
 
 <br/><br/><br/><br/>
