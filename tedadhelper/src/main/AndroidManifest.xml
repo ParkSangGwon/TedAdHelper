@@ -9,6 +9,11 @@
                   android:theme="@style/AppTheme.DialogTheme"
             />
 
+
+        <activity android:name="com.tnkfactory.ad.AdWallActivity" />
+        <activity android:name="com.tnkfactory.ad.AdMediaActivity" android:screenOrientation="landscape"/>
+
+
     </application>
 
 </manifest>

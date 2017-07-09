@@ -20,17 +20,16 @@ import gun0912.tedadhelper.nativead.TedNativeAdHolder;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String FACEBOOK_KEY_BANNER = "xxxxxxxxxxx_xxxxxxxxxxxx";
-    public static final String FACEBOOK_KEY_FRONT = "xxxxxxxxxxx_xxxxxxxxxxxx";
-    public static final String FACEBOOK_KEY_BACKPRESS = "xxxxxxxxxxx_xxxxxxxxxxxx";
-    public static final String FACEBOOK_KEY_NATIVE = "xxxxxxxxxxx_xxxxxxxxxxxx";
+    public static final String FACEBOOK_KEY_BANNER = "";
+    public static final String FACEBOOK_KEY_FRONT = "";
+    public static final String FACEBOOK_KEY_BACKPRESS = "";
+    public static final String FACEBOOK_KEY_NATIVE = "";
 
 
-    public static final String ADMOB_KEY_BANNER = "ca-app-pub-xxxxx/xxxxxxxx";
-    public static final String ADMOB_KEY_FRONT = "ca-app-pub-xxxxx/xxxxxxxx";
-
-    public static final String ADMOB_KEY_BACKPRESS = "ca-app-pub-xxxxx/xxxxxxxx";
-    public static final String ADMOB_KEY_NATIVE = "ca-app-pub-xxxxx/xxxxxxxx";
+    public static final String ADMOB_KEY_BANNER = "";
+    public static final String ADMOB_KEY_FRONT = "";
+    public static final String ADMOB_KEY_BACKPRESS = "";
+    public static final String ADMOB_KEY_NATIVE = "";
 
     InterstitialAd facebookFrontAD;
     com.facebook.ads.AdView facebookBanner;
@@ -40,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        TedAdHelper.setAdmobTestDeviceId("");
+        TedAdHelper.setFacebookTestDeviceId("");
+
+
         /**
          * Banner
          */
@@ -48,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         //TedAdBanner.showFacebookBanner();
         //TedAdBanner.showAdmobBanner();
-
         TedAdBanner.showBanner(bannerContainer, FACEBOOK_KEY_BANNER, ADMOB_KEY_BANNER, TedAdHelper.AD_FACEBOOK, new OnBannerAdListener() {
             @Override
             public void onError(String errorMessage) {
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TedAdFront.showAdmobFrontAd();
         //TedAdFront.showFacebookFrontAd();
-        TedAdFront.showFrontAD(this, FACEBOOK_KEY_FRONT, ADMOB_KEY_FRONT, TedAdHelper.AD_ADMOB, new OnFrontAdListener() {
+        TedAdFront.showFrontAD(this, FACEBOOK_KEY_FRONT, ADMOB_KEY_FRONT,new Integer[]{TedAdHelper.AD_ADMOB,TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_TNK}, new OnFrontAdListener() {
             @Override
             public void onDismissed(int adType) {
 
@@ -87,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onError(String errorMessage) {
-
             }
 
             @Override
@@ -113,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
         View cardview = findViewById(R.id.cardview);
         TedNativeAdHolder tedNativeAdHolder = new TedNativeAdHolder(cardview, this, getString(R.string.app_name), FACEBOOK_KEY_NATIVE, ADMOB_KEY_NATIVE);
 
-        tedNativeAdHolder.loadAD(TedAdHelper.AD_FACEBOOK, new OnNativeAdListener() {
+        //tedNativeAdHolder.loadAD(TedAdHelper.AD_FACEBOOK, new OnNativeAdListener() {
+        tedNativeAdHolder.loadAD(new Integer[]{TedAdHelper.AD_TNK,TedAdHelper.AD_FACEBOOK}, new OnNativeAdListener() {
             @Override
             public void onError(String errorMessage) {
 
@@ -139,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TedBackPressDialog.startFacebookDialog();
         //TedBackPressDialog.startAdmobDialog();
-        TedBackPressDialog.startDialog(this, getString(R.string.app_name), FACEBOOK_KEY_BACKPRESS, ADMOB_KEY_BACKPRESS, TedAdHelper.AD_FACEBOOK, false,new OnBackPressListener() {
+        TedBackPressDialog.startDialog(this, getString(R.string.app_name), FACEBOOK_KEY_BACKPRESS, ADMOB_KEY_BACKPRESS, new Integer[]{TedAdHelper.AD_ADMOB,TedAdHelper.AD_FACEBOOK}, false,new OnBackPressListener() {
             @Override
             public void onReviewClick() {
             }

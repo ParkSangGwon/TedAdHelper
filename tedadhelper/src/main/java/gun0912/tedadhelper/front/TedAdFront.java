@@ -1,12 +1,15 @@
 package gun0912.tedadhelper.front;
 
-import android.content.Context;
-import android.text.TextUtils;
+import android.app.Activity;
 import android.util.Log;
 
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
+import com.tnkfactory.ad.TnkAdListener;
+import com.tnkfactory.ad.TnkSession;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import gun0912.tedadhelper.TedAdHelper;
 
@@ -21,50 +24,77 @@ public class TedAdFront {
     private static OnFrontAdListener onFrontAdListener;
     private static String facebookKey;
     private static String admobKey;
-    private static Context context;
+    private static Activity activity;
 
-    public static void showFacebookFrontAd(Context context, String facebookKey, OnFrontAdListener onFrontAdListener) {
-        showFrontAD(context, facebookKey, null, TedAdHelper.AD_FACEBOOK, onFrontAdListener);
+    private static ArrayList<Integer> adPriorityList;
+
+    public static void showFacebookFrontAd(Activity activity, String facebookKey, OnFrontAdListener onFrontAdListener) {
+        showFrontAD(activity, facebookKey, null, TedAdHelper.AD_FACEBOOK, onFrontAdListener);
     }
 
-    public static void showAdmobFrontAd(Context context, String admobKey, OnFrontAdListener onFrontAdListener) {
-        showFrontAD(context, null, admobKey, TedAdHelper.AD_ADMOB, onFrontAdListener);
+    public static void showAdmobFrontAd(Activity activity, String admobKey, OnFrontAdListener onFrontAdListener) {
+        showFrontAD(activity, null, admobKey, TedAdHelper.AD_ADMOB, onFrontAdListener);
     }
 
-    public static void showFrontAD(Context context, String facebookKey, final String admobKey, int adPriority, OnFrontAdListener onFrontAdListener) {
+    public static void showFrontAD(Activity activity, String facebookKey, final String admobKey, int adPriority, OnFrontAdListener onFrontAdListener) {
+       Integer[] tempAdPriorityList=new Integer[2];
+        tempAdPriorityList[0] = adPriority;
+        if (adPriority == TedAdHelper.AD_FACEBOOK) {
+            tempAdPriorityList[1]=TedAdHelper.AD_ADMOB;
+        } else {
+            tempAdPriorityList[1]=TedAdHelper.AD_FACEBOOK;
+        }
+
+        showFrontAD(activity, facebookKey, admobKey, tempAdPriorityList, onFrontAdListener);
+    }
+
+    public static void showFrontAD(Activity activity, String facebookKey, final String admobKey, Integer[] tempAdPriorityList, OnFrontAdListener onFrontAdListener) {
+        if(tempAdPriorityList==null||tempAdPriorityList.length==0){
+            throw new RuntimeException("You have to select priority type ADMOB/FACEBOOK/TNK");
+        }
+
+        TedAdFront.adPriorityList =new ArrayList<>(Arrays.asList(tempAdPriorityList));
+
 
         try {
 
-            TedAdFront.context = context;
+
+            TedAdFront.activity = activity;
             TedAdFront.facebookKey = facebookKey;
             TedAdFront.admobKey = admobKey;
             TedAdFront.onFrontAdListener = onFrontAdListener;
 
-
-            switch (adPriority) {
-                case TedAdHelper.AD_FACEBOOK:
-                    showFacebookFrontAd(!TextUtils.isEmpty(admobKey));
-                    break;
-                case TedAdHelper.AD_ADMOB:
-                    showAdmobFrontAd(!TextUtils.isEmpty(facebookKey));
-                    break;
-                default:
-                    throw new RuntimeException("You have to select priority type ADMOB or FACEBOOK");
-            }
+            selectAd();
 
         } catch (Exception e) {
-
+            e.printStackTrace();
             if (onFrontAdListener != null) {
-                onFrontAdListener.onError("");
+                onFrontAdListener.onError(e.toString());
             }
         }
 
-
     }
 
-    private static void showFacebookFrontAd(final boolean failToAdmob) {
+    private static void selectAd() {
+        int adPriority = adPriorityList.remove(0);
+        switch (adPriority) {
+            case TedAdHelper.AD_FACEBOOK:
+                showFacebookFrontAd();
+                break;
+            case TedAdHelper.AD_ADMOB:
+                showAdmobFrontAd();
+                break;
+            case TedAdHelper.AD_TNK:
+                showTnkFrontAd();
+                break;
+            default:
+                throw new IllegalArgumentException("You have to select priority type ADMOB or FACEBOOK");
+        }
+    }
 
-        final com.facebook.ads.InterstitialAd facebookFrontAD = new com.facebook.ads.InterstitialAd(context, facebookKey);
+    private static void showFacebookFrontAd() {
+
+        final com.facebook.ads.InterstitialAd facebookFrontAD = new com.facebook.ads.InterstitialAd(activity, facebookKey);
 
         if (onFrontAdListener != null) {
             onFrontAdListener.onFacebookAdCreated(facebookFrontAD);
@@ -91,8 +121,8 @@ public class TedAdFront {
             @Override
             public void onError(Ad ad, AdError adError) {
                 Log.e(TedAdHelper.TAG, "[FACEBOOK FRONT AD]Error: " + adError.getErrorMessage());
-                if (failToAdmob) {
-                    showAdmobFrontAd(false);
+                if (adPriorityList.size() > 0) {
+                    selectAd();
                 } else if (onFrontAdListener != null) {
                     onFrontAdListener.onError(adError.getErrorMessage());
                 }
@@ -104,16 +134,7 @@ public class TedAdFront {
                 Log.d(TedAdHelper.TAG, "[FACEBOOK FRONT AD]Loaded");
                 // Show the ad when it's done loading.
                 if (facebookFrontAD != null) {
-                    try {
-                        facebookFrontAD.show();
-                    } catch (Exception e) {
-                        if (failToAdmob) {
-                            showAdmobFrontAd(false);
-                        } else if (onFrontAdListener != null) {
-                            onFrontAdListener.onError("");
-                        }
-                    }
-
+                    facebookFrontAD.show();
                 }
 
 
@@ -145,9 +166,9 @@ public class TedAdFront {
     }
 
 
-    private static void showAdmobFrontAd(final boolean failToFacebook) {
+    private static void showAdmobFrontAd() {
 
-        final com.google.android.gms.ads.InterstitialAd admobFrontAD = new com.google.android.gms.ads.InterstitialAd(context);
+        final com.google.android.gms.ads.InterstitialAd admobFrontAD = new com.google.android.gms.ads.InterstitialAd(activity);
         admobFrontAD.setAdListener(new com.google.android.gms.ads.AdListener() {
             @Override
             public void onAdClosed() {
@@ -163,8 +184,8 @@ public class TedAdFront {
                 String errorMessage = TedAdHelper.getMessageFromAdmobErrorCode(errorCode);
                 Log.e(TedAdHelper.TAG, "[ADMOB FRONT AD]Error: " + errorMessage);
 
-                if (failToFacebook) {
-                    showFacebookFrontAd(false);
+                if (adPriorityList.size() > 0) {
+                    selectAd();
                 } else if (onFrontAdListener != null) {
                     onFrontAdListener.onError(errorMessage);
                 }
@@ -192,9 +213,48 @@ public class TedAdFront {
 
         });
         admobFrontAD.setAdUnitId(admobKey);
-        admobFrontAD.loadAd(new AdRequest.Builder().build());
+        admobFrontAD.loadAd(TedAdHelper.getAdRequest());
 
     }
 
+    private static void showTnkFrontAd() {
+        TnkSession.prepareInterstitialAd(activity, TnkSession.CPC, new TnkAdListener() {
+
+            @Override
+            public void onClose(int type) {
+                Log.d(TedAdHelper.TAG, "[TNK FRONT AD]onClose");
+                if (onFrontAdListener != null) {
+                    onFrontAdListener.onDismissed(TedAdHelper.AD_TNK);
+                }
+            }
+
+            @Override
+            public void onFailure(int errCode) {
+                String errorMessage=TedAdHelper.getMessageFromTnkErrorCode(errCode);
+                Log.e(TedAdHelper.TAG, "[TANK FRONT AD]" + errorMessage);
+                if (adPriorityList.size() > 0) {
+                    selectAd();
+                } else if (onFrontAdListener != null) {
+                    onFrontAdListener.onError(errorMessage);
+                }
+            }
+
+            @Override
+            public void onLoad() {
+                Log.d(TedAdHelper.TAG, "[TNK FRONT AD]onLoad");
+                TnkSession.showInterstitialAd(activity);
+                if (onFrontAdListener != null) {
+                    onFrontAdListener.onLoaded(TedAdHelper.AD_TNK);
+                }
+
+            }
+
+            @Override
+            public void onShow() {
+                Log.d(TedAdHelper.TAG, "[TNK FRONT AD]onShow");
+
+            }
+        });
+    }
 
 }

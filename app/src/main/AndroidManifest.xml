@@ -3,6 +3,7 @@
           package="gun0912.tedadhelperdemo">
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+
+        <meta-data
+            android:name="tnkad_app_id"
+            android:value=""/>
     </application>
 
 </manifest>

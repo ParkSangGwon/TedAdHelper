@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:background="@color/white">
 
 
     <com.google.android.gms.ads.formats.NativeAppInstallAdView
@@ -57,11 +59,11 @@
                     >
 
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal"
+
                         android:padding="@dimen/list_item_container_padding"
                         >
 
@@ -69,37 +71,38 @@
                             android:id="@+id/iv_logo"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
+                            android:layout_centerVertical="true"
                             android:adjustViewBounds="true"
                             />
 
                         <TextView
+                            android:id="@+id/tv_sponsor"
+                            style="@style/CustomText_Caption"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+
+                            android:text="Sponsored"
+                            />
+
+                        <TextView
                             android:id="@+id/tv_name"
-                            android:layout_width="wrap_content"
+                            style="@style/CustomText_Body"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/list_item_container_padding"
-                            android:gravity="center_vertical"
-
-
-                            android:text=""
+                            android:layout_marginRight="@dimen/list_item_container_padding"
+                            android:layout_toLeftOf="@id/tv_sponsor"
+                            android:layout_toRightOf="@id/iv_logo"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:textColor="@color/tedBtnPrimary"
-                            android:textStyle="bold"/>
-
-                        <!--
-
-                                        <TextView
-                                            android:id="@+id/tv_contents_time"
-                                            style="@style/CustomText_Caption"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center_vertical"
-
-                                            android:gravity="right|center_vertical"
-                                            android:text="@string/now_ago"
-                                            />
-                        -->
+                            android:textStyle="bold"
+                            tools:text="스윗미 - 무제한 훈남훈녀 소개팅 아아아아아아아"
+                            />
 
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
 
                     <com.facebook.ads.MediaView

@@ -11,6 +11,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import gun0912.tedadhelper.R;
 import gun0912.tedadhelper.TedAdHelper;
 import gun0912.tedadhelper.nativead.OnNativeAdListener;
@@ -27,9 +30,11 @@ public class TedBackPressDialog extends AppCompatActivity {
     private static final String EXTRA_APP_NAME = "app_name";
     private static final String EXTRA_FACEBOOK_KEY = "facebook_key";
     private static final String EXTRA_ADMOB_KEY = "admob_key";
-    private static final String EXTRA_AD_PRIORITY = "ad_priority";
+    private static final String EXTRA_AD_PRIORITY_LIST = "ad_priority_list";
     private static final String EXTRA_SHOW_REVIEW_BUTTON = "show_review_button";
+
     private static OnBackPressListener onBackPressListener;
+
     View adviewContainer;
     TextView tvFinish;
     TextView tvReview;
@@ -37,9 +42,10 @@ public class TedBackPressDialog extends AppCompatActivity {
     String appName;
     String facebookKey;
     String admobKey;
-    int adPriority;
+
     boolean showReviewButton;
     TedNativeAdHolder adViewNativeAdHolder;
+    ArrayList<Integer> adPriorityList;
 
     public static void startFacebookDialog(Activity activity, String appName, String facebookKey, OnBackPressListener onBackPressListener) {
         startDialog(activity, appName, facebookKey, null, TedAdHelper.AD_FACEBOOK, onBackPressListener);
@@ -50,18 +56,31 @@ public class TedBackPressDialog extends AppCompatActivity {
     }
 
     public static void startDialog(Activity activity, String appName, String facebookKey, String admobKey, int adPriority, boolean showReviewButton, OnBackPressListener onBackPressListener) {
+        Integer[] tempAdPriorityList = new Integer[2];
+        tempAdPriorityList[0] = adPriority;
+        if (adPriority == TedAdHelper.AD_FACEBOOK) {
+            tempAdPriorityList[1] = TedAdHelper.AD_ADMOB;
+        } else {
+            tempAdPriorityList[1] = TedAdHelper.AD_FACEBOOK;
+        }
+        startDialog(activity, appName, facebookKey, admobKey, tempAdPriorityList, showReviewButton, onBackPressListener);
+
+    }
+
+    public static void startDialog(Activity activity, String appName, String facebookKey, String admobKey, Integer[] adPriorityList, boolean showReviewButton, OnBackPressListener onBackPressListener) {
         Intent intent = new Intent(activity, TedBackPressDialog.class);
         intent.putExtra(EXTRA_APP_NAME, appName);
         intent.putExtra(EXTRA_FACEBOOK_KEY, facebookKey);
         intent.putExtra(EXTRA_ADMOB_KEY, admobKey);
-        intent.putExtra(EXTRA_AD_PRIORITY, adPriority);
         intent.putExtra(EXTRA_SHOW_REVIEW_BUTTON, showReviewButton);
+        intent.putExtra(EXTRA_AD_PRIORITY_LIST, new ArrayList<>(Arrays.asList(adPriorityList)));
 
 
         if (onBackPressListener == null) {
             throw new RuntimeException("OnBackPressListener can not null");
         }
         TedBackPressDialog.onBackPressListener = onBackPressListener;
+
 
         activity.startActivity(intent);
         activity.overridePendingTransition(0, 0);
@@ -96,7 +115,7 @@ public class TedBackPressDialog extends AppCompatActivity {
 
         adViewNativeAdHolder = new TedNativeAdHolder(adviewContainer, this, appName, facebookKey, admobKey);
 
-        adViewNativeAdHolder.loadAD(adPriority, new OnNativeAdListener() {
+        adViewNativeAdHolder.loadAD(adPriorityList, new OnNativeAdListener() {
             @Override
             public void onError(String errorMessage) {
 
@@ -154,7 +173,7 @@ public class TedBackPressDialog extends AppCompatActivity {
             appName = savedInstanceState.getString(EXTRA_APP_NAME);
             facebookKey = savedInstanceState.getString(EXTRA_FACEBOOK_KEY);
             admobKey = savedInstanceState.getString(EXTRA_ADMOB_KEY);
-            adPriority = savedInstanceState.getInt(EXTRA_AD_PRIORITY);
+            adPriorityList = savedInstanceState.getIntegerArrayList(EXTRA_AD_PRIORITY_LIST);
 
         } else {
 
@@ -162,7 +181,7 @@ public class TedBackPressDialog extends AppCompatActivity {
             appName = getIntent().getStringExtra(EXTRA_APP_NAME);
             facebookKey = getIntent().getStringExtra(EXTRA_FACEBOOK_KEY);
             admobKey = getIntent().getStringExtra(EXTRA_ADMOB_KEY);
-            adPriority = getIntent().getIntExtra(EXTRA_AD_PRIORITY, 0);
+            adPriorityList = getIntent().getIntegerArrayListExtra(EXTRA_AD_PRIORITY_LIST);
 
 
         }
@@ -220,7 +239,7 @@ public class TedBackPressDialog extends AppCompatActivity {
         savedInstanceState.putString(EXTRA_APP_NAME, appName);
         savedInstanceState.putString(EXTRA_FACEBOOK_KEY, facebookKey);
         savedInstanceState.putString(EXTRA_ADMOB_KEY, admobKey);
-        savedInstanceState.putInt(EXTRA_AD_PRIORITY, adPriority);
+        savedInstanceState.putIntegerArrayList(EXTRA_AD_PRIORITY_LIST, adPriorityList);
     }
 
     @Override

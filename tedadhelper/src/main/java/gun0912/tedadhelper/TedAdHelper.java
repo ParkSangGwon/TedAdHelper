@@ -1,5 +1,8 @@
 package gun0912.tedadhelper;
 
+import android.text.TextUtils;
+
+import com.facebook.ads.AdSettings;
 import com.google.android.gms.ads.AdRequest;
 
 /**
@@ -12,6 +15,33 @@ public class TedAdHelper {
 
     public static final int AD_FACEBOOK = 1;
     public static final int AD_ADMOB = 2;
+    public static final int AD_TNK = 3;
+
+    public static String admobDeviceId;
+
+
+
+    public static void setFacebookTestDeviceId(String deviceId){
+        AdSettings.addTestDevice(deviceId);
+    }
+    public static void setAdmobTestDeviceId(String deviceId){
+        admobDeviceId = deviceId;
+    }
+    public static void setTestDeviceId(String facebookDeviceId,String admobDeviceId){
+        setFacebookTestDeviceId(facebookDeviceId);
+        setAdmobTestDeviceId(admobDeviceId);
+    }
+
+    public static AdRequest getAdRequest(){
+        AdRequest.Builder builder=new AdRequest.Builder();
+
+        if(!TextUtils.isEmpty(TedAdHelper.admobDeviceId)){
+            builder.addTestDevice(TedAdHelper.admobDeviceId);
+        }
+
+
+        return builder.build();
+    }
 
 
     public static String getMessageFromAdmobErrorCode(int errorCode) {
@@ -33,5 +63,24 @@ public class TedAdHelper {
                 return "";
         }
 
+    }
+
+    public static String getMessageFromTnkErrorCode(int errorCode){
+        switch (errorCode){
+            case -1:
+                return "제공할 광고가 없을 경우 또는 해당 광고앱이 이미 사용자 단말기에 설치되어 있는 경우입니다.";
+            case -2:
+                return "광고를 가져왔으나 전면 이미지 정보가 없는 경우입니다.";
+            case -3:
+                return "showInterstitialAd() 호출 후 지정된 timeoout시간 (기본값 5초) 이내에 전면광고가 도착하지 않은 경우입니다. 이 경우에는 전면광고를 띄우지 않습니다.";
+            case -4:
+                return "prepareInterstitialAd() 호출하였으나 서버에서 설정한 광고 노출 주기를 지나지 않아 취소된 경우입니다.";
+            case -5:
+                return "prepareInterstitialAd()를 호출하지 않고 showInterstitialAd()를 호출한 경우입니다.";
+            case -9:
+                return "prepareInterstitialAd()를 호출하지 않고 showInterstitialAd()를 호출한 경우입니다.";
+            default:
+                return "";
+        }
     }
 }

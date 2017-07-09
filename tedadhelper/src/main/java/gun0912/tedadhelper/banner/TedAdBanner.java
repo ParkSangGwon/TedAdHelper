@@ -8,7 +8,6 @@ import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
 import com.facebook.ads.AdSize;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import gun0912.tedadhelper.TedAdHelper;
@@ -31,7 +30,9 @@ public class TedAdBanner {
     public static void showAdmobBanner(ViewGroup bannerContainer, String admobKey, OnBannerAdListener onBannerAdListener) {
         showBanner(bannerContainer, null, admobKey, TedAdHelper.AD_ADMOB, onBannerAdListener);
     }
+    public static void showBanner(ViewGroup bannerContainer, String facebookKey, String admobKey, int[] adPrioritys, OnBannerAdListener onBannerAdListener) {
 
+    }
     public static void showBanner(ViewGroup bannerContainer, String facebookKey, String admobKey, int adPriority, OnBannerAdListener onBannerAdListener) {
 
         try {
@@ -69,6 +70,8 @@ public class TedAdBanner {
     }
 
     private static void showFacebookBanner(final boolean failToAdmob) {
+
+
 
 
         final com.facebook.ads.AdView facebookBanner = new com.facebook.ads.AdView(bannerContainer.getContext(), facebookKey, AdSize.BANNER_HEIGHT_50);
@@ -131,8 +134,7 @@ public class TedAdBanner {
         admobBanner.setAdSize(com.google.android.gms.ads.AdSize.SMART_BANNER);
         admobBanner.setAdUnitId(admobKey);
 
-        AdRequest adRequest = new AdRequest.Builder().build();
-        admobBanner.loadAd(adRequest);
+        admobBanner.loadAd(TedAdHelper.getAdRequest());
 
         admobBanner.setAdListener(new com.google.android.gms.ads.AdListener() {
             @Override
