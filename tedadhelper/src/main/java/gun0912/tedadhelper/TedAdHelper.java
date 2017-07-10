@@ -1,9 +1,13 @@
 package gun0912.tedadhelper;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.facebook.ads.AdSettings;
 import com.google.android.gms.ads.AdRequest;
+
+import gun0912.tedadhelper.util.AppUtil;
+import gun0912.tedadhelper.util.Constant;
 
 /**
  * Created by TedPark on 2017. 3. 7..
@@ -17,25 +21,31 @@ public class TedAdHelper {
     public static final int AD_ADMOB = 2;
     public static final int AD_TNK = 3;
 
-    public static String admobDeviceId;
+    private static String admobDeviceId;
+    private static boolean onlyFacebookInstalled = false;
 
-
-
-    public static void setFacebookTestDeviceId(String deviceId){
-        AdSettings.addTestDevice(deviceId);
-    }
-    public static void setAdmobTestDeviceId(String deviceId){
-        admobDeviceId = deviceId;
-    }
-    public static void setTestDeviceId(String facebookDeviceId,String admobDeviceId){
+    public static void setTestDeviceId(String facebookDeviceId, String admobDeviceId) {
         setFacebookTestDeviceId(facebookDeviceId);
         setAdmobTestDeviceId(admobDeviceId);
     }
 
-    public static AdRequest getAdRequest(){
-        AdRequest.Builder builder=new AdRequest.Builder();
+    public static void setFacebookTestDeviceId(String deviceId) {
+        AdSettings.addTestDevice(deviceId);
+    }
 
-        if(!TextUtils.isEmpty(TedAdHelper.admobDeviceId)){
+    public static void setAdmobTestDeviceId(String deviceId) {
+        admobDeviceId = deviceId;
+    }
+
+    public static void showAdOnlyFacebookInstalledUser(boolean value) {
+        onlyFacebookInstalled = value;
+
+    }
+
+    public static AdRequest getAdRequest() {
+        AdRequest.Builder builder = new AdRequest.Builder();
+
+        if (!TextUtils.isEmpty(TedAdHelper.admobDeviceId)) {
             builder.addTestDevice(TedAdHelper.admobDeviceId);
         }
 
@@ -43,6 +53,11 @@ public class TedAdHelper {
         return builder.build();
     }
 
+    public static boolean isSkipFacebookAd(Context context) {
+        return TedAdHelper.onlyFacebookInstalled && !AppUtil.isExistApp(context, Constant.FACEBOOK_PACKAGE_NAME);
+
+
+    }
 
     public static String getMessageFromAdmobErrorCode(int errorCode) {
 
@@ -65,8 +80,8 @@ public class TedAdHelper {
 
     }
 
-    public static String getMessageFromTnkErrorCode(int errorCode){
-        switch (errorCode){
+    public static String getMessageFromTnkErrorCode(int errorCode) {
+        switch (errorCode) {
             case -1:
                 return "제공할 광고가 없을 경우 또는 해당 광고앱이 이미 사용자 단말기에 설치되어 있는 경우입니다.";
             case -2:

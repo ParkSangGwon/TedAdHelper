@@ -28,6 +28,7 @@ import java.util.Arrays;
 
 import gun0912.tedadhelper.R;
 import gun0912.tedadhelper.TedAdHelper;
+import gun0912.tedadhelper.util.Constant;
 import gun0912.tedadhelper.util.ConvertUtil;
 import gun0912.tedadhelper.util.ImageUtil;
 
@@ -383,6 +384,13 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
 
     private void loadFacebookAD() {
+
+        if(TedAdHelper.isSkipFacebookAd(context)){
+            Log.e(TedAdHelper.TAG, "[FACEBOOK NATIVE AD]Error: " + Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
+            onLoadAdError( Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
+            return;
+        }
+
         progressView.setVisibility(View.VISIBLE);
         view_container.setVisibility(View.GONE);
 

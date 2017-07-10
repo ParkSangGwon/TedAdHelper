@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import gun0912.tedadhelper.TedAdHelper;
+import gun0912.tedadhelper.util.Constant;
 
 
 /**
@@ -94,6 +95,17 @@ public class TedAdFront {
 
     private static void showFacebookFrontAd() {
 
+        if(TedAdHelper.isSkipFacebookAd(activity)){
+            Log.e(TedAdHelper.TAG, "[FACEBOOK FRONT AD]Error: " + Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
+
+            if (adPriorityList.size() > 0) {
+                selectAd();
+            } else if (onFrontAdListener != null) {
+                onFrontAdListener.onError(Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
+            }
+            return;
+        }
+
         final com.facebook.ads.InterstitialAd facebookFrontAD = new com.facebook.ads.InterstitialAd(activity, facebookKey);
 
         if (onFrontAdListener != null) {
@@ -133,9 +145,18 @@ public class TedAdFront {
             public void onAdLoaded(Ad ad) {
                 Log.d(TedAdHelper.TAG, "[FACEBOOK FRONT AD]Loaded");
                 // Show the ad when it's done loading.
-                if (facebookFrontAD != null) {
-                    facebookFrontAD.show();
+                try {
+                    if (facebookFrontAD != null) {
+                        facebookFrontAD.show();
+                    }
+                }catch (Exception e){
+                    if (onFrontAdListener != null) {
+                        onFrontAdListener.onError("");
+
+                    }
+                    return;
                 }
+
 
 
                 if (onFrontAdListener != null) {

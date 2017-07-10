@@ -11,6 +11,7 @@ import com.facebook.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 import gun0912.tedadhelper.TedAdHelper;
+import gun0912.tedadhelper.util.Constant;
 
 /**
  * Created by TedPark on 2017. 1. 18..
@@ -71,6 +72,17 @@ public class TedAdBanner {
 
     private static void showFacebookBanner(final boolean failToAdmob) {
 
+        if(TedAdHelper.isSkipFacebookAd(bannerContainer.getContext())){
+            Log.e(TedAdHelper.TAG, "[FACEBOOK BANNER]Error: " + Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
+            Log.d(TedAdHelper.TAG, "failToAdmob: " +failToAdmob);
+
+            if (failToAdmob) {
+                showAdmobBanner(false);
+            } else if (onBannerAdListener != null) {
+                onBannerAdListener.onError(Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
+            }
+            return;
+        }
 
 
 

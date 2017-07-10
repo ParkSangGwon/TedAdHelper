@@ -2,7 +2,6 @@ package gun0912.tedadhelper.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 
@@ -25,36 +24,14 @@ public class AppUtil {
     }
 
 
-
-    public static boolean isExistApp(Context context, String packageName ){
+    public static boolean isExistApp(Context context, String packageName) {
         PackageManager pm = context.getPackageManager();
-        try{
+        try {
             pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
-
-    public static int getAppVersionCode(Context context) {
-        try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            // should never happen
-            throw new RuntimeException("Could not get package name: " + e);
-        }
-    }
-
-    public static String getAppVersionName(Context context) {
-        try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            return packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            // should never happen
-            throw new RuntimeException("Could not get package name: " + e);
-        }
-    }
 }
