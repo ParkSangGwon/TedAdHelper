@@ -6,7 +6,8 @@ Do you want make money using your application?<br/>
 Then, you can add advertise in your application (banner, front ad, native ad, etc..)<br/>
 
 If you want to know specific information, you can check this site.<br/>
-[Facebook Audience Network](https://developers.facebook.com/docs/audience-network)(Recommended), [AdMob](https://firebase.google.com/docs/admob/?hl=ko)<br/>
+- [Facebook Audience Network](https://developers.facebook.com/docs/audience-network)(Recommended)
+- [AdMob](https://firebase.google.com/docs/admob)<br/>
 Also you can make advertise source code.(Banner/Front AD/Native AD/etc)<br/><br/>
 ![Screenshot](https://github.com/ParkSangGwon/TedAdHelper/blob/master/Screenshot_demo_1.jpeg?raw=true) 
 
@@ -44,7 +45,7 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 ### Gradle
 ```javascript
 dependencies {
-    compile 'gun0912.ted:tedadhelper:1.0.11'
+    compile 'gun0912.ted:tedadhelper:1.0.13'
 }
 
 ```
@@ -54,6 +55,26 @@ dependencies {
 
 ## How to use
 
+### Test
+For test advertise, you have to use test mode.<br/>
+If you using live advertise, your advertise id will block from google/facebook.<br/>
+So when you test your application, you load test Advertise(using your device ID).<br/>
+Your device ID can be obtained by viewing the logcat output after creating a new ad.<br/>
+<br/>
+Before loading advertise, set test device ID like this.<br/>
+- Facebook: `TedAdHelper.setFacebookTestDeviceId("")`
+- Admob: `TedAdHelper.setAdmobTestDeviceId("")`
+<br/><br/>
+
+### Type
+You can use 3 type advertise
+- TedAdHelper.AD_FACEBOOK: [Facebook Audience Network](https://developers.facebook.com/docs/audience-network)
+- TedAdHelper.AD_ADMOB: [AdMob](https://firebase.google.com/docs/admob)<br/>
+- TedAdHelper.AD_TNK: [TNK Factory](https://http://www.tnkfactory.com/tnk/en/home.front.main)<br/>
+
+If you use TNK factory's advertise, you have declare code in your `AndroidManifest.xml`
+- `<meta-data android:name="tnkad_app_id"   android:value=""/>`
+<br/><br/>
 ### Banner
 1. Make banner container in xml
 ```javascript
@@ -110,9 +131,9 @@ TedAdBanner.showBanner(ViewGroup bannerContainer, String facebookKey, String adm
 
 ### Front AD
 ```javascript
-TedAdFront.showFrontAD(Context context, String facebookKey, final String admobKey, int adPriority, OnFrontAdListener onFrontAdListener)
+TedAdFront.showFrontAD(Context context, String facebookKey, final String admobKey, Integer[] adPriorityList, OnFrontAdListener onFrontAdListener)
 ```
-* **adPriority:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB<br/>
+* **adPriorityList:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB / TedAdHelper.AD_TNK<br/>
 
 ```javascript
 
@@ -122,7 +143,7 @@ TedAdFront.showFrontAD(Context context, String facebookKey, final String admobKe
 
         //TedAdFront.showAdmobFrontAd();
         //TedAdFront.showFacebookFrontAd();
-        TedAdFront.showFrontAD(this, FACEBOOK_KEY_FRONT, ADMOB_KEY_FRONT, TedAdHelper.AD_ADMOB, new OnFrontAdListener() {
+        TedAdFront.showFrontAD(this, FACEBOOK_KEY_FRONT, ADMOB_KEY_FRONT, new Integer[]{TedAdHelper.AD_ADMOB,TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_TNK}, new OnFrontAdListener() {
             @Override
             public void onDismissed(int adType) {
 
@@ -154,9 +175,9 @@ TedAdFront.showFrontAD(Context context, String facebookKey, final String admobKe
 ### BackPress Poup Dialog
 ![Screenshot](https://github.com/ParkSangGwon/TedAdHelper/blob/master/Screenshot_backpress_en_1.jpeg?raw=true)
 ```javascript
-TedBackPressDialog.startDialog(Activity activity, String appName, String facebookKey, String admobKey, int adPriority, OnBackPressListener onBackPressListener)
+TedBackPressDialog.startDialog(Activity activity, String appName, String facebookKey, String admobKey, Integer[] adPriorityList, OnBackPressListener onBackPressListener)
 ```
-* **adPriority:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB<br/>
+* **adPriorityList:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB / TedAdHelper.AD_TNK<br/>
 ```javascript
 
     @Override
@@ -217,7 +238,7 @@ TedBackPressDialog.startDialog(Activity activity, String appName, String faceboo
         View cardview = findViewById(R.id.cardview);
         TedNativeAdHolder tedNativeAdHolder = new TedNativeAdHolder(cardview, this, getString(R.string.app_name), FACEBOOK_KEY_NATIVE, ADMOB_KEY_NATIVE);
 
-        tedNativeAdHolder.loadAD(TedAdHelper.AD_FACEBOOK, new OnNativeAdListener() {
+        tedNativeAdHolder.loadAD(new Integer[]{TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_ADMOB}, new OnNativeAdListener() {
             @Override
             public void onError(String errorMessage) {
 
@@ -238,20 +259,6 @@ TedBackPressDialog.startDialog(Activity activity, String appName, String faceboo
 
 ```
 
-3. If you want customize your native ad, you have to overwrite view id.<br/>
-Make your layout (not include `<include layout="@layout/adview_native_base"/>` code)<br/>
-You have to declare view id
-- `R.id.view_root (RelativeLayout)`: If Native ad load fail, this view will disappear
-- `R.id.container_admob_express (container_admob_express)`: For add admobExpress
-- `R.id.progressView (ProgressBar)`: When advertise loading, this view will appear
-- `R.id.view_container (LinearLayout)`: when advertise loaded, this view will appear
-- `R.id.iv_logo (ImageView)`
-- `R.id.tv_name (TextView)`
-- `R.id.native_ad_media (com.facebook.ads.MediaView)`
-- `R.id.iv_image (ImageView)`
-- `R.id.tv_body (TextView)`
-- `R.id.tv_call_to_action (TextView)`
-- `R.id.tv_etc (TextView)`
 
 
 <br/><br/><br/><br/>
@@ -300,10 +307,21 @@ You can get `facebookFrontAD`,`facebookBanner` instance from `onFacebookAdCreate
         });
 ```
 <br/><br/>
-### 2. I want change native ad layout or backpress popup dialog layout
-You can not change layout.<br/>
-If you want use your own layout, you have to make your layout with xml.<br/>
-(If I can, I will provide custom function)<br/>
+### 2. I want change native ad layout
+If you want customize your native ad, you have to overwrite view id.<br/>
+Make your layout (not include `<include layout="@layout/adview_native_base"/>` code)<br/>
+You have to declare view id
+- `R.id.view_root (RelativeLayout)`: If Native ad load fail, this view will disappear
+- `R.id.container_admob_express (container_admob_express)`: For add admobExpress
+- `R.id.progressView (ProgressBar)`: When advertise loading, this view will appear
+- `R.id.view_container (LinearLayout)`: when advertise loaded, this view will appear
+- `R.id.iv_logo (ImageView)`
+- `R.id.tv_name (TextView)`
+- `R.id.native_ad_media (com.facebook.ads.MediaView)`
+- `R.id.iv_image (ImageView)`
+- `R.id.tv_body (TextView)`
+- `R.id.tv_call_to_action (TextView)`
+- `R.id.tv_etc (TextView)`
 
 <br/><br/>
 
