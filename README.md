@@ -45,7 +45,7 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 ### Gradle
 ```javascript
 dependencies {
-    compile 'gun0912.ted:tedadhelper:1.0.13'
+    compile 'gun0912.ted:tedadhelper:1.0.17'
 }
 
 ```
@@ -271,7 +271,12 @@ Override variable in your `colors.xml`
     <color name="tedBtnHighlight">...</color>
 ```
 
-
+### Check Facebook app
+If you want request facebook advertise for only facebook app installed user, you can use `showAdOnlyFacebookInstalledUser()`.
+Library check facebook app installed or not.
+```javascript
+TedAdHelper.showAdOnlyFacebookInstalledUser(true);
+```
 <br/><br/><br/><br/>
 
 ## FAQ
