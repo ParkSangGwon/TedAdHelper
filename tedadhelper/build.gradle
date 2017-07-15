@@ -14,7 +14,7 @@ ext {
     siteUrl = 'https://github.com/ParkSangGwon/TedAdHelper'
     gitUrl = 'https://github.com/ParkSangGwon/TedAdHelper.git'
 
-    libraryVersion = '1.0.14'
+    libraryVersion = '1.0.17'
 
     developerId = 'gun0912'
     developerName = 'Ted Park'

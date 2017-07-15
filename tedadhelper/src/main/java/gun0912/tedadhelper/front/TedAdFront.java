@@ -89,7 +89,7 @@ public class TedAdFront {
                 showTnkFrontAd();
                 break;
             default:
-                throw new IllegalArgumentException("You have to select priority type ADMOB or FACEBOOK");
+                onFrontAdListener.onError("You have to select priority type ADMOB or FACEBOOK");
         }
     }
 

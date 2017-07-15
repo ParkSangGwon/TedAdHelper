@@ -45,8 +45,8 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
     String facebook_ad_key;
     String admob_ad_key;
     Context context;
-   // NativeAppInstallAdView admobAppInstallRootView;
-   // NativeContentAdView admobContentRootView;
+    // NativeAppInstallAdView admobAppInstallRootView;
+    // NativeContentAdView admobContentRootView;
     ViewGroup container_admob_express;
     ProgressBar progressView;
     RelativeLayout view_root;
@@ -81,7 +81,7 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
     private void initView() {
         view_root = (RelativeLayout) itemView.findViewById(R.id.view_root);
         //admobAppInstallRootView = (NativeAppInstallAdView) itemView.findViewById(R.id.admobAppInstallRootView);
-       // admobContentRootView = (NativeContentAdView) itemView.findViewById(R.id.admobContentRootView);
+        // admobContentRootView = (NativeContentAdView) itemView.findViewById(R.id.admobContentRootView);
 
 
         container_admob_express = (ViewGroup) itemView.findViewById(R.id.container_admob_express);
@@ -128,21 +128,29 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
         }
         loadAD(tempAdPriorityList, onNativeAdListener);
     }
+
     public void loadAD(Integer[] tempAdPriorityList, OnNativeAdListener onNativeAdListener) {
         if (tempAdPriorityList == null || tempAdPriorityList.length == 0) {
-            throw new RuntimeException("You have to select priority type ADMOB/FACEBOOK/TNK");
+            if (onNativeAdListener != null) {
+                onNativeAdListener.onError("You have to select priority type ADMOB/FACEBOOK/TNK");
+            }
+            return;
         }
         ArrayList resultTempAdPriorityList = new ArrayList<>(Arrays.asList(tempAdPriorityList));
-        loadAD(resultTempAdPriorityList,onNativeAdListener);
+        loadAD(resultTempAdPriorityList, onNativeAdListener);
 
     }
+
     public void loadAD(ArrayList tempAdPriorityList, OnNativeAdListener onNativeAdListener) {
         this.onNativeAdListener = onNativeAdListener;
 
         if (tempAdPriorityList == null || tempAdPriorityList.size() == 0) {
-            throw new RuntimeException("You have to select priority type ADMOB/FACEBOOK/TNK");
+            if (onNativeAdListener != null) {
+                onNativeAdListener.onError("You have to select priority type ADMOB/FACEBOOK/TNK");
+            }
+            return;
         }
-        adPriorityList =tempAdPriorityList;
+        adPriorityList = tempAdPriorityList;
 
         try {
             selectAd();
@@ -168,7 +176,7 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
                 loadTnkAD();
                 break;
             default:
-                throw new IllegalArgumentException("You have to select priority type ADMOB or FACEBOOK");
+                onNativeAdListener.onError("You have to select priority type ADMOB or FACEBOOK");
         }
     }
 
@@ -188,7 +196,7 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
 
     private void loadAdmobExpressAD() {
         progressView.setVisibility(View.VISIBLE);
-        view_container.setVisibility(View.GONE);
+        view_container.setVisibility(View.INVISIBLE);
         final NativeExpressAdView admobExpressAdView = new NativeExpressAdView(context);
 
         // Set its video options.
@@ -215,10 +223,11 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
 
             @Override
             public void onAdFailedToLoad(int errorCode) {
-                Log.e(TedAdHelper.TAG, "[ADMOB NATIVE AD]Error code: " + errorCode);
+
                 super.onAdFailedToLoad(errorCode);
 
                 String errorMessage = TedAdHelper.getMessageFromAdmobErrorCode(errorCode);
+                Log.e(TedAdHelper.TAG, "[ADMOB NATIVE AD]errorMessage: " + errorMessage);
                 onLoadAdError(errorMessage);
             }
 
@@ -345,13 +354,13 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
     private void loadTnkAD() {
         progressView.setVisibility(View.VISIBLE);
-        view_container.setVisibility(View.GONE);
+        view_container.setVisibility(View.INVISIBLE);
         TnkSession.prepareNativeAd(context, TnkSession.CPC, NativeAdItem.STYLE_LANDSCAPE, new NativeAdListener() {
 
             @Override
             public void onFailure(int errCode) {
 
-                String errorMessage=TedAdHelper.getMessageFromTnkErrorCode(errCode);
+                String errorMessage = TedAdHelper.getMessageFromTnkErrorCode(errCode);
                 Log.e(TedAdHelper.TAG, "[TANK NATIVE AD]" + errorMessage);
                 onLoadAdError(errorMessage);
             }
@@ -382,17 +391,16 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
     }
 
 
-
     private void loadFacebookAD() {
 
-        if(TedAdHelper.isSkipFacebookAd(context)){
+        if (TedAdHelper.isSkipFacebookAd(context)) {
             Log.e(TedAdHelper.TAG, "[FACEBOOK NATIVE AD]Error: " + Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
-            onLoadAdError( Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
+            onLoadAdError(Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
             return;
         }
 
         progressView.setVisibility(View.VISIBLE);
-        view_container.setVisibility(View.GONE);
+        view_container.setVisibility(View.INVISIBLE);
 
         facebookAd = new com.facebook.ads.NativeAd(context, facebook_ad_key);
 
@@ -559,19 +567,19 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
 
         // 액션이름 및 기타
-        String etc=myNativeAd.getEtc();
-        if(TextUtils.isEmpty(etc)){
+        String etc = myNativeAd.getEtc();
+        if (TextUtils.isEmpty(etc)) {
             tvEtc.setVisibility(View.GONE);
-        }else{
+        } else {
             tvEtc.setVisibility(View.VISIBLE);
             tvEtc.setText(etc);
         }
 
 
-        String callToAction=myNativeAd.getCallToAction();
-        if(TextUtils.isEmpty(callToAction)){
+        String callToAction = myNativeAd.getCallToAction();
+        if (TextUtils.isEmpty(callToAction)) {
             tvCallToAction.setVisibility(View.GONE);
-        }else{
+        } else {
             tvCallToAction.setVisibility(View.VISIBLE);
             tvCallToAction.setText(myNativeAd.getCallToAction());
         }

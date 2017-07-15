@@ -10,6 +10,9 @@ import com.facebook.ads.AdListener;
 import com.facebook.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import gun0912.tedadhelper.TedAdHelper;
 import gun0912.tedadhelper.util.Constant;
 
@@ -23,6 +26,7 @@ public class TedAdBanner {
     private static String facebookKey;
     private static String admobKey;
     private static ViewGroup bannerContainer;
+    private static ArrayList<Integer> adPriorityList;
 
     public static void showFacebookBanner(ViewGroup bannerContainer, String facebookKey, OnBannerAdListener onBannerAdListener) {
         showBanner(bannerContainer, facebookKey, null, TedAdHelper.AD_FACEBOOK, onBannerAdListener);
@@ -31,34 +35,34 @@ public class TedAdBanner {
     public static void showAdmobBanner(ViewGroup bannerContainer, String admobKey, OnBannerAdListener onBannerAdListener) {
         showBanner(bannerContainer, null, admobKey, TedAdHelper.AD_ADMOB, onBannerAdListener);
     }
-    public static void showBanner(ViewGroup bannerContainer, String facebookKey, String admobKey, int[] adPrioritys, OnBannerAdListener onBannerAdListener) {
 
-    }
     public static void showBanner(ViewGroup bannerContainer, String facebookKey, String admobKey, int adPriority, OnBannerAdListener onBannerAdListener) {
+        Integer[] tempAdPriorityList = new Integer[2];
+        tempAdPriorityList[0] = adPriority;
+        if (adPriority == TedAdHelper.AD_FACEBOOK) {
+            tempAdPriorityList[1] = TedAdHelper.AD_ADMOB;
+        } else {
+            tempAdPriorityList[1] = TedAdHelper.AD_FACEBOOK;
+        }
+        showBanner(bannerContainer, facebookKey, admobKey, tempAdPriorityList, onBannerAdListener);
+    }
+
+    public static void showBanner(ViewGroup bannerContainer, String facebookKey, String admobKey, Integer[] tempAdPriorityList, OnBannerAdListener onBannerAdListener) {
 
         try {
 
-
+            TedAdBanner.adPriorityList = new ArrayList<>(Arrays.asList(tempAdPriorityList));
             TedAdBanner.facebookKey = facebookKey;
             TedAdBanner.admobKey = admobKey;
             TedAdBanner.onBannerAdListener = onBannerAdListener;
             TedAdBanner.bannerContainer = bannerContainer;
 
             if (bannerContainer == null) {
-                throw new RuntimeException("BannerContainer can not null");
+                onBannerAdListener.onError("BannerContainer can not null");
+                return;
             }
 
-            switch (adPriority) {
-                case TedAdHelper.AD_ADMOB:
-                    showAdmobBanner(!TextUtils.isEmpty(facebookKey));
-                    break;
-                case TedAdHelper.AD_FACEBOOK:
-                    showFacebookBanner(!TextUtils.isEmpty(admobKey));
-                    break;
-
-                default:
-                    throw new RuntimeException("You have to select priority type ADMOB or FACEBOOK");
-            }
+            selectAd();
 
         } catch (Exception e) {
 
@@ -67,14 +71,32 @@ public class TedAdBanner {
             }
 
         }
-
     }
+
+    private static void selectAd() {
+        int adPriority = adPriorityList.remove(0);
+        switch (adPriority) {
+            case TedAdHelper.AD_FACEBOOK:
+                showFacebookBanner(!TextUtils.isEmpty(admobKey));
+                break;
+            case TedAdHelper.AD_ADMOB:
+                showAdmobBanner(!TextUtils.isEmpty(facebookKey));
+                break;
+            case TedAdHelper.AD_TNK:
+                onBannerAdListener.onError("TNK can not load banner");
+                break;
+            default:
+                onBannerAdListener.onError("You have to select priority type ADMOB or FACEBOOK");
+
+        }
+    }
+
 
     private static void showFacebookBanner(final boolean failToAdmob) {
 
-        if(TedAdHelper.isSkipFacebookAd(bannerContainer.getContext())){
+        if (TedAdHelper.isSkipFacebookAd(bannerContainer.getContext())) {
             Log.e(TedAdHelper.TAG, "[FACEBOOK BANNER]Error: " + Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
-            Log.d(TedAdHelper.TAG, "failToAdmob: " +failToAdmob);
+            Log.d(TedAdHelper.TAG, "failToAdmob: " + failToAdmob);
 
             if (failToAdmob) {
                 showAdmobBanner(false);
@@ -83,7 +105,6 @@ public class TedAdBanner {
             }
             return;
         }
-
 
 
         final com.facebook.ads.AdView facebookBanner = new com.facebook.ads.AdView(bannerContainer.getContext(), facebookKey, AdSize.BANNER_HEIGHT_50);
@@ -109,8 +130,8 @@ public class TedAdBanner {
             public void onAdLoaded(Ad ad) {
                 Log.d(TedAdHelper.TAG, "[FACEBOOK BANNER]Loaded");
                 bannerContainer.removeAllViews();
-                ViewGroup parentView =  ((ViewGroup)facebookBanner.getParent());
-                if(parentView!=null){
+                ViewGroup parentView = ((ViewGroup) facebookBanner.getParent());
+                if (parentView != null) {
                     parentView.removeAllViews();
                 }
 
@@ -167,8 +188,8 @@ public class TedAdBanner {
             public void onAdLoaded() {
                 Log.d(TedAdHelper.TAG, "[ADMOB BANNER]Loaded");
                 bannerContainer.removeAllViews();
-                ViewGroup parentView =  ((ViewGroup)admobBanner.getParent());
-                if(parentView!=null){
+                ViewGroup parentView = ((ViewGroup) admobBanner.getParent());
+                if (parentView != null) {
                     parentView.removeAllViews();
                 }
                 bannerContainer.addView(admobBanner);
