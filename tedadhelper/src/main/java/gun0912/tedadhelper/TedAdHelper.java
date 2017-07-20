@@ -2,6 +2,7 @@ package gun0912.tedadhelper;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.widget.ImageView;
 
 import com.facebook.ads.AdSettings;
 import com.google.android.gms.ads.AdRequest;
@@ -16,11 +17,9 @@ import gun0912.tedadhelper.util.Constant;
 public class TedAdHelper {
 
     public static final String TAG = "TedAdHelper";
-
     public static final int AD_FACEBOOK = 1;
     public static final int AD_ADMOB = 2;
     public static final int AD_TNK = 3;
-
     private static String admobDeviceId;
     private static boolean onlyFacebookInstalled = false;
 
@@ -97,5 +96,9 @@ public class TedAdHelper {
             default:
                 return "";
         }
+    }
+
+    public interface ImageProvider {
+        void onProvideImage(ImageView imageView, String imageUrl);
     }
 }

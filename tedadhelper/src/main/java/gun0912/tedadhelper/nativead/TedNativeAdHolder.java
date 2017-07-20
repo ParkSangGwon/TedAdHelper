@@ -61,21 +61,28 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
     com.facebook.ads.NativeAd facebookAd;
     OnNativeAdListener onNativeAdListener;
 
+    TedAdHelper.ImageProvider imageProvider;
+
     public TedNativeAdHolder(View itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key) {
 
         super(itemView);
 
+        initField(context, app_name, facebook_ad_key, admob_ad_key, null);
+    }
+
+    public TedNativeAdHolder(View itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key, TedAdHelper.ImageProvider imageProvider) {
+        super(itemView);
+        initField(context, app_name, facebook_ad_key, admob_ad_key, imageProvider);
+        initView();
+
+    }
+
+    private void initField(Context context, String app_name, String facebook_ad_key, String admob_ad_key, TedAdHelper.ImageProvider imageProvider) {
         this.context = context;
-
-
         this.app_name = app_name;
         this.facebook_ad_key = facebook_ad_key;
         this.admob_ad_key = admob_ad_key;
-
-
-        initView();
-
-
+        this.imageProvider = imageProvider;
     }
 
     private void initView() {
@@ -290,6 +297,44 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 */
 
     }
+
+    private void loadTnkAD() {
+        progressView.setVisibility(View.VISIBLE);
+        view_container.setVisibility(View.INVISIBLE);
+        TnkSession.prepareNativeAd(context, TnkSession.CPC, NativeAdItem.STYLE_LANDSCAPE, new NativeAdListener() {
+
+            @Override
+            public void onFailure(int errCode) {
+
+                String errorMessage = TedAdHelper.getMessageFromTnkErrorCode(errCode);
+                Log.e(TedAdHelper.TAG, "[TANK NATIVE AD]" + errorMessage);
+                onLoadAdError(errorMessage);
+            }
+
+            @Override
+            public void onLoad(NativeAdItem adItem) {
+                Log.d(TedAdHelper.TAG, "[TANK NATIVE AD]onLoad");
+                bindTnkAD(adItem);
+                if (onNativeAdListener != null) {
+                    onNativeAdListener.onLoaded(TedAdHelper.AD_FACEBOOK);
+                }
+            }
+
+            @Override
+            public void onClick() {
+                Log.d(TedAdHelper.TAG, "[TANK NATIVE AD]onClick");
+
+                if (onNativeAdListener != null) {
+                    onNativeAdListener.onAdClicked(TedAdHelper.AD_FACEBOOK);
+                }
+            }
+
+            @Override
+            public void onShow() {
+                Log.d(TedAdHelper.TAG, "[TANK NATIVE AD]onShow");
+            }
+        });
+    }
 /*
 
     private void loadAdmobAdvanceAD() {
@@ -352,45 +397,6 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
 */
 
-    private void loadTnkAD() {
-        progressView.setVisibility(View.VISIBLE);
-        view_container.setVisibility(View.INVISIBLE);
-        TnkSession.prepareNativeAd(context, TnkSession.CPC, NativeAdItem.STYLE_LANDSCAPE, new NativeAdListener() {
-
-            @Override
-            public void onFailure(int errCode) {
-
-                String errorMessage = TedAdHelper.getMessageFromTnkErrorCode(errCode);
-                Log.e(TedAdHelper.TAG, "[TANK NATIVE AD]" + errorMessage);
-                onLoadAdError(errorMessage);
-            }
-
-            @Override
-            public void onLoad(NativeAdItem adItem) {
-                Log.d(TedAdHelper.TAG, "[TANK NATIVE AD]onLoad");
-                bindTnkAD(adItem);
-                if (onNativeAdListener != null) {
-                    onNativeAdListener.onLoaded(TedAdHelper.AD_FACEBOOK);
-                }
-            }
-
-            @Override
-            public void onClick() {
-                Log.d(TedAdHelper.TAG, "[TANK NATIVE AD]onClick");
-
-                if (onNativeAdListener != null) {
-                    onNativeAdListener.onAdClicked(TedAdHelper.AD_FACEBOOK);
-                }
-            }
-
-            @Override
-            public void onShow() {
-                Log.d(TedAdHelper.TAG, "[TANK NATIVE AD]onShow");
-            }
-        });
-    }
-
-
     private void loadFacebookAD() {
 
         if (TedAdHelper.isSkipFacebookAd(context)) {
@@ -443,7 +449,6 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         facebookAd.loadAd();
     }
 
-
     private void bindTnkAD(NativeAdItem adItem) {
 
         MyNativeAd myNativeAd = new MyNativeAd();
@@ -456,7 +461,6 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
         adItem.attachLayout(view_root);
     }
-
 
     private void bindFacebookAD(Ad ad) {
 
@@ -490,6 +494,66 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         facebookAd.registerViewForInteraction(view_root);
 
 
+    }
+
+    private void bindNativeAd(MyNativeAd myNativeAd) {
+
+        // 로고
+        String logoUrl = myNativeAd.getLogoUrl();
+
+        if(imageProvider==null){
+            ImageUtil.loadImage(ivLogo, logoUrl);
+        }else{
+            imageProvider.onProvideImage(ivLogo,logoUrl);
+        }
+
+
+
+        // 이름
+        String name = myNativeAd.getName();
+        if (TextUtils.isEmpty(name)) {
+            name = app_name + " 광고";
+        }
+
+        tvName.setText(name);
+
+        // 이미지
+        String imageUrl = myNativeAd.getImageUrl();
+        if(imageProvider==null){
+            ImageUtil.loadImage(ivImage, imageUrl);
+        }else{
+            imageProvider.onProvideImage(ivImage,imageUrl);
+        }
+
+
+        // 설명
+        String body = myNativeAd.getBody();
+        tvBody.setText(body);
+
+
+        // 액션이름 및 기타
+        String etc = myNativeAd.getEtc();
+        if (TextUtils.isEmpty(etc)) {
+            tvEtc.setVisibility(View.GONE);
+        } else {
+            tvEtc.setVisibility(View.VISIBLE);
+            tvEtc.setText(etc);
+        }
+
+
+        String callToAction = myNativeAd.getCallToAction();
+        if (TextUtils.isEmpty(callToAction)) {
+            tvCallToAction.setVisibility(View.GONE);
+        } else {
+            tvCallToAction.setVisibility(View.VISIBLE);
+            tvCallToAction.setText(myNativeAd.getCallToAction());
+        }
+
+
+        view_root.setVisibility(View.VISIBLE);
+        view_container.setVisibility(View.VISIBLE);
+        container_admob_express.setVisibility(View.GONE);
+        progressView.setVisibility(View.GONE);
     }
 
 
@@ -542,54 +606,6 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
     }
 */
 
-    private void bindNativeAd(MyNativeAd myNativeAd) {
-
-        // 로고
-        String logoUrl = myNativeAd.getLogoUrl();
-        ImageUtil.loadImage(ivLogo, logoUrl);
-
-
-        // 이름
-        String name = myNativeAd.getName();
-        if (TextUtils.isEmpty(name)) {
-            name = app_name + " 광고";
-        }
-
-        tvName.setText(name);
-
-        // 이미지
-        String imageUrl = myNativeAd.getImageUrl();
-        ImageUtil.loadImage(ivImage, imageUrl);
-
-        // 설명
-        String body = myNativeAd.getBody();
-        tvBody.setText(body);
-
-
-        // 액션이름 및 기타
-        String etc = myNativeAd.getEtc();
-        if (TextUtils.isEmpty(etc)) {
-            tvEtc.setVisibility(View.GONE);
-        } else {
-            tvEtc.setVisibility(View.VISIBLE);
-            tvEtc.setText(etc);
-        }
-
-
-        String callToAction = myNativeAd.getCallToAction();
-        if (TextUtils.isEmpty(callToAction)) {
-            tvCallToAction.setVisibility(View.GONE);
-        } else {
-            tvCallToAction.setVisibility(View.VISIBLE);
-            tvCallToAction.setText(myNativeAd.getCallToAction());
-        }
-
-
-        view_root.setVisibility(View.VISIBLE);
-        view_container.setVisibility(View.VISIBLE);
-        container_admob_express.setVisibility(View.GONE);
-        progressView.setVisibility(View.GONE);
-    }
 
 
     class MyNativeAd {

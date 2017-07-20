@@ -34,7 +34,7 @@ public class TedBackPressDialog extends AppCompatActivity {
     private static final String EXTRA_SHOW_REVIEW_BUTTON = "show_review_button";
 
     private static OnBackPressListener onBackPressListener;
-
+    private static TedAdHelper.ImageProvider imageProvider;
     View adviewContainer;
     TextView tvFinish;
     TextView tvReview;
@@ -42,7 +42,6 @@ public class TedBackPressDialog extends AppCompatActivity {
     String appName;
     String facebookKey;
     String admobKey;
-
     boolean showReviewButton;
     TedNativeAdHolder adViewNativeAdHolder;
     ArrayList<Integer> adPriorityList;
@@ -68,6 +67,10 @@ public class TedBackPressDialog extends AppCompatActivity {
     }
 
     public static void startDialog(Activity activity, String appName, String facebookKey, String admobKey, Integer[] adPriorityList, boolean showReviewButton, OnBackPressListener onBackPressListener) {
+        startDialog(activity, appName, facebookKey, admobKey, adPriorityList, showReviewButton, onBackPressListener, null);
+    }
+
+    public static void startDialog(Activity activity, String appName, String facebookKey, String admobKey, Integer[] adPriorityList, boolean showReviewButton, OnBackPressListener onBackPressListener, TedAdHelper.ImageProvider imageProvider) {
         Intent intent = new Intent(activity, TedBackPressDialog.class);
         intent.putExtra(EXTRA_APP_NAME, appName);
         intent.putExtra(EXTRA_FACEBOOK_KEY, facebookKey);
@@ -80,7 +83,7 @@ public class TedBackPressDialog extends AppCompatActivity {
             throw new RuntimeException("OnBackPressListener can not null");
         }
         TedBackPressDialog.onBackPressListener = onBackPressListener;
-
+        TedBackPressDialog.imageProvider = imageProvider;
 
         activity.startActivity(intent);
         activity.overridePendingTransition(0, 0);
@@ -113,7 +116,7 @@ public class TedBackPressDialog extends AppCompatActivity {
         initView();
         showReviewButton();
 
-        adViewNativeAdHolder = new TedNativeAdHolder(adviewContainer, this, appName, facebookKey, admobKey);
+        adViewNativeAdHolder = new TedNativeAdHolder(adviewContainer, this, appName, facebookKey, admobKey, imageProvider);
 
         adViewNativeAdHolder.loadAD(adPriorityList, new OnNativeAdListener() {
             @Override
