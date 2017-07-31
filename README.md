@@ -45,7 +45,7 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 ### Gradle
 ```javascript
 dependencies {
-    compile 'gun0912.ted:tedadhelper:1.0.18'
+    compile 'gun0912.ted:tedadhelper:1.0.19'
 }
 
 ```
@@ -175,7 +175,7 @@ TedAdFront.showFrontAD(Context context, String facebookKey, final String admobKe
 ### BackPress Poup Dialog
 ![Screenshot](https://github.com/ParkSangGwon/TedAdHelper/blob/master/Screenshot_backpress_en_1.jpeg?raw=true)
 ```javascript
-TedBackPressDialog.startDialog(Activity activity, String appName, String facebookKey, String admobKey, Integer[] adPriorityList, OnBackPressListener onBackPressListener)
+TedBackPressDialog.startDialog(Activity activity, String appName, String facebookKey, String admobKey, Integer[] adPriorityList, boolean showReviewButton,OnBackPressListener onBackPressListener)
 ```
 * **adPriorityList:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB / TedAdHelper.AD_TNK<br/>
 * **If you use Glide 4.x version**, you have to make your image provider `new TedAdHelper.ImageProvider()`. You can check this function in sample project
