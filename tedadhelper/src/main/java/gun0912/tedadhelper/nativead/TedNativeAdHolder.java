@@ -66,8 +66,8 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
     public TedNativeAdHolder(View itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key) {
 
         super(itemView);
-
         initField(context, app_name, facebook_ad_key, admob_ad_key, null);
+        initView();
     }
 
     public TedNativeAdHolder(View itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key, TedAdHelper.ImageProvider imageProvider) {
