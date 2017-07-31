@@ -115,7 +115,7 @@ public class TedBackPressDialog extends AppCompatActivity {
 
         initView();
         showReviewButton();
-
+        checkReview();
         adViewNativeAdHolder = new TedNativeAdHolder(adviewContainer, this, appName, facebookKey, admobKey, imageProvider);
 
         adViewNativeAdHolder.loadAD(adPriorityList, new OnNativeAdListener() {
@@ -142,7 +142,7 @@ public class TedBackPressDialog extends AppCompatActivity {
             }
         });
 
-        checkReview();
+
 
 
     }
@@ -160,6 +160,7 @@ public class TedBackPressDialog extends AppCompatActivity {
 
         boolean isReview = SharedPreferenceUtil.getSharedPreference(this, SharedPreferenceUtil.REVIEW, false);
         if (isReview) {
+            dividerBtn.setVisibility(View.GONE);
             tvReview.setVisibility(View.GONE);
         }
 
