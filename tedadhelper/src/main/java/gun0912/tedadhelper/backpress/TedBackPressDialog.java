@@ -142,7 +142,6 @@ public class TedBackPressDialog extends AppCompatActivity {
             }
         });
 
-
         checkReview();
 
 
@@ -177,6 +176,7 @@ public class TedBackPressDialog extends AppCompatActivity {
             facebookKey = savedInstanceState.getString(EXTRA_FACEBOOK_KEY);
             admobKey = savedInstanceState.getString(EXTRA_ADMOB_KEY);
             adPriorityList = savedInstanceState.getIntegerArrayList(EXTRA_AD_PRIORITY_LIST);
+            showReviewButton = savedInstanceState.getBoolean(EXTRA_SHOW_REVIEW_BUTTON);
 
         } else {
 
@@ -185,7 +185,7 @@ public class TedBackPressDialog extends AppCompatActivity {
             facebookKey = getIntent().getStringExtra(EXTRA_FACEBOOK_KEY);
             admobKey = getIntent().getStringExtra(EXTRA_ADMOB_KEY);
             adPriorityList = getIntent().getIntegerArrayListExtra(EXTRA_AD_PRIORITY_LIST);
-
+            showReviewButton = getIntent().getBooleanExtra(EXTRA_SHOW_REVIEW_BUTTON, false);
 
         }
 

@@ -14,7 +14,7 @@ ext {
     siteUrl = 'https://github.com/ParkSangGwon/TedAdHelper'
     gitUrl = 'https://github.com/ParkSangGwon/TedAdHelper.git'
 
-    libraryVersion = '1.0.17'
+    libraryVersion = '1.0.19'
 
     developerId = 'gun0912'
     developerName = 'Ted Park'
@@ -25,6 +25,8 @@ ext {
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
     allLicenses = ["Apache-2.0"]
 }
+
+
 
 android {
     compileSdkVersion 25
@@ -43,12 +45,16 @@ android {
         }
     }
 
+
+
 }
+
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile ('com.android.support:appcompat-v7:25.1.0'){
+    compile('com.android.support:appcompat-v7:25.1.0') {
         exclude group: "com.android.support:animated-vector-drawable"
     }
 
@@ -63,9 +69,8 @@ dependencies {
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+
 }
-
-
 
 // Place it at the end of the file
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
