@@ -17,7 +17,7 @@ And if you want use admob,facebook all, you need [mediation](https://www.faceboo
 They support mediation for only banner,front ad(don't support native ad mediation)<br/>
 **TedAdHelper support not only banner,front ad but also native ad, back press popup dialog**<br/>
 If you want show back press popup with advertise, you can use back press popup dialog.<br/>
-###Back Press Popup Dialog(with mediation)<br/>
+### Back Press Popup Dialog(with mediation)<br/>
 ![Screenshot](https://github.com/ParkSangGwon/TedAdHelper/blob/master/Screenshot_backpress_en_1.jpeg?raw=true) <br/><br/>
 
 ## Korean
