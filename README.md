@@ -86,10 +86,14 @@ If you use TNK factory's advertise, you have declare code in your `AndroidManife
         />
 ```
 <br/>
-2. Show banner using `TedAdBanner`<br/>
+
+2. Show banner using TedAdBanner 
+
 ```javascript
 TedAdBanner.showBanner(ViewGroup bannerContainer, String facebookKey, String admobKey, int adPriority, OnBannerAdListener onBannerAdListener)
+
 ```
+
 * **adPriority:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB<br/>
 
 
