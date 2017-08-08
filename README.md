@@ -17,7 +17,7 @@ And if you want use admob,facebook all, you need [mediation](https://www.faceboo
 They support mediation for only banner,front ad(don't support native ad mediation)<br/>
 **TedAdHelper support not only banner,front ad but also native ad, back press popup dialog**<br/>
 If you want show back press popup with advertise, you can use back press popup dialog.<br/>
-###Back Press Popup Dialog(with mediation)<br/>
+### Back Press Popup Dialog(with mediation)<br/>
 ![Screenshot](https://github.com/ParkSangGwon/TedAdHelper/blob/master/Screenshot_backpress_en_1.jpeg?raw=true) <br/><br/>
 
 ## Korean
@@ -45,7 +45,7 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 ### Gradle
 ```javascript
 dependencies {
-    compile 'gun0912.ted:tedadhelper:1.1.0'
+    compile 'gun0912.ted:tedadhelper:1.1.1'
 }
 
 ```
@@ -86,10 +86,14 @@ If you use TNK factory's advertise, you have declare code in your `AndroidManife
         />
 ```
 <br/>
-2. Show banner using `TedAdBanner`<br/>
+
+2. Show banner using TedAdBanner 
+
 ```javascript
 TedAdBanner.showBanner(ViewGroup bannerContainer, String facebookKey, String admobKey, int adPriority, OnBannerAdListener onBannerAdListener)
+
 ```
+
 * **adPriority:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB<br/>
 
 
