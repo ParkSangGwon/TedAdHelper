@@ -176,7 +176,7 @@ TedAdFront.showFrontAD(Context context, String facebookKey, final String admobKe
 ```
 <br/><br/><br/><br/>
 
-### BackPress Poup Dialog
+### BackPress Popup Dialog
 ![Screenshot](https://github.com/ParkSangGwon/TedAdHelper/blob/master/Screenshot_backpress_en_1.jpeg?raw=true)
 ```javascript
 TedBackPressDialog.startDialog(Activity activity, String appName, String facebookKey, String admobKey, Integer[] adPriorityList, boolean showReviewButton,OnBackPressListener onBackPressListener)
