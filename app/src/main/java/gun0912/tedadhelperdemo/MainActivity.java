@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TedAdHelper.setAdmobTestDeviceId("");
-        TedAdHelper.setFacebookTestDeviceId("EC9D6A4944CC5FF30A6C1462381B49B9");
+        //TedAdHelper.setFacebookTestDeviceId("EC9D6A4944CC5FF30A6C1462381B49B9");
         //TedAdHelper.showAdOnlyFacebookInstalledUser(true);
 
 

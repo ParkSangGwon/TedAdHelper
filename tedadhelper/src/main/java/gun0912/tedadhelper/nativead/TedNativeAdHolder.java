@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.ads.Ad;
+import com.facebook.ads.AdChoicesView;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
 import com.facebook.ads.MediaView;
@@ -60,6 +61,7 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
     TextView tvCallToAction;
     com.facebook.ads.NativeAd facebookAd;
     OnNativeAdListener onNativeAdListener;
+    ViewGroup view_ad_choice;
 
     TedAdHelper.ImageProvider imageProvider;
 
@@ -68,13 +70,6 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
         super(itemView);
         initField(context, app_name, facebook_ad_key, admob_ad_key, null);
         initView();
-    }
-
-    public TedNativeAdHolder(View itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key, TedAdHelper.ImageProvider imageProvider) {
-        super(itemView);
-        initField(context, app_name, facebook_ad_key, admob_ad_key, imageProvider);
-        initView();
-
     }
 
     private void initField(Context context, String app_name, String facebook_ad_key, String admob_ad_key, TedAdHelper.ImageProvider imageProvider) {
@@ -103,7 +98,14 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
 
         tvEtc = (TextView) itemView.findViewById(R.id.tv_etc);
         tvCallToAction = (TextView) itemView.findViewById(R.id.tv_call_to_action);
+        view_ad_choice = (ViewGroup) itemView.findViewById(R.id.view_ad_choice);
 
+    }
+
+    public TedNativeAdHolder(View itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key, TedAdHelper.ImageProvider imageProvider) {
+        super(itemView);
+        initField(context, app_name, facebook_ad_key, admob_ad_key, imageProvider);
+        initView();
 
     }
 
@@ -171,6 +173,8 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
     }
 
     private void selectAd() {
+        view_ad_choice.removeAllViews();
+
         int adPriority = adPriorityList.remove(0);
         switch (adPriority) {
             case TedAdHelper.AD_FACEBOOK:
@@ -490,6 +494,9 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
         nativeAdMedia.setNativeAd(facebookAd);
 
+        AdChoicesView adChoicesView = new AdChoicesView(context, facebookAd, true);
+        view_ad_choice.addView(adChoicesView);
+
         facebookAd.unregisterView();
         facebookAd.registerViewForInteraction(view_root);
 
@@ -501,12 +508,11 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         // 로고
         String logoUrl = myNativeAd.getLogoUrl();
 
-        if(imageProvider==null){
+        if (imageProvider == null) {
             ImageUtil.loadImage(ivLogo, logoUrl);
-        }else{
-            imageProvider.onProvideImage(ivLogo,logoUrl);
+        } else {
+            imageProvider.onProvideImage(ivLogo, logoUrl);
         }
-
 
 
         // 이름
@@ -519,10 +525,10 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
         // 이미지
         String imageUrl = myNativeAd.getImageUrl();
-        if(imageProvider==null){
+        if (imageProvider == null) {
             ImageUtil.loadImage(ivImage, imageUrl);
-        }else{
-            imageProvider.onProvideImage(ivImage,imageUrl);
+        } else {
+            imageProvider.onProvideImage(ivImage, imageUrl);
         }
 
 
@@ -605,7 +611,6 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
     }
 */
-
 
 
     class MyNativeAd {
