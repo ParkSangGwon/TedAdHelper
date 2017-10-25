@@ -335,7 +335,6 @@ You have to declare view id
 
 <br/><br/>
 
-
 ## License 
  ```code
 Copyright 2017 Ted Park
