@@ -1,33 +1,6 @@
 apply plugin: 'com.android.library'
 
 
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'tedadhelper'
-
-    publishedGroupId = 'gun0912.ted'
-    libraryName = 'TedAdHelper'
-    artifact = 'tedadhelper'
-
-    libraryDescription = 'Mediation advertise helper for ADMOB,FACEBOOK - Support Native, Banner, Backpress Dialog, Front AD'
-
-    siteUrl = 'https://github.com/ParkSangGwon/TedAdHelper'
-    gitUrl = 'https://github.com/ParkSangGwon/TedAdHelper.git'
-
-    libraryVersion = '1.1.6'
-
-    developerId = 'gun0912'
-    developerName = 'Ted Park'
-    developerEmail = 'gun0912@naver.com'
-
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
-
-
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -66,6 +39,4 @@ dependencies {
 
 }
 
-// Place it at the end of the file
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+apply from: rootProject.file('publish.gradle')
