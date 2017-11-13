@@ -45,7 +45,7 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 ### Gradle
 ```javascript
 dependencies {
-    compile 'gun0912.ted:tedadhelper:1.1.6'
+    compile 'gun0912.ted:tedadhelper:1.2.2'
 }
 
 ```
@@ -182,6 +182,8 @@ TedAdFront.showFrontAD(Context context, String facebookKey, final String admobKe
 TedBackPressDialog.startDialog(Activity activity, String appName, String facebookKey, String admobKey, Integer[] adPriorityList, boolean showReviewButton,OnBackPressListener onBackPressListener)
 ```
 * **adPriorityList:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB / TedAdHelper.AD_TNK<br/>
+* **TedAdHelper.ADMOB_NATIVE_AD_TYPE** : NATIVE_EXPRESS / NATIVE_ADVANCED / BANNER
+: If you use admob platform, you have to choice admob ad type
 * **If you use Glide 4.x version**, you have to make your image provider `new TedAdHelper.ImageProvider()`. You can check this function in sample project
 ```javascript
 
@@ -220,28 +222,22 @@ TedBackPressDialog.startDialog(Activity activity, String appName, String faceboo
 ### Native AD
 1. Make your Native ad container and include `adview_native_base.xml`
 
-```javascript
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/cardview"
+```java
+  <FrameLayout
+        android:id="@+id/native_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
-
-        <include layout="@layout/adview_native_base"/>
-
-    </android.support.v7.widget.CardView>
+        android:layout_alignParentBottom="true"
+        />
+>
 ```
 2. Make instance and Show Native ad using `TedNativeAdHolder`
+**TedAdHelper.ADMOB_NATIVE_AD_TYPE** : NATIVE_EXPRESS / NATIVE_ADVANCED / BANNER
+: If you use admob platform, you have to choice admob ad type
 
 ```javascript
-        View cardview = findViewById(R.id.cardview);
-        TedNativeAdHolder tedNativeAdHolder = new TedNativeAdHolder(cardview, this, getString(R.string.app_name), FACEBOOK_KEY_NATIVE, ADMOB_KEY_NATIVE);
+        View nativeContainer = findViewById(R.id.native_container);
+        TedNativeAdHolder tedNativeAdHolder = new TedNativeAdHolder(nativeContainer, this, getString(R.string.app_name), FACEBOOK_KEY_NATIVE, ADMOB_KEY_NATIVE, TedAdHelper.ADMOB_NATIVE_AD_TYPE);
 
         tedNativeAdHolder.loadAD(new Integer[]{TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_ADMOB}, new OnNativeAdListener() {
             @Override
