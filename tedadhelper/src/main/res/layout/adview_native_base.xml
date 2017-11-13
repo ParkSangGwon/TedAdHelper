@@ -30,7 +30,7 @@
 
 
             <RelativeLayout
-                android:id="@+id/view_root"
+                android:id="@+id/view_native_root"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

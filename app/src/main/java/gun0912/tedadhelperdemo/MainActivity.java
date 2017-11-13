@@ -2,7 +2,8 @@ package gun0912.tedadhelperdemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -14,13 +15,13 @@ import gun0912.tedadhelper.backpress.OnBackPressListener;
 import gun0912.tedadhelper.backpress.TedBackPressDialog;
 import gun0912.tedadhelper.banner.OnBannerAdListener;
 import gun0912.tedadhelper.banner.TedAdBanner;
-import gun0912.tedadhelper.front.OnFrontAdListener;
-import gun0912.tedadhelper.front.TedAdFront;
 import gun0912.tedadhelper.nativead.OnNativeAdListener;
-import gun0912.tedadhelper.nativead.TedNativeAdHolder;
+import gun0912.tedadhelper.nativead.TedNativeAd;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String TAG = "ted";
 
     public static final String FACEBOOK_KEY_BANNER = "619030564953912_619030908287211";
     public static final String FACEBOOK_KEY_FRONT = "619030564953912_619030944953874";
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     InterstitialAd facebookFrontAD;
     com.facebook.ads.AdView facebookBanner;
+    TedNativeAd tedNativeAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TedAdHelper.setAdmobTestDeviceId("");
-        //TedAdHelper.setFacebookTestDeviceId("EC9D6A4944CC5FF30A6C1462381B49B9");
+        TedAdHelper.setFacebookTestDeviceId("a98d1b46ac78a180d6571bec2e4348af");
         //TedAdHelper.showAdOnlyFacebookInstalledUser(true);
 
 
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TedAdFront.showAdmobFrontAd();
         //TedAdFront.showFacebookFrontAd();
+       /*
         TedAdFront.showFrontAD(this, FACEBOOK_KEY_FRONT, ADMOB_KEY_FRONT,new Integer[]{TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_ADMOB,TedAdHelper.AD_TNK}, new OnFrontAdListener() {
             @Override
             public void onDismissed(int adType) {
@@ -109,21 +112,22 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.facebookFrontAD = facebookFrontAD;
             }
         });
-
+*/
 
         /**
          * Native AD
          */
-        View cardview = findViewById(R.id.cardview);
-        TedNativeAdHolder tedNativeAdHolder = new TedNativeAdHolder(cardview, this, getString(R.string.app_name), FACEBOOK_KEY_NATIVE, ADMOB_KEY_NATIVE, new TedAdHelper.ImageProvider() {
+        ViewGroup cardview = (ViewGroup) findViewById(R.id.cardview);
+        tedNativeAd = new TedNativeAd(cardview, this, getString(R.string.app_name), FACEBOOK_KEY_NATIVE, ADMOB_KEY_NATIVE, new TedAdHelper.ImageProvider() {
             @Override
             public void onProvideImage(ImageView imageView, String imageUrl) {
                 Glide.with(MainActivity.this).load(imageUrl).into(imageView);
             }
         });
 
+
         //tedNativeAdHolder.loadAD(TedAdHelper.AD_FACEBOOK, new OnNativeAdListener() {
-        tedNativeAdHolder.loadAD(new Integer[]{TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_TNK,TedAdHelper.AD_ADMOB}, new OnNativeAdListener() {
+        tedNativeAd.loadAD(new Integer[]{TedAdHelper.AD_FACEBOOK, TedAdHelper.AD_TNK, TedAdHelper.AD_ADMOB}, new OnNativeAdListener() {
             @Override
             public void onError(String errorMessage) {
 
@@ -181,6 +185,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Log.d(TAG, "onDestroy()");
+        if (tedNativeAd != null) {
+            tedNativeAd.onDestroy();
+        }
 
         if (facebookFrontAD != null) {
             facebookFrontAD.destroy();

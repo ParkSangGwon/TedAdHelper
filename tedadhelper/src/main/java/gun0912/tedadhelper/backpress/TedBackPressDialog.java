@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -22,9 +23,6 @@ import gun0912.tedadhelper.util.AppUtil;
 import gun0912.tedadhelper.util.SharedPreferenceUtil;
 
 
-/**
- * Created by TedPark on 16. 5. 22..
- */
 public class TedBackPressDialog extends AppCompatActivity {
 
     private static final String EXTRA_APP_NAME = "app_name";
@@ -35,7 +33,7 @@ public class TedBackPressDialog extends AppCompatActivity {
 
     private static OnBackPressListener onBackPressListener;
     private static TedAdHelper.ImageProvider imageProvider;
-    View adviewContainer;
+    ViewGroup adViewContainer;
     TextView tvFinish;
     TextView tvReview;
     View dividerBtn;
@@ -107,8 +105,7 @@ public class TedBackPressDialog extends AppCompatActivity {
 
 
         Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        int width = (int) (display.getWidth() * 0.9); //Display 사이즈의 90%
-        getWindow().getAttributes().width = width;
+        getWindow().getAttributes().width = (int) (display.getWidth() * 0.9);
 
 
         setFinishOnTouchOutside(false);
@@ -116,7 +113,7 @@ public class TedBackPressDialog extends AppCompatActivity {
         initView();
         showReviewButton();
         checkReview();
-        adViewNativeAdHolder = new TedNativeAdHolder(adviewContainer, this, appName, facebookKey, admobKey, imageProvider);
+        adViewNativeAdHolder = new TedNativeAdHolder(adViewContainer, this, appName, facebookKey, admobKey, imageProvider);
 
         adViewNativeAdHolder.loadAD(adPriorityList, new OnNativeAdListener() {
             @Override
@@ -141,8 +138,6 @@ public class TedBackPressDialog extends AppCompatActivity {
                 }
             }
         });
-
-
 
 
     }
@@ -195,7 +190,7 @@ public class TedBackPressDialog extends AppCompatActivity {
 
     private void initView() {
 
-        adviewContainer = findViewById(R.id.adview_container);
+        adViewContainer = (ViewGroup) findViewById(R.id.adview_container);
         dividerBtn = findViewById(R.id.divider_btn);
 
         tvReview = (TextView) findViewById(R.id.tv_review);
@@ -257,6 +252,9 @@ public class TedBackPressDialog extends AppCompatActivity {
         if (adViewNativeAdHolder != null) {
             adViewNativeAdHolder.onDestroy();
         }
+        onBackPressListener = null;
+        imageProvider = null;
+
         super.onDestroy();
     }
 }
