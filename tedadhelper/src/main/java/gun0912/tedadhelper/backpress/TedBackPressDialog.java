@@ -18,7 +18,7 @@ import java.util.Arrays;
 import gun0912.tedadhelper.R;
 import gun0912.tedadhelper.TedAdHelper;
 import gun0912.tedadhelper.nativead.OnNativeAdListener;
-import gun0912.tedadhelper.nativead.TedNativeAdHolder;
+import gun0912.tedadhelper.nativead.TedNativeAd;
 import gun0912.tedadhelper.util.AppUtil;
 import gun0912.tedadhelper.util.SharedPreferenceUtil;
 
@@ -41,7 +41,7 @@ public class TedBackPressDialog extends AppCompatActivity {
     String facebookKey;
     String admobKey;
     boolean showReviewButton;
-    TedNativeAdHolder adViewNativeAdHolder;
+    TedNativeAd adViewNativeAd;
     ArrayList<Integer> adPriorityList;
 
     public static void startFacebookDialog(Activity activity, String appName, String facebookKey, OnBackPressListener onBackPressListener) {
@@ -113,9 +113,9 @@ public class TedBackPressDialog extends AppCompatActivity {
         initView();
         showReviewButton();
         checkReview();
-        adViewNativeAdHolder = new TedNativeAdHolder(adViewContainer, this, appName, facebookKey, admobKey, imageProvider);
+        adViewNativeAd = new TedNativeAd(adViewContainer, this, appName, facebookKey, admobKey, imageProvider);
 
-        adViewNativeAdHolder.loadAD(adPriorityList, new OnNativeAdListener() {
+        adViewNativeAd.loadAD(adPriorityList, new OnNativeAdListener() {
             @Override
             public void onError(String errorMessage) {
 
@@ -249,8 +249,8 @@ public class TedBackPressDialog extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (adViewNativeAdHolder != null) {
-            adViewNativeAdHolder.onDestroy();
+        if (adViewNativeAd != null) {
+            adViewNativeAd.onDestroy();
         }
         onBackPressListener = null;
         imageProvider = null;
