@@ -17,15 +17,15 @@ public class TedNativeAdHolder extends RecyclerView.ViewHolder {
 
     TedNativeAd tedNativeAd;
 
-    public TedNativeAdHolder(ViewGroup itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key) {
+    public TedNativeAdHolder(ViewGroup itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key, @TedAdHelper.ADMOB_NATIVE_AD_TYPE int adNativeAdType) {
         super(itemView);
-        tedNativeAd = new TedNativeAd(itemView, context, app_name, facebook_ad_key, admob_ad_key);
+        tedNativeAd = new TedNativeAd(itemView, context, app_name, facebook_ad_key, admob_ad_key,adNativeAdType);
     }
 
 
-    public TedNativeAdHolder(ViewGroup itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key, TedAdHelper.ImageProvider imageProvider) {
+    public TedNativeAdHolder(ViewGroup itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key, TedAdHelper.ImageProvider imageProvider, @TedAdHelper.ADMOB_NATIVE_AD_TYPE int adNativeAdType) {
         super(itemView);
-        tedNativeAd = new TedNativeAd(itemView, context, app_name, facebook_ad_key, admob_ad_key, imageProvider);
+        tedNativeAd = new TedNativeAd(itemView, context, app_name, facebook_ad_key, admob_ad_key, imageProvider,adNativeAdType);
     }
 
 

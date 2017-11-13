@@ -18,15 +18,25 @@ import com.facebook.ads.AdChoicesView;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
 import com.facebook.ads.MediaView;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.google.android.gms.ads.VideoOptions;
+import com.google.android.gms.ads.formats.NativeAd;
+import com.google.android.gms.ads.formats.NativeAdOptions;
+import com.google.android.gms.ads.formats.NativeAppInstallAd;
+import com.google.android.gms.ads.formats.NativeAppInstallAdView;
+import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tnkfactory.ad.NativeAdItem;
 import com.tnkfactory.ad.NativeAdListener;
 import com.tnkfactory.ad.TnkSession;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import gun0912.tedadhelper.R;
 import gun0912.tedadhelper.TedAdHelper;
@@ -46,8 +56,8 @@ public class TedNativeAd {
     String facebook_ad_key;
     String admob_ad_key;
     Context context;
-    // NativeAppInstallAdView admobAppInstallRootView;
-    // NativeContentAdView admobContentRootView;
+    NativeAppInstallAdView admobAppInstallRootView;
+    NativeContentAdView admobContentRootView;
     ViewGroup container_admob_express;
     ProgressBar progressView;
     RelativeLayout viewNativeRoot;
@@ -66,19 +76,24 @@ public class TedNativeAd {
     TedAdHelper.ImageProvider imageProvider;
 
     ViewGroup containerView;
+    ViewGroup admobBannerContainer;
+
+    @TedAdHelper.ADMOB_NATIVE_AD_TYPE
+    int admobNativeAdType;
 
     public TedNativeAd(ViewGroup containerView, Context context, String app_name, String facebook_ad_key, String admob_ad_key) {
-        this.containerView = containerView;
-        initField(context, app_name, facebook_ad_key, admob_ad_key, null);
-        initView();
+        this(containerView, context, app_name, facebook_ad_key, admob_ad_key, null, TedAdHelper.ADMOB_NATIVE_AD_TYPE.NATIVE_EXPRESS);
     }
 
-    private void initField(Context context, String app_name, String facebook_ad_key, String admob_ad_key, TedAdHelper.ImageProvider imageProvider) {
+    public TedNativeAd(ViewGroup itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key, TedAdHelper.ImageProvider imageProvider, @TedAdHelper.ADMOB_NATIVE_AD_TYPE int admobNativeAdType) {
+        this.containerView = itemView;
         this.context = context;
         this.app_name = app_name;
         this.facebook_ad_key = facebook_ad_key;
         this.admob_ad_key = admob_ad_key;
         this.imageProvider = imageProvider;
+        this.admobNativeAdType = admobNativeAdType;
+        initView();
     }
 
     private void initView() {
@@ -86,9 +101,9 @@ public class TedNativeAd {
         View nativeView = View.inflate(context, R.layout.adview_native_base, null);
 
         viewNativeRoot = (RelativeLayout) nativeView.findViewById(R.id.view_native_root);
-        //admobAppInstallRootView = (NativeAppInstallAdView) containerView.findViewById(R.id.admobAppInstallRootView);
-        // admobContentRootView = (NativeContentAdView) containerView.findViewById(R.id.admobContentRootView);
-
+        admobAppInstallRootView = (NativeAppInstallAdView) nativeView.findViewById(R.id.admobAppInstallRootView);
+        admobContentRootView = (NativeContentAdView) nativeView.findViewById(R.id.admobContentRootView);
+        admobBannerContainer = (ViewGroup)nativeView.findViewById(R.id.admob_banner_container);
 
         container_admob_express = (ViewGroup) nativeView.findViewById(R.id.container_admob_express);
         progressView = (ProgressBar) nativeView.findViewById(R.id.progressView);
@@ -109,10 +124,8 @@ public class TedNativeAd {
 
     }
 
-    public TedNativeAd(ViewGroup itemView, Context context, String app_name, String facebook_ad_key, String admob_ad_key, TedAdHelper.ImageProvider imageProvider) {
-        this.containerView = itemView;
-        initField(context, app_name, facebook_ad_key, admob_ad_key, imageProvider);
-        initView();
+    public TedNativeAd(ViewGroup containerView, Context context, String app_name, String facebook_ad_key, String admob_ad_key, @TedAdHelper.ADMOB_NATIVE_AD_TYPE int admobNativeAdType) {
+        this(containerView, context, app_name, facebook_ad_key, admob_ad_key, null, admobNativeAdType);
     }
 
     public void onDestroy() {
@@ -187,7 +200,8 @@ public class TedNativeAd {
                 loadFacebookAD();
                 break;
             case TedAdHelper.AD_ADMOB:
-                loadAdmobExpressAD();
+                selectAdmobAd();
+
                 break;
             case TedAdHelper.AD_TNK:
                 loadTnkAD();
@@ -195,6 +209,64 @@ public class TedNativeAd {
             default:
                 onNativeAdListener.onError("You have to select priority type ADMOB or FACEBOOK");
         }
+    }
+
+    private void selectAdmobAd() {
+        switch (admobNativeAdType){
+            case TedAdHelper.ADMOB_NATIVE_AD_TYPE.NATIVE_EXPRESS:
+                loadAdmobExpressAD();
+                break;
+            case TedAdHelper.ADMOB_NATIVE_AD_TYPE.NATIVE_ADVANCED:
+                loadAdmobAdvanceAD();
+                break;
+            case TedAdHelper.ADMOB_NATIVE_AD_TYPE.BANNER:
+                loadAdmobBanner();
+                break;
+        }
+
+    }
+
+    private void loadAdmobBanner() {
+        viewNativeRoot.setVisibility(View.GONE);
+        admobBannerContainer.removeAllViews();
+        AdView admobBannerView = new AdView(context);
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        admobBannerView.setAdSize(AdSize.MEDIUM_RECTANGLE);
+        admobBannerView.setAdUnitId(admob_ad_key);
+        admobBannerView.setAdListener(new com.google.android.gms.ads.AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                super.onAdFailedToLoad(errorCode);
+                String errorMessage = TedAdHelper.getMessageFromAdmobErrorCode(errorCode);
+                Log.e(TedAdHelper.TAG, "[ADMOB NATIVE BANNER AD]errorMessage: " + errorMessage);
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                Log.d(TedAdHelper.TAG, "[ADMOB NATIVE BANNER AD]Opend");
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Log.d(TedAdHelper.TAG, "[ADMOB NATIVE BANNER AD]Loaded");
+            }
+        });
+
+        admobBannerView.loadAd(adRequest);
+        admobBannerContainer.addView(admobBannerView);
     }
 
     private void onLoadAdError(String errorMessage) {
@@ -212,6 +284,7 @@ public class TedNativeAd {
     }
 
     private void loadAdmobExpressAD() {
+        viewNativeRoot.setVisibility(View.VISIBLE);
         progressView.setVisibility(View.VISIBLE);
         view_container.setVisibility(View.INVISIBLE);
         final NativeExpressAdView admobExpressAdView = new NativeExpressAdView(context);
@@ -227,7 +300,7 @@ public class TedNativeAd {
         admobExpressAdView.setAdListener(new com.google.android.gms.ads.AdListener() {
             @Override
             public void onAdLoaded() {
-                Log.d(TedAdHelper.TAG, "[ADMOB NATIVE AD]Loaded");
+                Log.d(TedAdHelper.TAG, "[ADMOB NATIVE EXPRESS AD]Loaded");
 
                 view_container.setVisibility(View.GONE);
                 progressView.setVisibility(View.GONE);
@@ -244,13 +317,13 @@ public class TedNativeAd {
                 super.onAdFailedToLoad(errorCode);
 
                 String errorMessage = TedAdHelper.getMessageFromAdmobErrorCode(errorCode);
-                Log.e(TedAdHelper.TAG, "[ADMOB NATIVE AD]errorMessage: " + errorMessage);
+                Log.e(TedAdHelper.TAG, "[ADMOB NATIVE EXPRESS AD]errorMessage: " + errorMessage);
                 onLoadAdError(errorMessage);
             }
 
             @Override
             public void onAdOpened() {
-                Log.d(TedAdHelper.TAG, "[ADMOB NATIVE AD]Opend");
+                Log.d(TedAdHelper.TAG, "[ADMOB NATIVE EXPRESS AD]Opend");
                 super.onAdOpened();
                 if (onNativeAdListener != null) {
                     onNativeAdListener.onAdClicked(TedAdHelper.AD_ADMOB);
@@ -309,6 +382,7 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
     }
 
     private void loadTnkAD() {
+        viewNativeRoot.setVisibility(View.VISIBLE);
         progressView.setVisibility(View.VISIBLE);
         view_container.setVisibility(View.INVISIBLE);
         TnkSession.prepareNativeAd(context, TnkSession.CPC, NativeAdItem.STYLE_LANDSCAPE, new NativeAdListener() {
@@ -345,21 +419,22 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
             }
         });
     }
-/*
 
     private void loadAdmobAdvanceAD() {
-
+        viewNativeRoot.setVisibility(View.VISIBLE);
         AdLoader.Builder builder = new AdLoader.Builder(context, admob_ad_key);
         builder.forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
             @Override
             public void onAppInstallAdLoaded(NativeAppInstallAd nativeAppInstallAd) {
                 bindAdmobAppInstallAD(nativeAppInstallAd);
+                Log.d(TedAdHelper.TAG, "[ADMOB NATIVE ADVANCED AD]InstallAd Load");
             }
         });
 
         builder.forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
             @Override
             public void onContentAdLoaded(NativeContentAd nativeContentAd) {
+                Log.d(TedAdHelper.TAG, "[ADMOB NATIVE ADVANCED AD]ContentAd Load");
                 bindAdmobContentAD(nativeContentAd);
             }
         });
@@ -378,14 +453,14 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 super.onAdFailedToLoad(errorCode);
+                Log.e(TedAdHelper.TAG, "[ADMOB NATIVE ADVANCED AD]fail");
 
-
-                if (adPriorityList.size()>0) {
+                if (adPriorityList.size() > 0) {
                     selectAd();
                 } else {
                     viewNativeRoot.setVisibility(View.GONE);
 
-                    if(onNativeAdListener!=null){
+                    if (onNativeAdListener != null) {
                         String errorMessage = TedAdHelper.getMessageFromAdmobErrorCode(errorCode);
                         onNativeAdListener.onError(errorMessage);
                     }
@@ -405,7 +480,6 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
     }
 
-*/
 
     private void loadFacebookAD() {
 
@@ -414,7 +488,7 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
             onLoadAdError(Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
             return;
         }
-
+        viewNativeRoot.setVisibility(View.VISIBLE);
         progressView.setVisibility(View.VISIBLE);
         view_container.setVisibility(View.INVISIBLE);
 
@@ -579,10 +653,6 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
     }
 
 
-
-/*
-
-
     private void bindAdmobContentAD(NativeContentAd nativeContentAd) {
 
         MyNativeAd myNativeAd = new MyNativeAd();
@@ -626,7 +696,6 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         admobAppInstallRootView.setNativeAd(nativeAppInstallAd);
 
     }
-*/
 
 
     class MyNativeAd {

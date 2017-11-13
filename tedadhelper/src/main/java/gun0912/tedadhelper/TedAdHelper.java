@@ -1,11 +1,15 @@
 package gun0912.tedadhelper;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.facebook.ads.AdSettings;
 import com.google.android.gms.ads.AdRequest;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import gun0912.tedadhelper.util.AppUtil;
 import gun0912.tedadhelper.util.Constant;
@@ -22,6 +26,15 @@ public class TedAdHelper {
     public static final int AD_TNK = 3;
     private static String admobDeviceId;
     private static boolean onlyFacebookInstalled = false;
+
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({ADMOB_NATIVE_AD_TYPE.NATIVE_EXPRESS, ADMOB_NATIVE_AD_TYPE.NATIVE_ADVANCED, ADMOB_NATIVE_AD_TYPE.BANNER})
+    public @interface ADMOB_NATIVE_AD_TYPE {
+        int NATIVE_EXPRESS = 1;
+        int NATIVE_ADVANCED = 2;
+        int BANNER = 3;
+    }
 
     public static void setTestDeviceId(String facebookDeviceId, String admobDeviceId) {
         setFacebookTestDeviceId(facebookDeviceId);

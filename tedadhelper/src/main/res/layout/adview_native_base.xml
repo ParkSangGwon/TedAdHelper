@@ -193,4 +193,12 @@
         </com.google.android.gms.ads.formats.NativeContentAdView>
     </com.google.android.gms.ads.formats.NativeAppInstallAdView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/admob_banner_container"
+        android:gravity="center"
+        android:orientation="vertical"
+        />
+
 </RelativeLayout>
