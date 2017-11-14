@@ -231,7 +231,7 @@ TedBackPressDialog.startDialog(Activity activity, String appName, String faceboo
         />
 >
 ```
-2. Make instance and Show Native ad using `TedNativeAdHolder`
+2. Make instance and Show Native ad using `TedNativeAdHolder`<br/>
 **TedAdHelper.ADMOB_NATIVE_AD_TYPE** : NATIVE_EXPRESS / NATIVE_ADVANCED / BANNER<br/>
 : If you use admob platform, you have to choice admob ad type<br/>
 
