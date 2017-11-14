@@ -182,8 +182,8 @@ TedAdFront.showFrontAD(Context context, String facebookKey, final String admobKe
 TedBackPressDialog.startDialog(Activity activity, String appName, String facebookKey, String admobKey, Integer[] adPriorityList, boolean showReviewButton,OnBackPressListener onBackPressListener)
 ```
 * **adPriorityList:** TedAdHelper.AD_FACEBOOK / TedAdHelper.AD_ADMOB / TedAdHelper.AD_TNK<br/>
-* **TedAdHelper.ADMOB_NATIVE_AD_TYPE** : NATIVE_EXPRESS / NATIVE_ADVANCED / BANNER
-: If you use admob platform, you have to choice admob ad type
+* **TedAdHelper.ADMOB_NATIVE_AD_TYPE** : NATIVE_EXPRESS / NATIVE_ADVANCED / BANNER<br/>
+: If you use admob platform, you have to choice admob ad type<br/>
 * **If you use Glide 4.x version**, you have to make your image provider `new TedAdHelper.ImageProvider()`. You can check this function in sample project
 ```javascript
 
@@ -232,8 +232,8 @@ TedBackPressDialog.startDialog(Activity activity, String appName, String faceboo
 >
 ```
 2. Make instance and Show Native ad using `TedNativeAdHolder`
-**TedAdHelper.ADMOB_NATIVE_AD_TYPE** : NATIVE_EXPRESS / NATIVE_ADVANCED / BANNER
-: If you use admob platform, you have to choice admob ad type
+**TedAdHelper.ADMOB_NATIVE_AD_TYPE** : NATIVE_EXPRESS / NATIVE_ADVANCED / BANNER<br/>
+: If you use admob platform, you have to choice admob ad type<br/>
 
 ```javascript
         View nativeContainer = findViewById(R.id.native_container);
