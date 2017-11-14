@@ -103,7 +103,7 @@ public class TedNativeAd {
         viewNativeRoot = (RelativeLayout) nativeView.findViewById(R.id.view_native_root);
         admobAppInstallRootView = (NativeAppInstallAdView) nativeView.findViewById(R.id.admobAppInstallRootView);
         admobContentRootView = (NativeContentAdView) nativeView.findViewById(R.id.admobContentRootView);
-        admobBannerContainer = (ViewGroup)nativeView.findViewById(R.id.admob_banner_container);
+        admobBannerContainer = (ViewGroup) nativeView.findViewById(R.id.admob_banner_container);
 
         container_admob_express = (ViewGroup) nativeView.findViewById(R.id.container_admob_express);
         progressView = (ProgressBar) nativeView.findViewById(R.id.progressView);
@@ -212,7 +212,7 @@ public class TedNativeAd {
     }
 
     private void selectAdmobAd() {
-        switch (admobNativeAdType){
+        switch (admobNativeAdType) {
             case TedAdHelper.ADMOB_NATIVE_AD_TYPE.NATIVE_EXPRESS:
                 loadAdmobExpressAD();
                 break;
@@ -655,19 +655,38 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
     private void bindAdmobContentAD(NativeContentAd nativeContentAd) {
 
+        if (nativeContentAd == null) {
+            onLoadAdError("nativeContentAd is null");
+            return;
+        }
         MyNativeAd myNativeAd = new MyNativeAd();
 
-        myNativeAd.setLogoUrl(nativeContentAd.getLogo().getUri().toString());
-        myNativeAd.setName(nativeContentAd.getHeadline().toString());
+        if (nativeContentAd.getLogo() != null) {
+            myNativeAd.setLogoUrl(nativeContentAd.getLogo().getUri().toString());
+        }
+
+        if (nativeContentAd.getHeadline() != null) {
+            myNativeAd.setName(nativeContentAd.getHeadline().toString());
+        }
+
 
         List<NativeAd.Image> images = nativeContentAd.getImages();
-        if (images.size() > 0) {
+        if (images != null && images.size() > 0) {
             myNativeAd.setImageUrl(nativeContentAd.getImages().get(0).getUri().toString());
         }
 
-        myNativeAd.setBody(nativeContentAd.getBody().toString());
-        myNativeAd.setCallToAction(nativeContentAd.getCallToAction().toString());
-        myNativeAd.setEtc(nativeContentAd.getAdvertiser().toString());
+        if (nativeContentAd.getBody() != null) {
+            myNativeAd.setBody(nativeContentAd.getBody().toString());
+        }
+
+        if (nativeContentAd.getCallToAction() != null) {
+            myNativeAd.setCallToAction(nativeContentAd.getCallToAction().toString());
+        }
+
+        if (nativeContentAd.getAdvertiser() != null) {
+            myNativeAd.setEtc(nativeContentAd.getAdvertiser().toString());
+        }
+
 
         bindNativeAd(myNativeAd);
 
@@ -676,20 +695,38 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
     }
 
     private void bindAdmobAppInstallAD(NativeAppInstallAd nativeAppInstallAd) {
-
+        if (nativeAppInstallAd == null) {
+            onLoadAdError("nativeAppInstallAd is null");
+            return;
+        }
         MyNativeAd myNativeAd = new MyNativeAd();
 
-        myNativeAd.setLogoUrl(nativeAppInstallAd.getIcon().getUri().toString());
-        myNativeAd.setName(nativeAppInstallAd.getHeadline().toString());
+        if (nativeAppInstallAd.getIcon() != null) {
+            myNativeAd.setLogoUrl(nativeAppInstallAd.getIcon().getUri().toString());
+        }
+
+        if (nativeAppInstallAd.getHeadline() != null) {
+            myNativeAd.setName(nativeAppInstallAd.getHeadline().toString());
+        }
+
 
         List<NativeAd.Image> images = nativeAppInstallAd.getImages();
-        if (images.size() > 0) {
+        if (images != null && images.size() > 0) {
             myNativeAd.setImageUrl(nativeAppInstallAd.getImages().get(0).getUri().toString());
         }
 
-        myNativeAd.setBody(nativeAppInstallAd.getBody().toString());
-        myNativeAd.setCallToAction(nativeAppInstallAd.getCallToAction().toString());
-        myNativeAd.setEtc(nativeAppInstallAd.getStore().toString());
+        if(nativeAppInstallAd.getBody()!=null){
+            myNativeAd.setBody(nativeAppInstallAd.getBody().toString());
+        }
+
+        if(nativeAppInstallAd.getCallToAction()!=null){
+            myNativeAd.setCallToAction(nativeAppInstallAd.getCallToAction().toString());
+        }
+
+        if(nativeAppInstallAd.getStore()!=null){
+            myNativeAd.setEtc(nativeAppInstallAd.getStore().toString());
+        }
+
 
         bindNativeAd(myNativeAd);
 
