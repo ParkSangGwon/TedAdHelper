@@ -690,6 +690,7 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
         bindNativeAd(myNativeAd);
 
+        admobContentRootView.setBodyView(viewNativeRoot);
         admobContentRootView.setNativeAd(nativeContentAd);
 
     }
@@ -730,6 +731,7 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
         bindNativeAd(myNativeAd);
 
+        admobAppInstallRootView.setBodyView(viewNativeRoot);
         admobAppInstallRootView.setNativeAd(nativeAppInstallAd);
 
     }
