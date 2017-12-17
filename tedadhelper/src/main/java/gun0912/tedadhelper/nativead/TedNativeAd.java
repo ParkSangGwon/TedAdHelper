@@ -245,6 +245,7 @@ public class TedNativeAd {
                 super.onAdFailedToLoad(errorCode);
                 String errorMessage = TedAdHelper.getMessageFromAdmobErrorCode(errorCode);
                 Log.e(TedAdHelper.TAG, "[ADMOB NATIVE BANNER AD]errorMessage: " + errorMessage);
+                onLoadAdError(errorMessage);
             }
 
             @Override
@@ -308,6 +309,7 @@ public class TedNativeAd {
                 if (onNativeAdListener != null) {
                     onNativeAdListener.onLoaded(TedAdHelper.AD_ADMOB);
                 }
+
 
             }
 
@@ -454,18 +456,8 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
             public void onAdFailedToLoad(int errorCode) {
                 super.onAdFailedToLoad(errorCode);
                 Log.e(TedAdHelper.TAG, "[ADMOB NATIVE ADVANCED AD]fail");
-
-                if (adPriorityList.size() > 0) {
-                    selectAd();
-                } else {
-                    viewNativeRoot.setVisibility(View.GONE);
-
-                    if (onNativeAdListener != null) {
-                        String errorMessage = TedAdHelper.getMessageFromAdmobErrorCode(errorCode);
-                        onNativeAdListener.onError(errorMessage);
-                    }
-
-                }
+                String errorMessage = TedAdHelper.getMessageFromAdmobErrorCode(errorCode);
+                onLoadAdError(errorMessage);
 
             }
 
