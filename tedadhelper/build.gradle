@@ -2,8 +2,7 @@ apply plugin: 'com.android.library'
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 14
@@ -31,10 +30,11 @@ dependencies {
     compile('com.android.support:appcompat-v7:25.1.0') {
         exclude group: "com.android.support:animated-vector-drawable"
     }
-    compile 'com.google.firebase:firebase-ads:10.0.1'
-    compile('com.facebook.android:audience-network-sdk:4.25.0') {
+    compile 'com.google.firebase:firebase-ads:11.8.0'
+    compile('com.facebook.android:audience-network-sdk:4.27.0') {
         exclude group: "com.google.android.gms"
     }
+    compile 'com.google.ads.mediation:facebook:4.27.0.0'
     compile 'com.github.bumptech.glide:glide:3.6.0'
     compile files('libs/tnkad-sdk.jar')
 
