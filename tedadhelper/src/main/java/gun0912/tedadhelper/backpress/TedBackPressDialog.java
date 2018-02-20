@@ -20,6 +20,7 @@ import gun0912.tedadhelper.TedAdHelper;
 import gun0912.tedadhelper.nativead.OnNativeAdListener;
 import gun0912.tedadhelper.nativead.TedNativeAd;
 import gun0912.tedadhelper.util.AppUtil;
+import gun0912.tedadhelper.util.ConvertUtil;
 import gun0912.tedadhelper.util.SharedPreferenceUtil;
 
 
@@ -42,16 +43,17 @@ public class TedBackPressDialog extends AppCompatActivity {
     String facebookKey;
     String admobKey;
     boolean showReviewButton;
-    @TedAdHelper.ADMOB_NATIVE_AD_TYPE int admobNativeAdType;
+    @TedAdHelper.ADMOB_NATIVE_AD_TYPE
+    int admobNativeAdType;
     TedNativeAd adViewNativeAd;
     ArrayList<Integer> adPriorityList;
 
     public static void startFacebookDialog(Activity activity, String appName, String facebookKey, OnBackPressListener onBackPressListener) {
-        startDialog(activity, appName, facebookKey, null, TedAdHelper.AD_FACEBOOK,TedAdHelper.ADMOB_NATIVE_AD_TYPE.NATIVE_EXPRESS, onBackPressListener);
+        startDialog(activity, appName, facebookKey, null, TedAdHelper.AD_FACEBOOK, TedAdHelper.ADMOB_NATIVE_AD_TYPE.NATIVE_EXPRESS, onBackPressListener);
     }
 
     public static void startDialog(Activity activity, String appName, String facebookKey, String admobKey, int adPriority, @TedAdHelper.ADMOB_NATIVE_AD_TYPE int admobNativeAdType, OnBackPressListener onBackPressListener) {
-        startDialog(activity, appName, facebookKey, admobKey, adPriority, admobNativeAdType,true, onBackPressListener);
+        startDialog(activity, appName, facebookKey, admobKey, adPriority, admobNativeAdType, true, onBackPressListener);
     }
 
     public static void startDialog(Activity activity, String appName, String facebookKey, String admobKey, int adPriority, @TedAdHelper.ADMOB_NATIVE_AD_TYPE int admobNativeAdType, boolean showReviewButton, OnBackPressListener onBackPressListener) {
@@ -62,12 +64,12 @@ public class TedBackPressDialog extends AppCompatActivity {
         } else {
             tempAdPriorityList[1] = TedAdHelper.AD_FACEBOOK;
         }
-        startDialog(activity, appName, facebookKey, admobKey, tempAdPriorityList,admobNativeAdType, showReviewButton, onBackPressListener);
+        startDialog(activity, appName, facebookKey, admobKey, tempAdPriorityList, admobNativeAdType, showReviewButton, onBackPressListener);
 
     }
 
     public static void startDialog(Activity activity, String appName, String facebookKey, String admobKey, Integer[] adPriorityList, @TedAdHelper.ADMOB_NATIVE_AD_TYPE int admobNativeAdType, boolean showReviewButton, OnBackPressListener onBackPressListener) {
-        startDialog(activity, appName, facebookKey, admobKey, adPriorityList,admobNativeAdType, showReviewButton, onBackPressListener, null);
+        startDialog(activity, appName, facebookKey, admobKey, adPriorityList, admobNativeAdType, showReviewButton, onBackPressListener, null);
     }
 
     public static void startDialog(Activity activity, String appName, String facebookKey, String admobKey, Integer[] adPriorityList, @TedAdHelper.ADMOB_NATIVE_AD_TYPE int admobNativeAdType, boolean showReviewButton, OnBackPressListener onBackPressListener, TedAdHelper.ImageProvider imageProvider) {
@@ -77,7 +79,7 @@ public class TedBackPressDialog extends AppCompatActivity {
         intent.putExtra(EXTRA_ADMOB_KEY, admobKey);
         intent.putExtra(EXTRA_SHOW_REVIEW_BUTTON, showReviewButton);
         intent.putExtra(EXTRA_AD_PRIORITY_LIST, new ArrayList<>(Arrays.asList(adPriorityList)));
-        intent.putExtra(EXTRA_ADMOB_NATIVE_TYPE,admobNativeAdType);
+        intent.putExtra(EXTRA_ADMOB_NATIVE_TYPE, admobNativeAdType);
 
         if (onBackPressListener == null) {
             throw new RuntimeException("OnBackPressListener can not null");
@@ -105,9 +107,11 @@ public class TedBackPressDialog extends AppCompatActivity {
 
         setContentView(R.layout.dialog_backpress);
 
-
+        getWindow().setBackgroundDrawable(null);
         Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        getWindow().getAttributes().width = (int) (display.getWidth() * 0.9);
+        int width = display.getWidth();
+        int minWidth = ConvertUtil.dpToPx(300);
+        getWindow().getAttributes().width = width > minWidth ? minWidth : width;
 
 
         setFinishOnTouchOutside(false);
@@ -115,7 +119,7 @@ public class TedBackPressDialog extends AppCompatActivity {
         initView();
         showReviewButton();
         checkReview();
-        adViewNativeAd = new TedNativeAd(adViewContainer, this, appName, facebookKey, admobKey, imageProvider,admobNativeAdType);
+        adViewNativeAd = new TedNativeAd(adViewContainer, this, appName, facebookKey, admobKey, imageProvider, admobNativeAdType);
 
         adViewNativeAd.loadAD(adPriorityList, new OnNativeAdListener() {
             @Override
@@ -241,7 +245,7 @@ public class TedBackPressDialog extends AppCompatActivity {
         savedInstanceState.putString(EXTRA_FACEBOOK_KEY, facebookKey);
         savedInstanceState.putString(EXTRA_ADMOB_KEY, admobKey);
         savedInstanceState.putIntegerArrayList(EXTRA_AD_PRIORITY_LIST, adPriorityList);
-        savedInstanceState.putInt(EXTRA_ADMOB_NATIVE_TYPE,admobNativeAdType);
+        savedInstanceState.putInt(EXTRA_ADMOB_NATIVE_TYPE, admobNativeAdType);
     }
 
     @Override

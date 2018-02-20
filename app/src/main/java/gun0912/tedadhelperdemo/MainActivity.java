@@ -29,12 +29,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String FACEBOOK_KEY_NATIVE = "619030564953912_619047201618915";
 
 
-    public static final String ADMOB_KEY_BANNER = "1";
-    public static final String ADMOB_KEY_FRONT = "1";
-    public static final String ADMOB_KEY_BACKPRESS = "1";
-    public static final String ADMOB_KEY_NATIVE = "1";
-    public static final String ADMOB_KEY_NATIVE_BANNER = "ca-app-pub-8564644296252992/3455635374";
-    public static final String ADMOB_KEY_NATIVE_ADVANCED = "ca-app-pub-8564644296252992/4710313236";
+    public static final String ADMOB_KEY_BANNER = "ca-app-pub-3940256099942544/6300978111";
+    public static final String ADMOB_KEY_FRONT = "ca-app-pub-3940256099942544/1033173712";
+    public static final String ADMOB_KEY_BACKPRESS = "ca-app-pub-3940256099942544/6300978111";
+    public static final String ADMOB_KEY_NATIVE = "ca-app-pub-3940256099942544/2177258514";
+    public static final String ADMOB_KEY_NATIVE_BANNER = "ca-app-pub-3940256099942544/6300978111";
+    public static final String ADMOB_KEY_NATIVE_ADVANCED = "ca-app-pub-3940256099942544/2247696110";
 
     InterstitialAd facebookFrontAD;
     com.facebook.ads.AdView facebookBanner;
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TedBackPressDialog.startFacebookDialog();
         //TedBackPressDialog.startAdmobDialog();
-        TedBackPressDialog.startDialog(this, getString(R.string.app_name), FACEBOOK_KEY_BACKPRESS, ADMOB_KEY_BACKPRESS, new Integer[]{TedAdHelper.AD_FACEBOOK, TedAdHelper.AD_ADMOB}, TedAdHelper.ADMOB_NATIVE_AD_TYPE.NATIVE_EXPRESS, false, new OnBackPressListener() {
+        TedBackPressDialog.startDialog(this, getString(R.string.app_name), FACEBOOK_KEY_BACKPRESS, ADMOB_KEY_BACKPRESS, new Integer[]{TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_ADMOB }, TedAdHelper.ADMOB_NATIVE_AD_TYPE.BANNER, false, new OnBackPressListener() {
             @Override
             public void onReviewClick() {
             }
