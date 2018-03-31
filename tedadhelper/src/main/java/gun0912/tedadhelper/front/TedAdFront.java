@@ -8,6 +8,7 @@ import com.facebook.ads.AdError;
 import com.tnkfactory.ad.TnkAdListener;
 import com.tnkfactory.ad.TnkSession;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -25,7 +26,7 @@ public class TedAdFront {
     private static OnFrontAdListener onFrontAdListener;
     private static String facebookKey;
     private static String admobKey;
-    private static Activity activity;
+    private static WeakReference<Activity> activityRef;
 
     private static ArrayList<Integer> adPriorityList;
 
@@ -60,7 +61,7 @@ public class TedAdFront {
         try {
 
 
-            TedAdFront.activity = activity;
+            TedAdFront.activityRef = new WeakReference<>(activity);
             TedAdFront.facebookKey = facebookKey;
             TedAdFront.admobKey = admobKey;
             TedAdFront.onFrontAdListener = onFrontAdListener;
@@ -97,13 +98,13 @@ public class TedAdFront {
 
     private static void showFacebookFrontAd() {
 
-        if (TedAdHelper.isSkipFacebookAd(activity)) {
+        if (TedAdHelper.isSkipFacebookAd(activityRef.get())) {
             Log.e(TedAdHelper.TAG, "[FACEBOOK FRONT AD]Error: " + Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
             onError(Constant.ERROR_MESSAGE_FACEBOOK_NOT_INSTALLED);
             return;
         }
 
-        final com.facebook.ads.InterstitialAd facebookFrontAD = new com.facebook.ads.InterstitialAd(activity, facebookKey);
+        final com.facebook.ads.InterstitialAd facebookFrontAD = new com.facebook.ads.InterstitialAd(activityRef.get(), facebookKey);
 
         if (onFrontAdListener != null) {
             onFrontAdListener.onFacebookAdCreated(facebookFrontAD);
@@ -179,7 +180,7 @@ public class TedAdFront {
 
     private static void showAdmobFrontAd() {
 
-        final com.google.android.gms.ads.InterstitialAd admobFrontAD = new com.google.android.gms.ads.InterstitialAd(activity);
+        final com.google.android.gms.ads.InterstitialAd admobFrontAD = new com.google.android.gms.ads.InterstitialAd(activityRef.get());
         admobFrontAD.setAdListener(new com.google.android.gms.ads.AdListener() {
             @Override
             public void onAdClosed() {
@@ -224,7 +225,7 @@ public class TedAdFront {
     }
 
     private static void showTnkFrontAd() {
-        TnkSession.prepareInterstitialAd(activity, TnkSession.CPC, new TnkAdListener() {
+        TnkSession.prepareInterstitialAd(activityRef.get(), TnkSession.CPC, new TnkAdListener() {
 
             @Override
             public void onClose(int type) {
@@ -244,7 +245,7 @@ public class TedAdFront {
             @Override
             public void onLoad() {
                 Log.d(TedAdHelper.TAG, "[TNK FRONT AD]onLoad");
-                TnkSession.showInterstitialAd(activity);
+                TnkSession.showInterstitialAd(activityRef.get());
                 if (onFrontAdListener != null) {
                     onFrontAdListener.onLoaded(TedAdHelper.AD_TNK);
                 }
@@ -279,7 +280,7 @@ public class TedAdFront {
         onFrontAdListener = null;
         facebookKey = null;
         admobKey = null;
-        activity = null;
+        activityRef = null;
         adPriorityList = null;
     }
 
