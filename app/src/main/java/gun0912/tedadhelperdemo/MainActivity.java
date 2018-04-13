@@ -120,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
          * Native AD
          */
         ViewGroup cardview = (ViewGroup) findViewById(R.id.cardview);
-        tedNativeAd = new TedNativeAd(cardview, this, getString(R.string.app_name), FACEBOOK_KEY_NATIVE, ADMOB_KEY_NATIVE_ADVANCED, new TedAdHelper.ImageProvider() {
+        String facebookKeyNative = "IMG_16_9_APP_INSTALL#"+FACEBOOK_KEY_NATIVE;
+        tedNativeAd = new TedNativeAd(cardview, this, getString(R.string.app_name), facebookKeyNative, ADMOB_KEY_NATIVE_ADVANCED, new TedAdHelper.ImageProvider() {
             @Override
             public void onProvideImage(ImageView imageView, String imageUrl) {
                 Glide.with(MainActivity.this).load(imageUrl).into(imageView);
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //tedNativeAdHolder.loadAD(TedAdHelper.AD_FACEBOOK, new OnNativeAdListener() {
-        tedNativeAd.loadAD(new Integer[]{TedAdHelper.AD_ADMOB, TedAdHelper.AD_FACEBOOK}, new OnNativeAdListener() {
+        tedNativeAd.loadAD(new Integer[]{TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_ADMOB}, new OnNativeAdListener() {
             @Override
             public void onError(String errorMessage) {
 
@@ -155,7 +156,8 @@ public class MainActivity extends AppCompatActivity {
 
         //TedBackPressDialog.startFacebookDialog();
         //TedBackPressDialog.startAdmobDialog();
-        TedBackPressDialog.startDialog(this, getString(R.string.app_name), FACEBOOK_KEY_BACKPRESS, ADMOB_KEY_BACKPRESS, new Integer[]{TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_ADMOB }, TedAdHelper.ADMOB_NATIVE_AD_TYPE.BANNER, false, new OnBackPressListener() {
+        String facebookKeyBackPress = "VID_HD_9_16_39S_APP_INSTALL#"+FACEBOOK_KEY_BACKPRESS;
+        TedBackPressDialog.startDialog(this, getString(R.string.app_name), facebookKeyBackPress, ADMOB_KEY_BACKPRESS, new Integer[]{TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_ADMOB }, TedAdHelper.ADMOB_NATIVE_AD_TYPE.BANNER, false, new OnBackPressListener() {
             @Override
             public void onReviewClick() {
             }
