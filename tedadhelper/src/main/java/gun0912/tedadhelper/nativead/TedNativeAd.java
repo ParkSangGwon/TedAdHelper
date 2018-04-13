@@ -569,8 +569,14 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         AdChoicesView adChoicesView = new AdChoicesView(context, facebookAd, true);
         view_ad_choice.addView(adChoicesView);
 
+        List<View> clickableViews = new ArrayList<>();
+        clickableViews.add(ivLogo);
+        clickableViews.add(tvName);
+        clickableViews.add(ivImage);
+        clickableViews.add(tvCallToAction);
+
         facebookAd.unregisterView();
-        facebookAd.registerViewForInteraction(viewNativeRoot);
+        facebookAd.registerViewForInteraction(viewNativeRoot,clickableViews);
 
 
     }
