@@ -46,7 +46,7 @@ Admob과 Facebook Audience Network를 사용하면서 2개 광고를 [미디에�
 [ ![Download](https://api.bintray.com/packages/tkdrnjs0912/maven/tedadhelper/images/download.svg) ](https://bintray.com/tkdrnjs0912/maven/tedadhelper/_latestVersion)
 ```javascript
 dependencies {
-    compile 'gun0912.ted:tedadhelper:1.3.2'
+    compile 'gun0912.ted:tedadhelper:x.y.z'
 }
 
 ```
