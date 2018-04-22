@@ -317,7 +317,7 @@ You can get `facebookFrontAD`,`facebookBanner` instance from `onFacebookAdCreate
 If you want customize your native ad, you have to overwrite view id.<br/>
 Make your layout (not include `<include layout="@layout/adview_native_base"/>` code)<br/>
 You have to declare view id
-- `R.id.view_root (RelativeLayout)`: If Native ad load fail, this view will disappear
+- `R.id.view_native_root (RelativeLayout)`: If Native ad load fail, this view will disappear
 - `R.id.container_admob_express (container_admob_express)`: For add admobExpress
 - `R.id.progressView (ProgressBar)`: When advertise loading, this view will appear
 - `R.id.view_container (LinearLayout)`: when advertise loaded, this view will appear
