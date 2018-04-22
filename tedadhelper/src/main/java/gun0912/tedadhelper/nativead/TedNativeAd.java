@@ -288,6 +288,8 @@ public class TedNativeAd {
         viewNativeRoot.setVisibility(View.VISIBLE);
         progressView.setVisibility(View.VISIBLE);
         view_container.setVisibility(View.INVISIBLE);
+
+
         final NativeExpressAdView admobExpressAdView = new NativeExpressAdView(context);
 
         // Set its video options.
@@ -424,6 +426,9 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
     private void loadAdmobAdvanceAD() {
         viewNativeRoot.setVisibility(View.VISIBLE);
+        progressView.setVisibility(View.VISIBLE);
+        view_container.setVisibility(View.INVISIBLE);
+        
         AdLoader.Builder builder = new AdLoader.Builder(context, admob_ad_key);
         builder.forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
             @Override
