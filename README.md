@@ -328,6 +328,7 @@ You have to declare view id
 - `R.id.tv_body (TextView)`
 - `R.id.tv_call_to_action (TextView)`
 - `R.id.tv_etc (TextView)`
+- `R.id.view_ad_choice (RelativeLayout)`
 
 <br/><br/>
 
