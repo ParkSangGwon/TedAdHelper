@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String ADMOB_KEY_BANNER = "ca-app-pub-3940256099942544/6300978111";
     public static final String ADMOB_KEY_FRONT = "ca-app-pub-3940256099942544/1033173712";
-    public static final String ADMOB_KEY_BACKPRESS = "ca-app-pub-3940256099942544/6300978111";
-    public static final String ADMOB_KEY_NATIVE = "ca-app-pub-3940256099942544/2177258514";
+    public static final String ADMOB_KEY_BACKPRESS = "ca-app-pub-3940256099942544/2247696110";
+    public static final String ADMOB_KEY_NATIVE = "ca-app-pub-3940256099942544/2247696110";
     public static final String ADMOB_KEY_NATIVE_BANNER = "ca-app-pub-3940256099942544/6300978111";
     public static final String ADMOB_KEY_NATIVE_ADVANCED = "ca-app-pub-3940256099942544/2247696110";
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TedAdBanner.showFacebookBanner();
         //TedAdBanner.showAdmobBanner();
-        TedAdBanner.showBanner(bannerContainer, FACEBOOK_KEY_BANNER, ADMOB_KEY_BANNER, TedAdHelper.AD_FACEBOOK, new OnBannerAdListener() {
+        TedAdBanner.showBanner(bannerContainer, FACEBOOK_KEY_BANNER, ADMOB_KEY_BANNER, TedAdHelper.AD_ADMOB, new OnBannerAdListener() {
             @Override
             public void onError(String errorMessage) {
 
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //tedNativeAdHolder.loadAD(TedAdHelper.AD_FACEBOOK, new OnNativeAdListener() {
-        tedNativeAd.loadAD(new Integer[]{TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_ADMOB}, new OnNativeAdListener() {
+        tedNativeAd.loadAD(new Integer[]{TedAdHelper.AD_ADMOB,TedAdHelper.AD_FACEBOOK}, new OnNativeAdListener() {
             @Override
             public void onError(String errorMessage) {
 
