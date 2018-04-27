@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:background="@color/white">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/white">
 
 
     <com.google.android.gms.ads.formats.NativeAppInstallAdView
         android:id="@+id/admobAppInstallRootView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
-        <com.google.android.gms.ads.formats.NativeContentAdView
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.google.android.gms.ads.formats.NativeContentAdView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/admobContentRootView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
 
             <!--
@@ -40,23 +37,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:orientation="vertical"
-                    />
+                    android:orientation="vertical" />
 
                 <ProgressBar
                     android:id="@+id/progressView"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    />
+                    android:layout_centerInParent="true" />
 
 
                 <LinearLayout
                     android:id="@+id/view_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
 
                     <RelativeLayout
@@ -64,16 +58,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
 
-                        android:padding="@dimen/list_item_container_padding"
-                        >
+                        android:padding="@dimen/list_item_container_padding">
 
                         <ImageView
                             android:id="@+id/iv_logo"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:layout_centerVertical="true"
-                            android:adjustViewBounds="true"
-                            />
+                            android:adjustViewBounds="true" />
 
                         <TextView
                             android:id="@+id/tv_sponsor"
@@ -81,12 +73,9 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
 
-                            android:text="Sponsored"
-                            />
+                            android:text="Sponsored" />
 
-                        <TextView
-                            android:id="@+id/tv_name"
-                            style="@style/CustomText_Body"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -94,13 +83,17 @@
                             android:layout_marginRight="@dimen/list_item_container_padding"
                             android:layout_toLeftOf="@id/tv_sponsor"
                             android:layout_toRightOf="@id/iv_logo"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:textColor="@color/tedBtnPrimary"
-                            android:textStyle="bold"
-                            tools:text="스윗미 - 무제한 훈남훈녀 소개팅 아아아아아아아"
-                            />
+                            android:orientation="horizontal">
 
+                            <TextView
+                                android:id="@+id/tv_name"
+                                style="@style/CustomText_Body"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textColor="@color/tedBtnPrimary"
+                                android:textStyle="bold"
+                                tools:text="스윗미" />
+                        </LinearLayout>
 
                     </RelativeLayout>
 
@@ -109,8 +102,7 @@
                         android:id="@+id/native_ad_media"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxHeight="200dp"
-                        />
+                        android:maxHeight="200dp" />
 
 
                     <ImageView
@@ -118,28 +110,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
-                        android:maxHeight="300dp"
-                        />
+                        android:maxHeight="300dp" />
 
-                    <TextView
-                        android:id="@+id/tv_body"
-                        style="@style/CustomText_Body"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/list_item_container_padding"
                         android:layout_marginRight="@dimen/list_item_container_padding"
                         android:layout_marginTop="@dimen/list_item_container_padding"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:id="@+id/tv_body"
+                            style="@style/CustomText_Body" />
 
-                        />
+                    </LinearLayout>
 
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="@dimen/list_item_container_padding"
-                        >
+                        android:padding="@dimen/list_item_container_padding">
 
                         <TextView
 
@@ -157,22 +149,26 @@
                             android:paddingRight="10dp"
                             android:paddingTop="6dp"
 
-                            android:textColor="@color/tedBtnPrimary"
-                            />
+                            android:textColor="@color/tedBtnPrimary" />
 
-                        <TextView
-                            android:id="@+id/tv_etc"
-                            style="@style/CustomText_Body"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/list_item_container_padding"
                             android:layout_toLeftOf="@id/tv_call_to_action"
-                            android:ellipsize="end"
-                            android:gravity="center_vertical"
-                            android:lines="2"
-                            android:textColor="@android:color/black"
-                            />
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_etc"
+                                style="@style/CustomText_Body"
+                                android:ellipsize="end"
+                                android:gravity="center_vertical"
+                                android:lines="2"
+                                android:textColor="@android:color/black" />
+
+
+                        </LinearLayout>
 
 
                     </RelativeLayout>
@@ -181,12 +177,11 @@
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:id="@+id/view_ad_choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:id="@+id/view_ad_choice"
-                    />
+                    android:layout_alignParentTop="true" />
 
             </RelativeLayout>
 
@@ -194,11 +189,10 @@
     </com.google.android.gms.ads.formats.NativeAppInstallAdView>
 
     <LinearLayout
+        android:id="@+id/admob_banner_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/admob_banner_container"
         android:gravity="center"
-        android:orientation="vertical"
-        />
+        android:orientation="vertical" />
 
 </RelativeLayout>
