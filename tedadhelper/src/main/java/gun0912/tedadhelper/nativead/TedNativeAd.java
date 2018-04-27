@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdChoicesView;
 import com.facebook.ads.AdError;
@@ -42,7 +43,6 @@ import gun0912.tedadhelper.R;
 import gun0912.tedadhelper.TedAdHelper;
 import gun0912.tedadhelper.util.Constant;
 import gun0912.tedadhelper.util.ConvertUtil;
-import gun0912.tedadhelper.util.ImageUtil;
 
 /**
  * Created by TedPark on 2017. 9. 12..
@@ -428,7 +428,7 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         viewNativeRoot.setVisibility(View.VISIBLE);
         progressView.setVisibility(View.VISIBLE);
         view_container.setVisibility(View.INVISIBLE);
-        
+
         AdLoader.Builder builder = new AdLoader.Builder(context, admob_ad_key);
         builder.forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
             @Override
@@ -602,7 +602,10 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         String logoUrl = myNativeAd.getLogoUrl();
 
         if (imageProvider == null) {
-            ImageUtil.loadImage(ivLogo, logoUrl);
+            Glide.with(context)
+                    .load(logoUrl)
+                    .into(ivLogo);
+
         } else {
             imageProvider.onProvideImage(ivLogo, logoUrl);
         }
@@ -619,7 +622,9 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         // 이미지
         String imageUrl = myNativeAd.getImageUrl();
         if (imageProvider == null) {
-            ImageUtil.loadImage(ivImage, imageUrl);
+            Glide.with(context)
+                    .load(imageUrl)
+                    .into(ivImage);
         } else {
             imageProvider.onProvideImage(ivImage, imageUrl);
         }
