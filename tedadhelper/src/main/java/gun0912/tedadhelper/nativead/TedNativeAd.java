@@ -2,6 +2,7 @@ package gun0912.tedadhelper.nativead;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
@@ -600,8 +601,11 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         }
         // 로고
         String logoUrl = myNativeAd.getLogoUrl();
+        Drawable logoDrawable = myNativeAd.getLogoDrawable();
 
-        if (imageProvider == null) {
+        if (logoDrawable != null) {
+            ivLogo.setImageDrawable(logoDrawable);
+        } else if (imageProvider == null) {
             Glide.with(context)
                     .load(logoUrl)
                     .into(ivLogo);
@@ -621,7 +625,10 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
         // 이미지
         String imageUrl = myNativeAd.getImageUrl();
-        if (imageProvider == null) {
+        Drawable imageDrawable = myNativeAd.getImageDrawable();
+        if (imageDrawable != null) {
+            ivImage.setImageDrawable(imageDrawable);
+        } else if (imageProvider == null) {
             Glide.with(context)
                     .load(imageUrl)
                     .into(ivImage);
@@ -670,7 +677,7 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         MyNativeAd myNativeAd = new MyNativeAd();
 
         if (nativeContentAd.getLogo() != null) {
-            myNativeAd.setLogoUrl(nativeContentAd.getLogo().getUri().toString());
+            myNativeAd.setLogoDrawable(nativeContentAd.getLogo().getDrawable());
         }
 
         if (nativeContentAd.getHeadline() != null) {
@@ -681,7 +688,7 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
         List<NativeAd.Image> images = nativeContentAd.getImages();
         if (images != null && images.size() > 0) {
-            myNativeAd.setImageUrl(nativeContentAd.getImages().get(0).getUri().toString());
+            myNativeAd.setImageDrawable(nativeContentAd.getImages().get(0).getDrawable());
             admobContentRootView.setImageView(ivImage);
         }
 
@@ -714,35 +721,40 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         MyNativeAd myNativeAd = new MyNativeAd();
 
         if (nativeAppInstallAd.getIcon() != null) {
-            myNativeAd.setLogoUrl(nativeAppInstallAd.getIcon().getUri().toString());
+            myNativeAd.setLogoDrawable(nativeAppInstallAd.getIcon().getDrawable());
+            admobAppInstallRootView.setIconView(ivLogo);
         }
 
         if (nativeAppInstallAd.getHeadline() != null) {
             myNativeAd.setName(nativeAppInstallAd.getHeadline().toString());
+            admobAppInstallRootView.setHeadlineView(tvName);
         }
 
 
         List<NativeAd.Image> images = nativeAppInstallAd.getImages();
         if (images != null && images.size() > 0) {
-            myNativeAd.setImageUrl(nativeAppInstallAd.getImages().get(0).getUri().toString());
+            myNativeAd.setImageDrawable(nativeAppInstallAd.getImages().get(0).getDrawable());
+            admobAppInstallRootView.setImageView(ivImage);
         }
 
         if (nativeAppInstallAd.getBody() != null) {
             myNativeAd.setBody(nativeAppInstallAd.getBody().toString());
+            admobAppInstallRootView.setBodyView(tvBody);
         }
 
         if (nativeAppInstallAd.getCallToAction() != null) {
             myNativeAd.setCallToAction(nativeAppInstallAd.getCallToAction().toString());
+            admobAppInstallRootView.setCallToActionView(tvCallToAction);
         }
 
         if (nativeAppInstallAd.getStore() != null) {
             myNativeAd.setEtc(nativeAppInstallAd.getStore().toString());
+            admobAppInstallRootView.setStoreView(tvEtc);
         }
 
 
         bindNativeAd(myNativeAd);
 
-        admobAppInstallRootView.setBodyView(viewNativeRoot);
         admobAppInstallRootView.setNativeAd(nativeAppInstallAd);
 
     }
@@ -750,8 +762,10 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
     class MyNativeAd {
         String logoUrl;
+        Drawable logoDrawable;
         String name;
         String imageUrl;
+        Drawable imageDrawable;
         String body;
         String callToAction;
         String etc;
@@ -802,6 +816,22 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
         public void setEtc(String etc) {
             this.etc = etc;
+        }
+
+        public Drawable getLogoDrawable() {
+            return logoDrawable;
+        }
+
+        public void setLogoDrawable(Drawable logoDrawable) {
+            this.logoDrawable = logoDrawable;
+        }
+
+        public Drawable getImageDrawable() {
+            return imageDrawable;
+        }
+
+        public void setImageDrawable(Drawable imageDrawable) {
+            this.imageDrawable = imageDrawable;
         }
     }
 
