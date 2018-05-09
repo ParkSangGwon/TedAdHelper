@@ -96,6 +96,61 @@ public class TedNativeAd {
         initView();
     }
 
+    public static class Builder {
+
+        // required
+        private ViewGroup containerView;
+        private Context context;
+        private String app_name;
+
+        // optional
+        String facebook_ad_key;
+        String admob_ad_key;
+        @TedAdHelper.ADMOB_NATIVE_AD_TYPE int admobNativeAdType;
+        TedAdHelper.ImageProvider imageProvider;
+
+        public Builder(ViewGroup containerView, Context context, String app_name) {
+            this.containerView = containerView;
+            this.context = context;
+            this.app_name = app_name;
+        }
+
+        public Builder setFacebook_ad_key(String facebook_ad_key) {
+            this.facebook_ad_key = facebook_ad_key;
+            return this;
+        }
+
+        public Builder setAdmob_ad_key(String admob_ad_key) {
+            this.admob_ad_key = admob_ad_key;
+            return this;
+        }
+
+        public Builder setAdmobNativeAdType(int admobNativeAdType) {
+            this.admobNativeAdType = admobNativeAdType;
+            return this;
+        }
+
+        public Builder setImageProvider(TedAdHelper.ImageProvider imageProvider) {
+            this.imageProvider = imageProvider;
+            return this;
+        }
+
+        public TedNativeAd build() {
+            return new TedNativeAd(this);
+        }
+    }
+
+    public TedNativeAd(Builder builder) {
+        this.containerView = builder.containerView;
+        this.context = builder.context;
+        this.app_name = builder.app_name;
+        this.facebook_ad_key = builder.facebook_ad_key;
+        this.admob_ad_key = builder.admob_ad_key;
+        this.admobNativeAdType = builder.admobNativeAdType;
+        this.imageProvider = builder.imageProvider;
+        initView();
+    }
+
     private void initView() {
 
         View nativeView = View.inflate(context, R.layout.adview_native_base, null);
@@ -804,5 +859,4 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
             this.etc = etc;
         }
     }
-
 }
