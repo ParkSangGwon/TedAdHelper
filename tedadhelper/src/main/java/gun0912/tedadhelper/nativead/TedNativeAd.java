@@ -101,27 +101,27 @@ public class TedNativeAd {
         // required
         private ViewGroup containerView;
         private Context context;
-        private String app_name;
+        private String appName;
 
         // optional
-        String facebook_ad_key;
-        String admob_ad_key;
+        String facebookAdKey;
+        String admobAdKey;
         @TedAdHelper.ADMOB_NATIVE_AD_TYPE int admobNativeAdType;
         TedAdHelper.ImageProvider imageProvider;
 
-        public Builder(ViewGroup containerView, Context context, String app_name) {
+        public Builder(ViewGroup containerView, Context context, String appName) {
             this.containerView = containerView;
             this.context = context;
-            this.app_name = app_name;
+            this.appName = appName;
         }
 
-        public Builder setFacebook_ad_key(String facebook_ad_key) {
-            this.facebook_ad_key = facebook_ad_key;
+        public Builder setFacebookAdKey(String facebookAdKey) {
+            this.facebookAdKey = facebookAdKey;
             return this;
         }
 
-        public Builder setAdmob_ad_key(String admob_ad_key) {
-            this.admob_ad_key = admob_ad_key;
+        public Builder setAdmobAdKey(String admobAdKey) {
+            this.admobAdKey = admobAdKey;
             return this;
         }
 
@@ -135,7 +135,7 @@ public class TedNativeAd {
             return this;
         }
 
-        public TedNativeAd build() {
+        public TedNativeAd create() {
             return new TedNativeAd(this);
         }
     }
@@ -143,9 +143,9 @@ public class TedNativeAd {
     public TedNativeAd(Builder builder) {
         this.containerView = builder.containerView;
         this.context = builder.context;
-        this.app_name = builder.app_name;
-        this.facebook_ad_key = builder.facebook_ad_key;
-        this.admob_ad_key = builder.admob_ad_key;
+        this.app_name = builder.appName;
+        this.facebook_ad_key = builder.facebookAdKey;
+        this.admob_ad_key = builder.admobAdKey;
         this.admobNativeAdType = builder.admobNativeAdType;
         this.imageProvider = builder.imageProvider;
         initView();

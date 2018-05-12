@@ -117,23 +117,12 @@ public class MainActivity extends AppCompatActivity {
          */
         ViewGroup cardview = (ViewGroup) findViewById(R.id.cardview);
         String facebookKeyNative = "IMG_16_9_APP_INSTALL#"+FACEBOOK_KEY_NATIVE;
-//        tedNativeAd = new TedNativeAd(cardview, this, getString(R.string.app_name), facebookKeyNative, ADMOB_KEY_NATIVE_ADVANCED, new TedAdHelper.ImageProvider() {
-//            @Override
-//            public void onProvideImage(ImageView imageView, String imageUrl) {
-//                Glide.with(MainActivity.this).load(imageUrl).into(imageView);
-//            }
-//        }, TedAdHelper.ADMOB_NATIVE_AD_TYPE.NATIVE_ADVANCED);
 
         this.tedNativeAd = new TedNativeAd.Builder(cardview, this, getString(R.string.app_name))
-                .setFacebook_ad_key(facebookKeyNative)
-                .setAdmob_ad_key(ADMOB_KEY_NATIVE_ADVANCED)
-                .setImageProvider(new TedAdHelper.ImageProvider() {
-                    @Override
-                    public void onProvideImage(ImageView imageView, String imageUrl) {
-                        Glide.with(MainActivity.this).load(imageUrl).into(imageView);
-                    }
-                })
-                .build();
+                .setFacebookAdKey(facebookKeyNative)
+                .setAdmobAdKey(ADMOB_KEY_NATIVE_ADVANCED)
+                .setImageProvider((imageView, imageUrl) -> Glide.with(MainActivity.this).load(imageUrl).into(imageView))
+                .create();
 
         //tedNativeAdHolder.loadAD(TedAdHelper.AD_FACEBOOK, new OnNativeAdListener() {
         tedNativeAd.loadAD(new Integer[]{TedAdHelper.AD_ADMOB,TedAdHelper.AD_FACEBOOK}, new OnNativeAdListener() {
@@ -154,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
         });
         //tedNativeAdHolder.loadFacebookAD();
         //tedNativeAdHolder.loadAdmobAD();
-
     }
 
     @Override
