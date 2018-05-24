@@ -238,7 +238,16 @@ TedBackPressDialog.startDialog(Activity activity, String appName, String faceboo
 
 ```javascript
         View nativeContainer = findViewById(R.id.native_container);
-        TedNativeAdHolder tedNativeAdHolder = new TedNativeAdHolder(nativeContainer, this, getString(R.string.app_name), FACEBOOK_KEY_NATIVE, ADMOB_KEY_NATIVE, TedAdHelper.ADMOB_NATIVE_AD_TYPE);
+        this.tedNativeAd = new TedNativeAd.Builder(nativeContainer, this, APP_NAME)
+                        .setFacebookAdKey(FACEBOOK_AD_KEY)
+                        .setAdmobAdKey(ADMOB_KEY_NATIVE_ADVANCED)
+                        .setImageProvider(new TedAdHelper.ImageProvider() {
+                            @Override
+                            public void onProvideImage(ImageView imageView, String imageUrl) {
+                                Glide.with(MainActivity.this).load(imageUrl).into(imageView);
+                            }
+                        })
+                        .create();
 
         tedNativeAdHolder.loadAD(new Integer[]{TedAdHelper.AD_FACEBOOK,TedAdHelper.AD_ADMOB}, new OnNativeAdListener() {
             @Override

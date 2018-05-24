@@ -121,7 +121,12 @@ public class MainActivity extends AppCompatActivity {
         this.tedNativeAd = new TedNativeAd.Builder(cardview, this, getString(R.string.app_name))
                 .setFacebookAdKey(facebookKeyNative)
                 .setAdmobAdKey(ADMOB_KEY_NATIVE_ADVANCED)
-                .setImageProvider((imageView, imageUrl) -> Glide.with(MainActivity.this).load(imageUrl).into(imageView))
+                .setImageProvider(new TedAdHelper.ImageProvider() {
+                    @Override
+                    public void onProvideImage(ImageView imageView, String imageUrl) {
+                        Glide.with(MainActivity.this).load(imageUrl).into(imageView);
+                    }
+                })
                 .create();
 
         //tedNativeAdHolder.loadAD(TedAdHelper.AD_FACEBOOK, new OnNativeAdListener() {
