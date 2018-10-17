@@ -36,7 +36,7 @@ dependencies {
     api ("com.facebook.android:audience-network-sdk:${versions.fan}"){
         exclude group: "com.google.android.gms"
     }
-    //implementation "com.google.ads.mediation:facebook:${versions.fan}.0"
+    api "com.google.ads.mediation:facebook:${versions.fan}.0"
     implementation deps.glide.glide
     annotationProcessor deps.glide.compiler
     implementation files('libs/tnkad-sdk.jar')
