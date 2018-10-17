@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.gms.ads.formats.NativeContentAdView xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.google.android.gms.ads.formats.NativeContentAdView
             android:id="@+id/admobContentRootView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -101,8 +101,9 @@
                     <com.facebook.ads.MediaView
                         android:id="@+id/native_ad_media"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxHeight="200dp" />
+                        android:layout_height="200dp"
+                        android:maxHeight="300dp"
+                        />
 
 
                     <ImageView

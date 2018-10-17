@@ -5,7 +5,7 @@ ext {
             'targetSdkVersion' : 25,
 
             'supportLibrary'   : '27.1.1',
-            'fan'              : '4.27.0',
+            'fan'              : '5.0.1',
     ]
 
     deps = [

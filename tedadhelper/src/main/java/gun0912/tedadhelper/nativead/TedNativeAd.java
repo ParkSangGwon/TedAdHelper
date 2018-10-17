@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdChoicesView;
 import com.facebook.ads.AdError;
-import com.facebook.ads.AdListener;
 import com.facebook.ads.MediaView;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
@@ -98,8 +98,8 @@ public class TedNativeAd {
     }
 
     private void initView() {
-
-        View nativeView = View.inflate(context, R.layout.adview_native_base, null);
+        containerView.removeAllViews();
+        View nativeView = LayoutInflater.from(context).inflate(R.layout.adview_native_base, containerView,false);
 
         viewNativeRoot = (RelativeLayout) nativeView.findViewById(R.id.view_native_root);
         admobAppInstallRootView = (NativeAppInstallAdView) nativeView.findViewById(R.id.admobAppInstallRootView);
@@ -120,7 +120,6 @@ public class TedNativeAd {
         tvCallToAction = (TextView) nativeView.findViewById(R.id.tv_call_to_action);
         view_ad_choice = (ViewGroup) nativeView.findViewById(R.id.view_ad_choice);
 
-        containerView.removeAllViews();
         containerView.addView(nativeView);
 
     }
@@ -491,14 +490,16 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         view_container.setVisibility(View.INVISIBLE);
 
         facebookAd = new com.facebook.ads.NativeAd(context, facebook_ad_key);
+        facebookAd.setAdListener(new com.facebook.ads.NativeAdListener() {
+            @Override
+            public void onMediaDownloaded(Ad ad) {
 
-
-        facebookAd.setAdListener(new AdListener() {
+            }
 
             @Override
-            public void onError(Ad ad, AdError error) {
-                Log.e(TedAdHelper.TAG, "[FACEBOOK NATIVE AD]Error: " + error.getErrorMessage());
-                onLoadAdError(error.getErrorMessage());
+            public void onError(Ad ad, AdError adError) {
+                Log.e(TedAdHelper.TAG, "[FACEBOOK NATIVE AD]Error: " + adError.getErrorMessage());
+                onLoadAdError(adError.getErrorMessage());
             }
 
             @Override
@@ -509,7 +510,6 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
                 if (onNativeAdListener != null) {
                     onNativeAdListener.onLoaded(TedAdHelper.AD_FACEBOOK);
                 }
-
             }
 
             @Override
@@ -518,15 +518,12 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
                 if (onNativeAdListener != null) {
                     onNativeAdListener.onAdClicked(TedAdHelper.AD_FACEBOOK);
                 }
-
             }
 
             @Override
             public void onLoggingImpression(Ad ad) {
 
             }
-
-
         });
         facebookAd.loadAd();
     }
@@ -553,24 +550,14 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
         MyNativeAd myNativeAd = new MyNativeAd();
 
-        if (facebookAd.getAdIcon() != null) {
-            myNativeAd.setLogoUrl(facebookAd.getAdIcon().getUrl());
-        }
+        myNativeAd.setName(facebookAd.getAdvertiserName());
 
-        myNativeAd.setName(facebookAd.getAdTitle());
 
-        if (facebookAd.getAdCoverImage() != null) {
-            myNativeAd.setImageUrl(facebookAd.getAdCoverImage().getUrl());
-            nativeAdMedia.setVisibility(View.GONE);
-        }
-
-        myNativeAd.setBody(facebookAd.getAdBody());
+        myNativeAd.setBody(facebookAd.getAdBodyText());
         myNativeAd.setCallToAction(facebookAd.getAdCallToAction());
         myNativeAd.setEtc(facebookAd.getAdSocialContext());
 
         bindNativeAd(myNativeAd);
-
-        nativeAdMedia.setNativeAd(facebookAd);
 
         AdChoicesView adChoicesView = new AdChoicesView(context, facebookAd, true);
         view_ad_choice.addView(adChoicesView);
@@ -579,10 +566,12 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         clickableViews.add(ivLogo);
         clickableViews.add(tvName);
         clickableViews.add(ivImage);
+        clickableViews.add(tvBody);
         clickableViews.add(tvCallToAction);
+        clickableViews.add(nativeAdMedia);
 
         facebookAd.unregisterView();
-        facebookAd.registerViewForInteraction(viewNativeRoot, clickableViews);
+        facebookAd.registerViewForInteraction(viewNativeRoot, nativeAdMedia, ivLogo, clickableViews);
 
 
     }
@@ -605,12 +594,14 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
 
         if (logoDrawable != null) {
             ivLogo.setImageDrawable(logoDrawable);
+        } else if (TextUtils.isEmpty(logoUrl)) {
+            // no-op
         } else if (imageProvider == null) {
             Glide.with(context)
                     .load(logoUrl)
                     .into(ivLogo);
 
-        } else {
+        } else if (!TextUtils.isEmpty(logoUrl)) {
             imageProvider.onProvideImage(ivLogo, logoUrl);
         }
 
@@ -628,6 +619,8 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
         Drawable imageDrawable = myNativeAd.getImageDrawable();
         if (imageDrawable != null) {
             ivImage.setImageDrawable(imageDrawable);
+        } else if (TextUtils.isEmpty(imageUrl)) {
+            // no-op
         } else if (imageProvider == null) {
             Glide.with(context)
                     .load(imageUrl)
