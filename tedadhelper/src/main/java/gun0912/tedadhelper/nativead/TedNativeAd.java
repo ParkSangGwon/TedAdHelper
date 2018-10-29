@@ -97,6 +97,61 @@ public class TedNativeAd {
         initView();
     }
 
+    public static class Builder {
+
+        // required
+        private ViewGroup containerView;
+        private Context context;
+        private String appName;
+
+        // optional
+        String facebookAdKey;
+        String admobAdKey;
+        @TedAdHelper.ADMOB_NATIVE_AD_TYPE int admobNativeAdType;
+        TedAdHelper.ImageProvider imageProvider;
+
+        public Builder(ViewGroup containerView, Context context, String appName) {
+            this.containerView = containerView;
+            this.context = context;
+            this.appName = appName;
+        }
+
+        public Builder setFacebookAdKey(String facebookAdKey) {
+            this.facebookAdKey = facebookAdKey;
+            return this;
+        }
+
+        public Builder setAdmobAdKey(String admobAdKey) {
+            this.admobAdKey = admobAdKey;
+            return this;
+        }
+
+        public Builder setAdmobNativeAdType(int admobNativeAdType) {
+            this.admobNativeAdType = admobNativeAdType;
+            return this;
+        }
+
+        public Builder setImageProvider(TedAdHelper.ImageProvider imageProvider) {
+            this.imageProvider = imageProvider;
+            return this;
+        }
+
+        public TedNativeAd create() {
+            return new TedNativeAd(this);
+        }
+    }
+
+    public TedNativeAd(Builder builder) {
+        this.containerView = builder.containerView;
+        this.context = builder.context;
+        this.app_name = builder.appName;
+        this.facebook_ad_key = builder.facebookAdKey;
+        this.admob_ad_key = builder.admobAdKey;
+        this.admobNativeAdType = builder.admobNativeAdType;
+        this.imageProvider = builder.imageProvider;
+        initView();
+    }
+
     private void initView() {
         containerView.removeAllViews();
         View nativeView = LayoutInflater.from(context).inflate(R.layout.adview_native_base, containerView,false);
@@ -827,5 +882,4 @@ container_admob_express.getViewTreeObserver().removeGlobalOnLayoutListener(this)
             this.imageDrawable = imageDrawable;
         }
     }
-
 }
